@@ -5,6 +5,8 @@ import { Context } from './index';
 import {observer} from 'mobx-react-lite';
 import { IUser } from './models/IUser';
 import UserService from './services/UserSevice';
+import { SearchCityComponent } from './components/SearchCity';
+import MainComponent from './components/Main';
 
 const  App : FC  = () =>  {
   const {store}  = useContext(Context);
@@ -33,10 +35,16 @@ async function getUsers(){
   if(!store.isAuth){
   return(
     <>
-    <LoginForm/>
-    <button onClick={getUsers}>get all users</button>
+    <main>
+      <SearchCityComponent />
+    </main>
     </>
-
+    //TO RESTORE
+    // <>
+    // <LoginForm/>
+    // <button onClick={getUsers}>get all users</button>
+    // </>
+    //<MainComponent/>
     )
 }
 

@@ -2,7 +2,9 @@ import axios from "axios";
 import { error } from "console";
 import { config } from "process";
 import { AuthResponse } from "../models/response/AuthResponse";
-const API_URL = `http://localhost:18500/api`;
+const { REACT_APP_HOST, REACT_APP_PORT, REACT_APP_MAIN_API_ROUTE } =
+  process.env;
+const API_URL = `http://${REACT_APP_HOST}:${REACT_APP_PORT}${REACT_APP_MAIN_API_ROUTE}`;
 
 const $api = axios.create({
   withCredentials: true,
