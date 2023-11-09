@@ -1,68 +1,86 @@
-import React,  {FC, useContext, useEffect, useState} from 'react';
-import './App.css';
-import LoginForm from './components/LoginForm';
-import { Context } from './index';
-import {observer} from 'mobx-react-lite';
-import { IUser } from './models/IUser';
-import UserService from './services/UserSevice';
-import { SearchCityComponent } from './components/SearchCity';
-import MainComponent from './components/Main';
+import   {FC, useContext, useEffect, useState} from 'react';
+import { BrowserRouter as Router,  Route, Routes, Navigate } from 'react-router-dom';
+import AuthComponent from './pages/Auth-Page';
+import Error from './components/Error';
+import RedirectRoute from './router/PrivateRoute';
+import ProtectedRoute from './router/ProtectedRoute';
+import MainCurrentWeatherComponent from './pages/Main-Current-Weather-Page';
+import ForecastWeatherComponent from './pages/Forecast-Page';
+import DetailsCurrentWeatherComponent from './pages/Details-Current-Weather-Page';
+import HistoryWeatherComponent from './pages/History-Page';
+import ProfileComponent from './pages/Profile-Page';
 
 const  App : FC  = () =>  {
-  const {store}  = useContext(Context);
-  const [users, setUsers] = useState<IUser[]>();
+  document.title = "OpenWeahter App";
 
-  useEffect(() => {
-    if(localStorage.getItem('token')){
-      store.checkAuth()
-    }
-  }, [])
-  
-if(store.isLoading){
-  return <div>Loading</div>
-}
+  const sessionClientTokenRaw = window.sessionStorage.getItem('token');
+  const localClientTokenRaw = window.localStorage.getItem('token');
+  const sessionClientToken: string | null =  sessionClientTokenRaw !== null ? JSON.parse(sessionClientTokenRaw) : null; ;
+  const localclientToken: string | null = localClientTokenRaw !== null ?  JSON.parse(localClientTokenRaw): null;
+  const clientToken = sessionClientToken ? sessionClientToken : localclientToken;
 
-
-async function getUsers(){
-  try{
-    const response = await UserService.fetchUsers();
-    setUsers(response.data)
-  }catch(er){
-    console.log(er)
-  }
-}
-
-  if(!store.isAuth){
   return(
-    <>
-    <main>
-      <SearchCityComponent />
-    </main>
-    </>
-    //TO RESTORE
-    // <>
-    // <LoginForm/>
-    // <button onClick={getUsers}>get all users</button>
-    // </>
-    //<MainComponent/>
-    )
+    <Router>
+        <Routes>
+              <Route path="/user/connection"  
+                  element={
+                      <RedirectRoute clientToken={clientToken} path={'/user/:id'}>
+                          <AuthComponent />
+                      </RedirectRoute>
+                  } 
+              /> 
+              <Route path="/user/:id/current"  
+                  element={
+                    <ProtectedRoute clientToken={clientToken}>
+                        <MainCurrentWeatherComponent />
+                    </ProtectedRoute>
+                  } 
+              /> 
+              <Route path="/user/:id/forecast"  
+                  element={
+                    <ProtectedRoute clientToken={clientToken}>
+                        <ForecastWeatherComponent />
+                    </ProtectedRoute>
+                  } 
+              /> 
+              <Route path="/user/:id/details-current-weather"  
+                  element={
+                    <ProtectedRoute clientToken={clientToken}>
+                        <DetailsCurrentWeatherComponent />
+                    </ProtectedRoute>
+                  } 
+              /> 
+              <Route path="/user/:id/history"  
+                  element={
+                    <ProtectedRoute clientToken={clientToken}>
+                        <HistoryWeatherComponent />
+                    </ProtectedRoute>
+                  } 
+              /> 
+                <Route  path="/user/:id/profile/show" element={
+                      <ProtectedRoute clientToken={clientToken}>
+                          <ProfileComponent />
+                      </ProtectedRoute>
+                 }/>
+                <Route  path="/user/:id/profile/edit" element={
+                      <ProtectedRoute clientToken={clientToken}>
+                          <ProfileComponent />
+                      </ProtectedRoute>
+                 }/>
+
+                <Route  path="/" element={
+                  clientToken 
+                  ? <Navigate to="/user/:id/current" replace={true} />
+                  : <Navigate to="/user/connection" replace={true} />
+                } />
+           <Route path="*" element={<Error codeError="404" />} />
+        </Routes>
+    </Router>
+  )
 }
+export default App ;
+ 
 
 
-  return (
-    <>
-    <div >
-      <h1>{store.isAuth ? `User is authorized ${store.user.email}` : 'LOGIN'}</h1>
-      <h1>{store.user.isActivated ? `Account is activated` : `Account doesn't activate`}</h1>
-    </div>
-    <button onClick={() => {store.logout()}}>Logout</button>
-    <button onClick={getUsers}>get all users</button>
 
-    {users?.map(user => {
-      return (<div key={user.email} >{user.email}</div>)
-    })}
-    </>
-  );
-}
 
-export default observer(App) ;

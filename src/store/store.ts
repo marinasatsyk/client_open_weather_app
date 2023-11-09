@@ -1,14 +1,19 @@
 import { makeAutoObservable } from "mobx";
-import { IUser } from "../models/IUser";
+import { IUser, iUserDto } from "../models/IUser";
+import { ICity } from "../models//ICity";
 import AuthService from "../services/AuthService";
 import axios from "axios";
 import { AuthResponse } from "../models/response/AuthResponse";
 const API_URL = `http://localhost:18500/api`;
 
 export default class Store {
-  user = {} as IUser;
+  user = {} as iUserDto;
   isAuth = false;
   isLoading = false;
+  isRemeberMe = false;
+  locations: Array<ICity> = [];
+  errors: string[] = [];
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -16,31 +21,60 @@ export default class Store {
   setAuth(bool: boolean) {
     this.isAuth = bool;
   }
+  setisRemeberMe(bool: boolean) {
+    this.isAuth = bool;
+  }
+
+  setLocations(user: IUser) {
+    this.locations = [...user.bookmarks];
+  }
 
   setUser(user: IUser) {
-    this.user = user;
+    const { email, isActivated, id, firstName, lastName } = user;
+    this.user = { email, isActivated, id, firstName, lastName };
   }
+
   setLoading(bool: boolean) {
     this.isLoading = bool;
   }
 
-  async login(email: string, password: string) {
+  setErrors(error: string): void {
+    this.errors.push(error);
+  }
+  clearErrors(): void {
+    this.errors = [];
+  }
+
+  async login(email: string, password: string, isRemeberMe: boolean = false) {
+    this.setLoading(true);
+    this.clearErrors();
     try {
       const response = await AuthService.login(email, password);
-      console.log(response);
-      localStorage.setItem("token", response.data.accessToken);
+      console.log("from sotre", response);
+      isRemeberMe
+        ? localStorage.setItem("token", response.data.accessToken)
+        : sessionStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);
+      this.setLocations(response.data.user);
+      this.setisRemeberMe(isRemeberMe);
+      return response;
     } catch (e: any) {
       console.log(e.response?.data?.message);
+      this.setErrors(e.response?.data?.message);
+    } finally {
+      this.setLoading(false);
     }
   }
+
   async registration(
     email: string,
     password: string,
     firstName: string,
     lastName: string
   ) {
+    this.setLoading(true);
+    this.clearErrors();
     try {
       const response = await AuthService.registration(
         email,
@@ -53,16 +87,23 @@ export default class Store {
       this.setUser(response.data.user);
     } catch (e: any) {
       console.log(e.response?.data?.message);
+      this.setErrors(e.response?.data?.message);
+    } finally {
+      this.setLoading(false);
     }
   }
+
   async logout() {
     try {
       const response = await AuthService.logout();
       localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
       this.setAuth(false);
       this.setUser({} as IUser);
+      this.clearErrors();
     } catch (e: any) {
       console.log(e.response?.data?.message);
+      this.setErrors(e.response?.data?.message);
     }
   }
 
@@ -79,6 +120,7 @@ export default class Store {
       this.setUser(response.data.user);
     } catch (e: any) {
       console.log(e.response?.data?.message);
+      this.setErrors(e.response?.data?.message);
     } finally {
       this.setLoading(false);
     }

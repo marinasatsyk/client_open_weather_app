@@ -23,20 +23,23 @@ const endpointsArr = (option: geoOptionType) => {
   return [
     `https://${REACT_APP_CURRENT_WEATHER_PREFIX}.${REACT_APP_URI_BODY_WEATHER}/${REACT_APP_CURRENT_WEATHER_KEYWORD}?lat=${option.lat}&lon=${option.lon}&appid=${REACT_APP_STUDENT_API_key}&units=${UNITS}`,
     `https://${REACT_APP_16DAYS_FORECAST_CLIMAT_WEATHER_PREFIX}.${REACT_APP_URI_BODY_WEATHER}/${REACT_APP_16DAYS_FORECAST_WEATHER_KEYWORD}?lat=${option.lat}&lon=${option.lon}&appid=${REACT_APP_STUDENT_API_key}&units=${UNITS}`,
-     `https://${REACT_APP_16DAYS_FORECAST_CLIMAT_WEATHER_PREFIX}.${REACT_APP_URI_BODY_WEATHER}/${REACT_APP_30DAYS_CLIMAT_WEATHER_KEYWORD}?lat=${option.lat}&lon=${option.lon}&appid=${REACT_APP_STUDENT_API_key}&units=${UNITS}`,
+    `https://${REACT_APP_16DAYS_FORECAST_CLIMAT_WEATHER_PREFIX}.${REACT_APP_URI_BODY_WEATHER}/${REACT_APP_30DAYS_CLIMAT_WEATHER_KEYWORD}?lat=${option.lat}&lon=${option.lon}&appid=${REACT_APP_STUDENT_API_key}&units=${UNITS}`,
   
   ]
 } 
-type Props = {
-  value: string,
-  options: [],
-  onInputChange:(e: ChangeEvent<HTMLInputElement>) => void,
-  onOptionSelect:(option: geoOptionType) => void,
-  onSubmit: () => void
-}
+
+// type Props = {
+//   value: string,
+//   providedOptions: [],
+//   onInputChange:(e: ChangeEvent<HTMLInputElement>) => void,
+//   onOptionSelect:(option: geoOptionType) => void,
+//   onSubmit: () => void
+// }
 
 
-export const SearchCityComponent = ({value, options, onInputChange, onOptionSelect, onSubmit} : Props): JSX.Element => {
+// export const SearchCityComponent = ({value, providedOptions, onInputChange, onOptionSelect, onSubmit} : Props): JSX.Element => {
+
+export const SearchCityComponent = (): JSX.Element => {
   const [inputValue, setInputValue] = useState<string>('');
   const [options, setOptions] = useState<[]>([]);
   const [city, setSity] = useState<geoOptionType | null>(null);
@@ -44,7 +47,7 @@ export const SearchCityComponent = ({value, options, onInputChange, onOptionSele
   const getSearchOptions = async(value: string) => {
     const result = await axios.get(`${REACT_APP_URI_OPEN_GEO_WEATHER}?q=${value}&limit=${LIMIT}&appid=${REACT_APP_STUDENT_API_key}`)
     const citiesData = result.data;
-    setOptions(citiesData)
+    setOptions(citiesData) 
   }
   
 
