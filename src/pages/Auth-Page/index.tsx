@@ -1,13 +1,15 @@
-import React from 'react'
+import React, {FC} from 'react'
 import PropTypes from 'prop-types'
+import MainComponent from '../../components/Main'
 
 
-const AuthComponent = () => {
+const AuthComponent: FC = () => {
   return (
-    <div>AuthComponent</div>
+    <>
+    <MainComponent />
+    </>
   )
 }
 
-AuthComponent.propTypes = {}
 
 export default AuthComponent

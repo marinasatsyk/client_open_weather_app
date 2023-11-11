@@ -9,6 +9,7 @@ import ForecastWeatherComponent from './pages/Forecast-Page';
 import DetailsCurrentWeatherComponent from './pages/Details-Current-Weather-Page';
 import HistoryWeatherComponent from './pages/History-Page';
 import ProfileComponent from './pages/Profile-Page';
+import './App.css';
 
 const  App : FC  = () =>  {
   document.title = "OpenWeahter App";

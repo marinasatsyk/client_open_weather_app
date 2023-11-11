@@ -1,27 +1,20 @@
 //************** */
-import { UseSelector, useSelector } from 'react-redux/es/hooks/useSelector';
+import {  useSelector } from 'react-redux/es/hooks/useSelector';
 import   {FC, useContext, useEffect, useState} from 'react';
 import store, { RootState } from '../../store';
 import { getUserPending,  stopUserPending,  getUserSuccess,  getUserFail,  logout, setAuth } from "../../store/features/UserSlice";
 
-import LoginForm from '../LoginForm';
-import { SearchCityComponent } from '../SearchCity';
+import AuthComponent from '../AuthComponent';
 
-import { IUser } from '../../models/IUser';
 import UserService from '../../services/UserSevice';
-// import MainComponent from './components/Main';
-// import { useSelector } from 'react-redux';
+import "./index.scss";
+import HeaderConnectionComponent from '../HeaderConnection';
 
-import './App.css';
 
-interface someInfo {
-    first: string
-    second: string
-}
 
-function MainComponent(props: someInfo | null) {
+const  MainComponent:FC<{}>  = () =>  {
 
-  const {user, isLoading, isAuth } = useSelector((state: RootState) => state.auth)
+  const {isLoading, isAuth } = useSelector ((state: RootState) => state.auth)
 
   useEffect(() => {
     if(localStorage.getItem('token') || sessionStorage.getItem('token')){
@@ -29,34 +22,46 @@ function MainComponent(props: someInfo | null) {
     }
   }, [])
   
-if(isLoading){
-  return <div>Loading</div>
-}
+
+  if (isLoading === undefined || isAuth === undefined) {
+    return <div>Loading...</div>  
+  }
+
+  if(isLoading){
+    return <div>Loading...</div>
+  }
 
   if(!isAuth){
+      return(
+        <>
+          <HeaderConnectionComponent/>
+          <main className='connection-wrap'>
+            <AuthComponent/>
+          </main>
+        </>
+        )
+  }
+
   return(
-    
-     <>
-    <LoginForm/>
-    </>
-    )
-}
-
-
-  return (
-    <>
-    <div >
-      <h1>{isAuth ? `User is authorized ${user.email}` : 'LOGIN'}</h1>
-      <h1>{user.isActivated ? `Account is activated` : `Account doesn't activate`}</h1>
+    <div>
+      Vous êtes connecté
     </div>
-    <button onClick={() => {logout()}}>Logout</button>
-    {/* <button onClick={getUsers}>get all users</button> */}
+  )
 
-    {/* {users?.map(user => {
-      return (<div key={user.email} >{user.email}</div>)
-    })} */}
-    </>
-  );
+  // return (
+  //   <>
+  //   <div >
+  //     <h1>{isAuth ? `User is authorized ${user.email}` : 'LOGIN'}</h1>
+  //     <h1>{user.isActivated ? `Account is activated` : `Account doesn't activate`}</h1>
+  //   </div>
+  //   <button onClick={() => {logout()}}>Logout</button>
+  //   <button onClick={getUsers}>get all users</button> 
+
+  //   {users?.map(user => {
+  //     return (<div key={user.email} >{user.email}</div>)
+  //   })} 
+  //   </>
+  // );
 }
 
 MainComponent.propTypes = {}
