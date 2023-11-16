@@ -14,17 +14,6 @@ import {  useNavigate } from 'react-router-dom';
 const  MainComponent:FC  = () =>  {
 
   const { isAuth } = useSelector ((state: RootState) => state.auth)
-  const navigate = useNavigate();
-
-  // if (isLoading === undefined || isAuth === undefined) {
-  //   return <div>Loading...</div>  
-  // }
-
-  // if(isLoading){
-  //   return <div>Loading...</div>
-  // }
-
-  if(!isAuth){
       return(
         <>
           <HeaderConnectionComponent/>
@@ -33,11 +22,6 @@ const  MainComponent:FC  = () =>  {
           </main>
         </>
         )
-  } else{
-       navigate('/user/profile')
-       return null;
-  }
-
 }
 
 export default MainComponent

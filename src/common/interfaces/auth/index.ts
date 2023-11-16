@@ -1,5 +1,48 @@
+// export interface IUser {
+//   email: string;
+//   isActivated: boolean;
+//   id: string;
+//   firsName: string;
+//   lastName: string;
+//   role: string;
+// }
+
+//common user interface
+export interface iUserDto {
+  firstName: string;
+  lastName: string;
+  email: string;
+  isActivated: boolean;
+  id: string | null;
+}
+export interface IFullUser {
+  firstName: string;
+  lastName: string;
+  email: string;
+  isActivated: boolean;
+  id: string | null;
+  bookmarks: Array<ICity> | [];
+}
+
+//detailed user interface
+export interface IUser {
+  user: IFullUser;
+  isAuth: false;
+}
+
+export interface IAuthState {
+  user: iUserDto;
+  isAuth: boolean;
+}
+
+export interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+  user: IUser;
+}
+
 export interface ICity {
-  name: string;
+  name: string | null;
   local_names: string;
   lat: number;
   lon: number;
@@ -7,38 +50,6 @@ export interface ICity {
   zip: string;
   insee: string;
   isHistory: string;
-}
-
-export interface IUser {
-  email: string;
-  isActivated: boolean;
-  id: string;
-  firsName: string;
-  lastName: string;
-  role: string;
-}
-
-export interface IUser {
-  firstName: string;
-  lastName: string;
-  email: string;
-  isActivated: boolean;
-  id: string;
-  bookmarks: Array<ICity>;
-}
-
-export interface iUserDto {
-  firstName: string;
-  lastName: string;
-  email: string;
-  isActivated: boolean;
-  id: string;
-}
-
-export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
-  user: IUser;
 }
 
 export interface IpropsFunc {
@@ -59,4 +70,9 @@ export interface IerrorRes {
     message?: string;
   };
   statusText?: string;
+}
+
+export interface IRootProps {
+  path: string;
+  children: JSX.Element;
 }

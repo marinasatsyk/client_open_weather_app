@@ -4,6 +4,7 @@ import AuthService from 'services/AuthService';
 import { login } from 'store/slice/auth';
 import  { AxiosError } from 'axios';
 import { manageToken } from 'utils/helpers';
+import { Navigate, useNavigate } from 'react-router-dom';
 import  "./index.scss";
 
 
@@ -12,7 +13,7 @@ const  AuthComponent: FC = () =>  {
     const [isLogin, setIsLogin] = useState<Boolean>(true);
     const [errorAuth, setErrorAuth] = useState<any>({});
     const [isLoading, setIsLoading] = useState(false)
-   
+    const [isAccountCreated, setIsAccountCreated] = useState(false);
    
     const [formData, setFormData] = useState({
       email: '',
@@ -31,9 +32,8 @@ const  AuthComponent: FC = () =>  {
 
     const { email, password, isRemeberMe } = formData;
 
-    //@temporary to resotr errors
-    // const  errors =  useSelector((state: RootState) => state.auth.error);
 
+    //@todo veirication form 
     const formRequest = { email,  password, isRemeberMe };
 
     // const userService = UserService();
@@ -41,6 +41,7 @@ const  AuthComponent: FC = () =>  {
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
       setErrorAuth({});
+      setIsAccountCreated(false)
       const { name, value, type, checked } = e.target;
       setFormData((prevFormData) => {
         console.log(prevFormData)
@@ -51,25 +52,34 @@ const  AuthComponent: FC = () =>  {
       });
     }
 
+    const navigate = useNavigate();
+
     function handleChangeForm(): void{
       setIsLogin(!isLogin);
+      setIsAccountCreated(false)
       setErrorAuth({});
     }
     console.log(formData)
     const handldeSubmit = async ( e: {preventDefault: () => void}) => {
       e.preventDefault();
       const {email, password, isRemeberMe, firstName, lastName} = formData;
+     
       const promise = isLogin 
       ?  AuthService.login(email, password) 
       :  AuthService.registration(email, password,  firstName, lastName);
 
       promise
-        .then(response => {
+        .then( response => {
           const dataUser = response?.data;
-          console.log("success!!!!!", dataUser)
           setIsLoading(true)
-          dispatch(login(dataUser))
-          manageToken(isRemeberMe, response.data.accessToken)
+          if(isLogin){
+             dispatch(login(dataUser))
+            manageToken(isRemeberMe, response.data.accessToken)
+            navigate(`/user/${dataUser.user.id}/current`);
+          }else{
+            setIsAccountCreated(true)
+            setIsLogin(true)
+          }
         })
         .catch((error) => {
           setErrorAuth({})
@@ -110,10 +120,7 @@ const  AuthComponent: FC = () =>  {
         
       }
 
-  //decommenter pour faire la redirection 
-  // function openDashboard() {
-  //     return <Navigate to="/user/profile" replace />;
-  // }
+  
 
   useEffect(() =>{
 
@@ -130,7 +137,9 @@ const  AuthComponent: FC = () =>  {
               <div className="title-wrap">
                 <h2>{!isLogin ? "Register" :"Login" }</h2>
                 <div className={ `error ${Object.keys(errorAuth).length >0 ? 'visible' : 'hidden'}`}>{errorAuth?.data?.message}</div>
+                <div className={ `success ${isAccountCreated ? 'visible' : 'hidden'}`}>Your account was created successfully</div>
               </div>
+              
               <div className="form">
                     {!isLogin &&
                     <>

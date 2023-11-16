@@ -6,7 +6,12 @@ main.connection-wrap {
   justify-content: center;
   align-items: center;
   color: #ffffff;
-
+  .title-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .section {
     flex: 1;
     height: 100%;
@@ -94,5 +99,8 @@ main.connection-wrap {
 
   .error {
     color: red;
+  }
+  .success {
+    color: #34d905;
   }
 }

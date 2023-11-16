@@ -1,5 +1,5 @@
 import   {FC } from 'react';
-import { BrowserRouter as Router,  Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router,  Route, Routes, redirect, Navigate } from 'react-router-dom';
 import AuthComponent from './pages/Auth-Page';
 import Error from './components/Error';
 import RedirectRoute from './utils/router/RedirectRoute';
@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import  { RootState } from "./store";
 
 import './App.css';
+import { useAuth } from 'utils/hook';
 
 const  App : FC  = () =>  {
   document.title = "OpenWeahter App";
@@ -31,76 +32,64 @@ const  App : FC  = () =>  {
   console.log("clientToken",clientToken)
 
   const  user =  useSelector((state: RootState) => state.auth.user);
-  const {isAuth} = useSelector((state: RootState) => state.auth);
+  const auth = useAuth();
 
   return(
     <Router>
         <Routes>
             {/**redirect route for connection in the case user  connected with remember me */}
-               <Route path="/user/connection"  
+               {/* <Route path="/user/connection"  
                   element={
-                      <RedirectRoute isAuth={isAuth} path={`/user/${user.id}/current`}>
+                      <RedirectRoute  path={`/user/${user.id}/current`}>
                           <AuthComponent />
                       </RedirectRoute>
                   } 
-              />  
-              {/* <Route path="/user/connection"  
+              />   */}
+              <Route path="/user/connection"  
                   element={<AuthComponent />} 
-              />  */}
-              <Route path= {`/user/${user.id}/current`} 
-                  element={
-                    <ProtectedRoute clientToken={clientToken}>
-                        <MainCurrentWeatherComponent />
-                    </ProtectedRoute>
-                  } 
               /> 
-              <Route path= {`/user/${user.id}/forecast`}  
-                  element={
-                    <ProtectedRoute clientToken={clientToken}>
-                        <ForecastWeatherComponent />
-                    </ProtectedRoute>
-                  } 
-              /> 
-              <Route path={`/user/${user.id}/details-current-weather`}
-                  element={
-                    <ProtectedRoute clientToken={clientToken}>
-                        <DetailsCurrentWeatherComponent />
-                    </ProtectedRoute>
-                  } 
-              /> 
-              <Route 
-                  path= {`/user/${user.id}/history`}  
-                  element={
-                    <ProtectedRoute clientToken={clientToken}>
-                        <HistoryWeatherComponent />
-                    </ProtectedRoute>
-                  }
-              /> 
-              <Route   
-                    path={`/user/${user.id}/profile/show`}  
-                    element={
-                        <ProtectedRoute clientToken={clientToken}>
-                            <ProfileComponent />
-                        </ProtectedRoute>
-                    }
-              />
-              <Route  
-                    path={`/user/${user.id}/profile/edit`}  
-                    element={
-                            <ProtectedRoute clientToken={clientToken}>
-                                <ProfileComponent />
-                            </ProtectedRoute>
-                      }
-              />
 
+              <Route   element={<ProtectedRoute />}> 
+                <Route  path= {`/user/${user.id}/current`} element={<MainCurrentWeatherComponent /> }  />
+              </Route>
+
+              <Route   element={<ProtectedRoute />}> 
+                <Route  path= {`/user/${user.id}/forecast`} element={<ForecastWeatherComponent /> }  />
+              </Route>
+
+              <Route   element={<ProtectedRoute />}> 
+                <Route  path= {`/user/${user.id}/details-current-weather`} element={<DetailsCurrentWeatherComponent /> }  />
+              </Route>
+
+
+              <Route   element={<ProtectedRoute />}> 
+                <Route  path= {`/user/${user.id}/history`} element={<HistoryWeatherComponent /> }  />
+              </Route>
+
+              <Route   element={<ProtectedRoute />}> 
+                <Route  path= {`/user/${user.id}/profile/show`} element={<ProfileComponent /> }  />
+              </Route>
+
+              <Route   element={<ProtectedRoute />}> 
+                <Route  path= {`/user/${user.id}/profile/edit`} element={<ProfileComponent /> }  />
+              </Route>
+
+              {/* <Route path="/" 
+                  element={
+                      <RedirectRoute  path={`/user/connection`}>
+                <Route  path= {`/user/${user.id}/current`} element={<MainCurrentWeatherComponent /> }  />
+                      </RedirectRoute>
+                  } 
+              />   */}
               <Route  
                   path="/" 
                   element={
-                    isAuth 
+                    auth
                     ? <Navigate to= {`/user/${user.id}/current`} replace={true} />
                     : <Navigate to="/user/connection" replace={true} />
                     } 
               />
+
            <Route path="*" element={<Error codeError="404" />} />
         </Routes>
     </Router>

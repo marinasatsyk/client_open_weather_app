@@ -4,7 +4,7 @@ import AuthService from '../../../services/AuthService';
 import { iUserDto } from 'common/interfaces/auth';
 
 const initialState = {
-    user : {} as iUserDto  ,
+    user : {} as iUserDto,
     isLoading: false,
     error: '',
     isAuth: false,

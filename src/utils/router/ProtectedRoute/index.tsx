@@ -1,20 +1,12 @@
-/* eslint-disable react/prop-types */
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
 import { Outlet,  Navigate} from 'react-router-dom';
-import { ProtectedRouteProps } from 'common/interfaces/route';
+import { useAuth } from 'utils/hook';
 
-//types protected routes props
 
-const ProtectedRoute = ({ clientToken,  isRemeberme = false, children }: ProtectedRouteProps) => {
-    const  isAuth =  useSelector((state: RootState) => state.auth.isAuth);
-    
-    if (!isAuth) {
-        return <Navigate to="/user/connection" replace />;
-    }
-    //return <>{children}</>;
-     return <Outlet />
-    
+const ProtectedRoute = () => {
+    const  auth =  useAuth();
+   return(
+    auth ? <Outlet />  : <Navigate to="/user/connection" replace />
+    ) 
 };
 
 export default ProtectedRoute;
