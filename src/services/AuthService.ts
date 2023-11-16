@@ -1,6 +1,7 @@
-import $api from "../http";
+import { AuthResponse, IUser } from "common/interfaces/auth";
+import $api from "../utils/http";
 import { AxiosResponse } from "axios";
-import { AuthResponse } from "../models/response/AuthResponse";
+import { error } from "console";
 
 export default class AuthService {
   static async login(
@@ -16,6 +17,7 @@ export default class AuthService {
     firstName: string,
     lastName: string
   ): Promise<AxiosResponse<AuthResponse>> {
+    console.log("coucou");
     return $api.post<AuthResponse>("/registration", {
       email,
       password,
@@ -23,7 +25,7 @@ export default class AuthService {
       lastName,
     });
   }
-  static async logout(): Promise<void> {
-    return $api.post("/logout");
+  static async getUser(id: string): Promise<AxiosResponse<IUser>> {
+    return $api.get<IUser>(`/user/${id}`);
   }
 }

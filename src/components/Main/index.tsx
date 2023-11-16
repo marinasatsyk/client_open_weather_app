@@ -1,35 +1,28 @@
 //************** */
 import {  useSelector } from 'react-redux/es/hooks/useSelector';
-import   {FC, useContext, useEffect, useState} from 'react';
-import store, { RootState } from '../../store';
-import { getUserPending,  stopUserPending,  getUserSuccess,  getUserFail,  logout, setAuth } from "../../store/features/UserSlice";
+import   {FC } from 'react';
+import  { RootState } from '../../store';
 
 import AuthComponent from '../AuthComponent';
 
-import UserService from '../../services/UserSevice';
 import "./index.scss";
 import HeaderConnectionComponent from '../HeaderConnection';
+import {  useNavigate } from 'react-router-dom';
 
 
+// const  MainComponent:FC<{}>  = () =>  {
+const  MainComponent:FC  = () =>  {
 
-const  MainComponent:FC<{}>  = () =>  {
+  const { isAuth } = useSelector ((state: RootState) => state.auth)
+  const navigate = useNavigate();
 
-  const {isLoading, isAuth } = useSelector ((state: RootState) => state.auth)
+  // if (isLoading === undefined || isAuth === undefined) {
+  //   return <div>Loading...</div>  
+  // }
 
-  useEffect(() => {
-    if(localStorage.getItem('token') || sessionStorage.getItem('token')){
-       UserService.checkAuth()
-    }
-  }, [])
-  
-
-  if (isLoading === undefined || isAuth === undefined) {
-    return <div>Loading...</div>  
-  }
-
-  if(isLoading){
-    return <div>Loading...</div>
-  }
+  // if(isLoading){
+  //   return <div>Loading...</div>
+  // }
 
   if(!isAuth){
       return(
@@ -40,13 +33,19 @@ const  MainComponent:FC<{}>  = () =>  {
           </main>
         </>
         )
+  } else{
+       navigate('/user/profile')
+       return null;
   }
 
-  return(
-    <div>
-      Vous êtes connecté
-    </div>
-  )
+}
+
+export default MainComponent
+
+
+
+
+  
 
   // return (
   //   <>
@@ -62,11 +61,11 @@ const  MainComponent:FC<{}>  = () =>  {
   //   })} 
   //   </>
   // );
-}
 
-MainComponent.propTypes = {}
 
-export default MainComponent
+// MainComponent.propTypes = {}
+
+
 
 
   // const [users, setUsers] = useState<IUser[]>();

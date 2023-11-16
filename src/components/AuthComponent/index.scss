@@ -1,12 +1,13 @@
 main.connection-wrap {
   flex: 1;
-  margin-top: 200px;
+  margin-top: 180px;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #ffffff;
 
-  section {
+  .section {
     flex: 1;
     height: 100%;
     width: 100vw;
@@ -15,6 +16,19 @@ main.connection-wrap {
     align-items: center;
     flex-direction: column;
     color: #ffffff;
+  }
+
+  .auth-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .change-status {
+      width: 30%;
+      align-self: flex-end;
+      border-radius: 3px;
+      background: white !important;
+      height: 35px;
+    }
   }
   .wrap-form-auth {
     height: 70vh;
@@ -41,12 +55,20 @@ main.connection-wrap {
       display: flex;
       flex-direction: column;
     }
+
     input {
       border-radius: 3px;
       background: white !important;
       height: 35px;
     }
   }
+  #checkbox-wrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+  }
+
   .btn-wrap {
     display: flex;
     flex-direction: column;
@@ -64,5 +86,13 @@ main.connection-wrap {
     .input-remember {
       align-self: flex-start;
     }
+  }
+  .hidden {
+    // display: none;
+    visibility: hidden;
+  }
+
+  .error {
+    color: red;
   }
 }

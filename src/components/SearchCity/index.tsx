@@ -1,7 +1,7 @@
 import axios from 'axios';
 import  './index.scss';
 import {useState, ChangeEvent, useEffect} from 'react';
-import {geoOptionType} from '../../models/types';
+import { geoOptionType } from 'common/types/geo';
 //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 const {REACT_APP_URI_OPEN_GEO_WEATHER, 
   REACT_APP_STUDENT_API_key, 
