@@ -1,73 +1,61 @@
-import {FC,  useState, ChangeEvent, useEffect} from 'react';
+import {FC,  useState,  useEffect} from 'react';
 import { UseAppDispatch } from 'utils/hook';
 import AuthService from 'services/AuthService';
 import { login } from 'store/slice/auth';
 import  { AxiosError } from 'axios';
-import { manageToken } from 'utils/helpers';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Validator, manageToken } from 'utils/helpers';
+import {  useNavigate } from 'react-router-dom';
+import { ManagedInput } from 'components/ManageInput';
 import  "./index.scss";
 
 
 const  AuthComponent: FC = () =>  {   
-    // const {store} = useContext(Context);  
+    const [isLoading, setIsLoading] = useState(false);
+
     const [isLogin, setIsLogin] = useState<Boolean>(true);
     const [errorAuth, setErrorAuth] = useState<any>({});
-    const [isLoading, setIsLoading] = useState(false)
     const [isAccountCreated, setIsAccountCreated] = useState(false);
-   
-    const [formData, setFormData] = useState({
-      email: '',
-      password: '',
-      isRemeberMe: false,
-      firstName:'',
-      lastName: '',
-      confirmPassword: ''
-    });
+    
+    
 
+     //verification if checkbox "signIUp" is checked, use local state
+
+
+     const [email, setEmail] = useState('');
+     const [password, setPassword] = useState('');
+     const [firstName, setFirstName] = useState('');
+     const [lastName, setLastName] = useState('');
+     const [confirmPassword, setConfirmPassword] = useState('');
+     const [isRemeberMe, setIsRemeberMe] = useState(false);
+
+
+    //**validation states front side */
+    const [isEmailValidate, setIsEmailValidate] = useState(false);
+    const [isPasswordValidate, setIsPasswordValidate] = useState(false);
+    const [isConfirmPasswordValidate, setIsConfirmPasswordValidate] = useState(false);
+    const [isFirstNameValidate, setIsFirstNameIsValidate] = useState(false);
+    const [isLastNameValidate, setIsLastNameIsValidate] = useState(false);
+    const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
+    
+    //hooks
     const dispatch = UseAppDispatch();
-
-
-    // const navigate = useNavigate();
-
-
-    const { email, password, isRemeberMe } = formData;
-
-
-    //@todo veirication form 
-    const formRequest = { email,  password, isRemeberMe };
-
-    // const userService = UserService();
-    //function for get the input value
-
-    function handleChange(e: ChangeEvent<HTMLInputElement>) {
-      setErrorAuth({});
-      setIsAccountCreated(false)
-      const { name, value, type, checked } = e.target;
-      setFormData((prevFormData) => {
-        console.log(prevFormData)
-          return {
-              ...prevFormData,
-              [name]:type === 'checkbox' ? checked  : value,
-          };
-      });
-    }
-
     const navigate = useNavigate();
+
 
     function handleChangeForm(): void{
       setIsLogin(!isLogin);
       setIsAccountCreated(false)
       setErrorAuth({});
+      setIsRemeberMe(false)
     }
-    console.log(formData)
+
     const handldeSubmit = async ( e: {preventDefault: () => void}) => {
       e.preventDefault();
-      const {email, password, isRemeberMe, firstName, lastName} = formData;
-     
+
       const promise = isLogin 
       ?  AuthService.login(email, password) 
       :  AuthService.registration(email, password,  firstName, lastName);
-
+  
       promise
         .then( response => {
           const dataUser = response?.data;
@@ -97,10 +85,8 @@ const  AuthComponent: FC = () =>  {
                   statusText,
                   typeErr: 'axios'
                 }
-                
-                console.error('Erreur de réponse Axios :', axiosError.response.data);
               }
-
+  
           } else {
             const errorResponse = error as Error;
             if(errorResponse.cause){
@@ -117,16 +103,43 @@ const  AuthComponent: FC = () =>  {
           console.log("errorRes", errorRes)
           setErrorAuth(errorRes)
         })
-        
-      }
+     }
 
-  
 
   useEffect(() =>{
+    setIsEmailValidate(Validator.email(email));
+    setIsFirstNameIsValidate(Validator.name(firstName));
+    setIsLastNameIsValidate(Validator.name(lastName));
+    setIsPasswordValidate(Validator.password(password));
+    setIsConfirmPasswordValidate(Validator.confirmPassword(password, confirmPassword));
 
-  }, [errorAuth])
+    if(isLogin) {
+      isEmailValidate  
+        ? setIsSubmitEnabled(true) 
+        : setIsSubmitEnabled(false)
+        console.log("isEmailValidate", isEmailValidate, "isPasswordValidate",  isPasswordValidate)
+    }else{
+      isEmailValidate &&   isPasswordValidate &&   isFirstNameValidate &&   isLastNameValidate && isConfirmPasswordValidate
+      ? setIsSubmitEnabled(true) 
+      : setIsSubmitEnabled(false)
+    }
+  }, [
+    isFirstNameValidate,
+    isLastNameValidate,
+    isEmailValidate,
+    isPasswordValidate,
+    isConfirmPasswordValidate,
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    isSubmitEnabled,
+    isRemeberMe,
+    errorAuth])
   
   console.log("errorAuth", errorAuth)
+  console.log("setIsSubmitEnabled", isSubmitEnabled)
  
  
   return (
@@ -143,77 +156,69 @@ const  AuthComponent: FC = () =>  {
               <div className="form">
                     {!isLogin &&
                     <>
-                    <div className="wrapInput">
-                      <label htmlFor="firstName" className=''>First Name</label>
-                        <input 
-                        value={formData.firstName}
-                        onChange={(e) => handleChange(e)} 
+                   
+                    <ManagedInput 
+                        id='firstName' 
                         type="text" 
-                        placeholder='First Name'
-                        id='firstName'
-                        name='firstName'
-                        />
-                    </div>
+                        name='firstName' 
+                        value={firstName}
+                        setValue = {setFirstName}
+                        errorMessage="Make sure to enter correct  name"
+                        validateField={Validator.name}
+                      />
                     
-                    <div className="wrapInput">
-                        <label htmlFor="lastName">Last Name</label>
-                        <input 
-                          value={formData.lastName}
-                          onChange={(e) => handleChange(e)} 
-                          type="text" 
-                          placeholder='Last Name'
-                          id='lastName'
-                          name='lastName'
-                        /> 
-                    </div>
-
+                    <ManagedInput 
+                        id='lastName' 
+                        type="text" 
+                        name='lastName' 
+                        value={lastName}
+                        setValue = {setLastName}
+                        errorMessage="Make sure to enter correct last name"
+                        validateField={Validator.name}
+                        
+                      />
                     </>
                 }
                     
-                    <div className="wrapInput">
-                      <label htmlFor="email" className=''>Email</label>
-                      <input 
-                        value={formData.email}
-                        onChange={(e) => handleChange(e)} 
-                        type="text" 
-                        placeholder='Email'
-                        id='email'
-                        name='email'
+                    <ManagedInput 
+                        id='email' 
+                        type='email'  
+                        name='email' 
+                        value={email}
+                        setValue = {setEmail}
+                        errorMessage="Make sure to enter correct mail"
+                        validateField={Validator.email}
+                        
                       />
-                    </div>
-                    
-                    <div className="wrapInput">
-                      <label htmlFor="password" className=''>Password</label>
-                      <input 
-                        value={formData.password}
-                        onChange={(e) => handleChange(e)} 
-                        type="password" 
-                        placeholder='Password'
-                        id='password'
-                        name='password'
+                    <ManagedInput 
+                        id='password' 
+                        type='password' 
+                        name='password' 
+                        value={password}
+                        setValue = {setPassword}
+                        errorMessage="Make sure to use at least 1 letter, 1 number, 6 characters"
+                        validateField={isLogin ? () => true  : Validator.password}
+                        
                       />
-                    </div>
-
 
                     {
                       !isLogin &&
-                      <div className="wrapInput">
-                      
-                      <label htmlFor="confirmPassword" className=''>Confirm password</label>
-                      <input 
-                          value={formData.confirmPassword}
-                          onChange={(e) => handleChange(e)} 
-                          type="password" 
-                          placeholder='Confirm password'
-                          id='confirmPassword'
-                          name= 'confirmPassword'
-                      /> 
-                      </div>
+                      <ManagedInput 
+                        id='confirmPassword' 
+                        type='password' 
+                        name='confirmPassword' 
+                        value={confirmPassword}
+                        setValue = {setConfirmPassword}
+                        errorMessage="Passwords are not the same"
+                        validateField={Validator.confirmPassword}
+                        secondValue={password}
+                        
+                      />
                     }   
               </div>
 
               <div className="btn-wrap">
-                <button type='submit' onClick={(e) =>  handldeSubmit(e)}>{!isLogin ? "Register" :"Login" }</button> 
+                <button type='submit' onClick={(e) =>  handldeSubmit(e)} disabled={isSubmitEnabled ? false : true}>{!isLogin ? "Register" :"Login" }</button> 
                 <div className="input-remember">
               
                 <div id='checkbox-wrap' className={isLogin ? 'wrapInput' : 'hidden'} aria-disabled={isLogin ?  false : true}>
@@ -221,8 +226,8 @@ const  AuthComponent: FC = () =>  {
                         type="checkbox"
                         id="isRemeberMe"
                         name="isRemeberMe"
-                        checked={formData.isRemeberMe}
-                        onChange={(e) => handleChange(e)}
+                        checked={isRemeberMe}
+                        onChange={() => setIsRemeberMe(!isRemeberMe)}
                     />
                     <label htmlFor="isRemeberMe" className=''>Remember me</label>
                 </div>

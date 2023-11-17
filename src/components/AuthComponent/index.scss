@@ -86,6 +86,9 @@ main.connection-wrap {
       border-radius: 3px;
       background: white;
       height: 35px;
+      &:disabled {
+        cursor: not-allowed;
+      }
     }
 
     .input-remember {

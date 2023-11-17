@@ -1,31 +1,31 @@
-// export interface IUser {
-//   email: string;
-//   isActivated: boolean;
-//   id: string;
-//   firsName: string;
-//   lastName: string;
-//   role: string;
-// }
+export interface IUser {
+  id: string | null;
+  email: string;
+  isActivated: boolean;
+  firstName: string;
+  lastName: string;
+  role: string;
+}
 
 //common user interface
 export interface iUserDto {
+  id: string | null;
   firstName: string;
   lastName: string;
   email: string;
   isActivated: boolean;
-  id: string | null;
 }
 export interface IFullUser {
+  id: string | null;
   firstName: string;
   lastName: string;
   email: string;
   isActivated: boolean;
-  id: string | null;
   bookmarks: Array<ICity> | [];
 }
 
 //detailed user interface
-export interface IUser {
+export interface IUserChanged {
   user: IFullUser;
   isAuth: false;
 }
@@ -75,4 +75,15 @@ export interface IerrorRes {
 export interface IRootProps {
   path: string;
   children: JSX.Element;
+}
+
+export interface IManageInputProps {
+  id: string;
+  type: string;
+  name: string;
+  value: string;
+  setValue: (value: string) => void;
+  errorMessage: string;
+  validateField: (value: string, confirmPassword?: string) => boolean;
+  secondValue?: string;
 }

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { iUserDto } from "common/interfaces/auth";
+import { iUserDto, IFullUser } from "common/interfaces/auth";
 
 const initialState = {
-  user: {} as iUserDto,
+  user: {} as IFullUser,
   isAuth: false,
 };
 

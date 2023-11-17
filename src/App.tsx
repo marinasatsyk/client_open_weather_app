@@ -38,14 +38,14 @@ const  App : FC  = () =>  {
     <Router>
         <Routes>
             {/**redirect route for connection in the case user  connected with remember me */}
-               {/* <Route path="/user/connection"  
+               {/* <Route path="/connection"  
                   element={
                       <RedirectRoute  path={`/user/${user.id}/current`}>
                           <AuthComponent />
                       </RedirectRoute>
                   } 
               />   */}
-              <Route path="/user/connection"  
+              <Route path="/connection"  
                   element={<AuthComponent />} 
               /> 
 
@@ -76,7 +76,7 @@ const  App : FC  = () =>  {
 
               {/* <Route path="/" 
                   element={
-                      <RedirectRoute  path={`/user/connection`}>
+                      <RedirectRoute  path={`/connection`}>
                 <Route  path= {`/user/${user.id}/current`} element={<MainCurrentWeatherComponent /> }  />
                       </RedirectRoute>
                   } 
@@ -86,7 +86,7 @@ const  App : FC  = () =>  {
                   element={
                     auth
                     ? <Navigate to= {`/user/${user.id}/current`} replace={true} />
-                    : <Navigate to="/user/connection" replace={true} />
+                    : <Navigate to="/connection" replace={true} />
                     } 
               />
 
