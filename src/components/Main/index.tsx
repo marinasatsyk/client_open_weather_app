@@ -6,7 +6,7 @@ import  { RootState } from '../../store';
 import AuthComponent from '../AuthComponent';
 
 import "./index.scss";
-import HeaderConnectionComponent from '../HeaderConnection';
+import HeaderConnectionComponent from '../Headers/HeaderConnection';
 import {  useNavigate } from 'react-router-dom';
 
 

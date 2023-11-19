@@ -1,0 +1,36 @@
+header.header-mobile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white;
+
+  .top-navigation-mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .icon {
+    font-size: 25px;
+  }
+
+  h2 {
+    font-size: 25px;
+  }
+
+  .bottom-nav-mobile {
+    display: flex;
+    list-style-type: none;
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  .underligne {
+    text-decoration: underline;
+  }
+}

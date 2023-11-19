@@ -1,13 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { DashboardCurrentComponent } from 'components/Current'
+import {useEffect} from 'react';
 
-
-const MainCurrentWeatherComponent = () => {
+//page
+ const MainCurrentWeatherComponent = () => {
   return (
-    <div>MainCurrentWeatherComponent</div>
+    <DashboardCurrentComponent />
   )
 }
 
-MainCurrentWeatherComponent.propTypes = {}
+
 
 export default MainCurrentWeatherComponent

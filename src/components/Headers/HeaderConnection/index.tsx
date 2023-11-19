@@ -1,4 +1,4 @@
-import LogoImg from '../../assets/images/logo-app.png';
+import LogoImg from '../../../assets/images/logo-app.png';
 import   {FC} from 'react';
 import './index.scss';
 
@@ -6,7 +6,7 @@ import './index.scss';
 const  HeaderConnectionComponent:FC = () => {
   return (
     <>
-    <header>
+    <header className='connection'>
       <div className="wrap-header">
         <h2 className='header-block-one'>Weather</h2>
         <div className='header-block-two'>Forecast</div>

@@ -50,14 +50,18 @@ const  AuthComponent: FC = () =>  {
     }
 
     const handldeSubmit = async ( e: {preventDefault: () => void}) => {
+      console.log("submit")
       e.preventDefault();
-
+      console.log("1")
       const promise = isLogin 
       ?  AuthService.login(email, password) 
       :  AuthService.registration(email, password,  firstName, lastName);
-  
+      console.log("2")
+
       promise
         .then( response => {
+          console.log("3")
+
           const dataUser = response?.data;
           setIsLoading(true)
           if(isLogin){
@@ -70,9 +74,12 @@ const  AuthComponent: FC = () =>  {
           }
         })
         .catch((error) => {
+          console.log("4", error)
+
           setErrorAuth({})
           let  errorRes: any;
           if (error instanceof AxiosError) {
+            console.log("axios", error)
             // La promesse a été rejetée avec une erreur Axios
             const axiosError = error as AxiosError;
             
@@ -88,6 +95,7 @@ const  AuthComponent: FC = () =>  {
               }
   
           } else {
+            console.log("pas axios")
             const errorResponse = error as Error;
             if(errorResponse.cause){
               const {cause, message, name, stack} = errorResponse;
@@ -149,7 +157,7 @@ const  AuthComponent: FC = () =>  {
           <div className="wrap-form-auth">
               <div className="title-wrap">
                 <h2>{!isLogin ? "Register" :"Login" }</h2>
-                <div className={ `error ${Object.keys(errorAuth).length >0 ? 'visible' : 'hidden'}`}>{errorAuth?.data?.message}</div>
+                <div className={ `error ${errorAuth&&Object.keys(errorAuth).length >0 ? 'visible' : 'hidden'}`}>{errorAuth?.data?.message}</div>
                 <div className={ `success ${isAccountCreated ? 'visible' : 'hidden'}`}>Your account was created successfully</div>
               </div>
               
@@ -206,7 +214,7 @@ const  AuthComponent: FC = () =>  {
                       <ManagedInput 
                         id='confirmPassword' 
                         type='password' 
-                        name='confirmPassword' 
+                        name='password' 
                         value={confirmPassword}
                         setValue = {setConfirmPassword}
                         errorMessage="Passwords are not the same"
