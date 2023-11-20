@@ -12,17 +12,17 @@ export default class AuthService {
   }
 
   static async registration(
-    email: string,
-    password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
+    email: string,
+    password: string
   ): Promise<AxiosResponse<AuthResponse>> {
-    console.log("coucou");
+    console.log("coucou ====> ", firstName, lastName, email, password);
     return $api.post<AuthResponse>("/registration", {
-      email,
-      password,
       firstName,
       lastName,
+      email,
+      password,
     });
   }
   static async getUser(id: string): Promise<AxiosResponse<IUser>> {

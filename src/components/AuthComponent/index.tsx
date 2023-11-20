@@ -1,26 +1,23 @@
 import {FC,  useState,  useEffect} from 'react';
-import { UseAppDispatch } from 'utils/hook';
+import { UseAppDispatch, UseAppSelector } from 'utils/hook';
 import AuthService from 'services/AuthService';
-import { login } from 'store/slice/auth';
+// import { login } from 'store/slice/auth';
 import  { AxiosError } from 'axios';
 import { Validator, manageToken } from 'utils/helpers';
 import {  useNavigate } from 'react-router-dom';
 import { ManagedInput } from 'components/ManageInput';
 import  "./index.scss";
+import { loginUser, registerUser } from 'store/thunks/auth';
+import { clearError } from 'store/slice/auth';
 
 
 const  AuthComponent: FC = () =>  {   
-    const [isLoading, setIsLoading] = useState(false);
-
+    
+    const { user,isRegistred, error , isLoading } = UseAppSelector((state) => state.auth);
     const [isLogin, setIsLogin] = useState<Boolean>(true);
     const [errorAuth, setErrorAuth] = useState<any>({});
     const [isAccountCreated, setIsAccountCreated] = useState(false);
     
-    
-
-     //verification if checkbox "signIUp" is checked, use local state
-
-
      const [email, setEmail] = useState('');
      const [password, setPassword] = useState('');
      const [firstName, setFirstName] = useState('');
@@ -39,13 +36,13 @@ const  AuthComponent: FC = () =>  {
     
     //hooks
     const dispatch = UseAppDispatch();
-    const navigate = useNavigate();
 
 
     function handleChangeForm(): void{
       setIsLogin(!isLogin);
       setIsAccountCreated(false)
-      setErrorAuth({});
+      let error = ""
+       dispatch(clearError(error));
       setIsRemeberMe(false)
     }
 
@@ -53,64 +50,90 @@ const  AuthComponent: FC = () =>  {
       console.log("submit")
       e.preventDefault();
       console.log("1")
-      const promise = isLogin 
-      ?  AuthService.login(email, password) 
-      :  AuthService.registration(email, password,  firstName, lastName);
-      console.log("2")
 
-      promise
-        .then( response => {
-          console.log("3")
-
-          const dataUser = response?.data;
-          setIsLoading(true)
-          if(isLogin){
-             dispatch(login(dataUser))
-            manageToken(isRemeberMe, response.data.accessToken)
-            navigate(`/user/${dataUser.user.id}/current`);
-          }else{
+      try{
+        if(isLogin){
+          const userData = {email, password};
+          await dispatch(loginUser(userData));
+          // navigate(`/user/${user.id}/current`);
+        }else{
+          const userRegisterData = {firstName, lastName, email, password};
+          console.log(userRegisterData)
+          await dispatch(registerUser(userRegisterData));
+          if(isRegistred){
+            console.log(isRegistred)
             setIsAccountCreated(true)
             setIsLogin(true)
           }
-        })
-        .catch((error) => {
-          console.log("4", error)
+        }
+        
+        console.log('user', user)
+        // manageToken(isRemeberMe, response.data.accessToken)
+         
 
-          setErrorAuth({})
-          let  errorRes: any;
-          if (error instanceof AxiosError) {
-            console.log("axios", error)
-            // La promesse a été rejetée avec une erreur Axios
-            const axiosError = error as AxiosError;
+      }catch(e){
+        console.error("error", e)
+        setErrorAuth(e)
+        return e
+      }
+      // const promise = isLogin 
+      // ?  AuthService.login(email, password) 
+      // :  AuthService.registration(email, password,  firstName, lastName);
+      // console.log("2")
+
+      // promise
+      //   .then( response => {
+      //     console.log("3")
+
+      //     const dataUser = response?.data;
+      //     setIsLoading(true)
+      //     if(isLogin){
+      //        dispatch(login(dataUser))
+      //       manageToken(isRemeberMe, response.data.accessToken)
+      //       navigate(`/user/${dataUser.user.id}/current`);
+      //     }else{
+      //       setIsAccountCreated(true)
+      //       setIsLogin(true)
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.log("4", error)
+
+      //     setErrorAuth({})
+      //     let  errorRes: any;
+      //     if (error instanceof AxiosError) {
+      //       console.log("axios", error)
+      //       // La promesse a été rejetée avec une erreur Axios
+      //       const axiosError = error as AxiosError;
             
-              if(axiosError?.response){
+      //         if(axiosError?.response){
                 
-                const {data, status, statusText} = axiosError?.response;
-                errorRes = {
-                  data, 
-                  status,
-                  statusText,
-                  typeErr: 'axios'
-                }
-              }
+      //           const {data, status, statusText} = axiosError?.response;
+      //           errorRes = {
+      //             data, 
+      //             status,
+      //             statusText,
+      //             typeErr: 'axios'
+      //           }
+      //         }
   
-          } else {
-            console.log("pas axios")
-            const errorResponse = error as Error;
-            if(errorResponse.cause){
-              const {cause, message, name, stack} = errorResponse;
-              errorRes = {
-                cause,
-                message,
-                name,
-                stack,
-                typeErr: 'any'
-              }
-            }
-          }
-          console.log("errorRes", errorRes)
-          setErrorAuth(errorRes)
-        })
+      //     } else {
+      //       console.log("pas axios")
+      //       const errorResponse = error as Error;
+      //       if(errorResponse.cause){
+      //         const {cause, message, name, stack} = errorResponse;
+      //         errorRes = {
+      //           cause,
+      //           message,
+      //           name,
+      //           stack,
+      //           typeErr: 'any'
+      //         }
+      //       }
+      //     }
+      //     console.log("errorRes", errorRes)
+      //     setErrorAuth(errorRes)
+      //   })
      }
 
 
@@ -144,7 +167,8 @@ const  AuthComponent: FC = () =>  {
     confirmPassword,
     isSubmitEnabled,
     isRemeberMe,
-    errorAuth])
+    errorAuth,
+  user])
   
   console.log("errorAuth", errorAuth)
   console.log("setIsSubmitEnabled", isSubmitEnabled)
@@ -157,14 +181,13 @@ const  AuthComponent: FC = () =>  {
           <div className="wrap-form-auth">
               <div className="title-wrap">
                 <h2>{!isLogin ? "Register" :"Login" }</h2>
-                <div className={ `error ${errorAuth&&Object.keys(errorAuth).length >0 ? 'visible' : 'hidden'}`}>{errorAuth?.data?.message}</div>
+                <div className={ `error ${errorAuth&&Object.keys(error).length >0 ? 'visible' : 'hidden'}`}>{error?.message}</div>
                 <div className={ `success ${isAccountCreated ? 'visible' : 'hidden'}`}>Your account was created successfully</div>
               </div>
               
               <div className="form">
                     {!isLogin &&
                     <>
-                   
                     <ManagedInput 
                         id='firstName' 
                         type="text" 
@@ -208,13 +231,12 @@ const  AuthComponent: FC = () =>  {
                         validateField={isLogin ? () => true  : Validator.password}
                         
                       />
-
                     {
                       !isLogin &&
                       <ManagedInput 
                         id='confirmPassword' 
                         type='password' 
-                        name='password' 
+                        name='confirmPassword' 
                         value={confirmPassword}
                         setValue = {setConfirmPassword}
                         errorMessage="Passwords are not the same"

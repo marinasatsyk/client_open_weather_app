@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import  { RootState } from "./store";
 
 import './App.css';
-import { useAuth } from 'utils/hook';
+import { UseAppSelector, useAuth } from 'utils/hook';
 
 const  App : FC  = () =>  {
   document.title = "OpenWeahter App";
@@ -31,7 +31,8 @@ const  App : FC  = () =>  {
   const clientToken = sessionClientToken ? sessionClientToken : localClientToken;
   console.log("clientToken",clientToken)
 
-  const  user =  useSelector((state: RootState) => state.auth.user);
+  // const  user =  useSelector((state: RootState) => state.auth.user);
+  const { user } = UseAppSelector((state) => state.auth);
   const auth = useAuth();
 
   return(
@@ -45,9 +46,11 @@ const  App : FC  = () =>  {
                       </RedirectRoute>
                   } 
               />   */}
-              <Route path="/connection"  
-                  element={<AuthComponent />} 
-              /> 
+              <Route element = {<RedirectRoute />}>
+                  <Route path="/connection"  
+                      element={<AuthComponent />} 
+                  /> 
+              </Route>
 
               <Route   element={<ProtectedRoute />}> 
                 <Route  path= {`/user/${user.id}/current`} element={<MainCurrentWeatherComponent /> }  />

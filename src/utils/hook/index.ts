@@ -9,3 +9,10 @@ export const useAuth = () => {
   const { isAuth } = UseAppSelector((state) => state.auth);
   return isAuth;
 };
+
+export const useUserId = () => {
+  const { id } = UseAppSelector((state) => state.auth.user);
+  if (id) {
+    return id;
+  }
+};

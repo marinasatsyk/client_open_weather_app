@@ -57,24 +57,24 @@ const UserSlice = createSlice({
             state.isAuth = false;
         }
     },
-    extraReducers: (builder) => {
-        builder.addCase(getUser.fulfilled, (state, action) => {
-            if (action.payload.status === 200) {
-                // Assuming your user data is in action.payload.data
-                const userPayload = action.payload.data;
+    // extraReducers: (builder) => {
+    //     builder.addCase(getUser.fulfilled, (state, action) => {
+    //         if (action.payload.status === 200) {
+    //             // Assuming your user data is in action.payload.data
+    //             const userPayload = action.payload.data;
         
-                // Update state.user with the extracted user data
-                state.user = {
-                    firstName: userPayload.firstName,
-                    lastName: userPayload.lastName,
-                    email: userPayload.email,
-                    isActivated: userPayload.isActivated,
-                    id: userPayload.id,
-                };
-            }
-            // state.user = action.payload
-        })
-    }
+    //             // Update state.user with the extracted user data
+    //             state.user = {
+    //                 firstName: userPayload.firstName,
+    //                 lastName: userPayload.lastName,
+    //                 email: userPayload.email,
+    //                 isActivated: userPayload.isActivated,
+    //                 id: userPayload.id,
+    //             };
+    //         }
+    //         // state.user = action.payload
+    //     })
+    // }
 });
 
 

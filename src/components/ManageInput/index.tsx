@@ -1,5 +1,7 @@
 import { IManageInputProps } from 'common/interfaces/auth';
-import {FC,  useState, ChangeEvent, useEffect} from 'react';
+import {  useState, ChangeEvent} from 'react';
+import { clearError } from 'store/slice/auth';
+import { UseAppDispatch, UseAppSelector } from 'utils/hook';
 
 export const ManagedInput = (props: IManageInputProps) => {
     const {
@@ -13,13 +15,19 @@ export const ManagedInput = (props: IManageInputProps) => {
         secondValue,
     } = props;
 
+    const { error  } = UseAppSelector((state) => state.auth);
+    const dispatch = UseAppDispatch();
 
     const [isValid, setValid] = useState(true);
-    
+     let clearErrorObject = "";
+
     const f = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
         setValid(validateField(e.target.value, secondValue && secondValue));
     };
+    const onHandleFocus = () => {
+        dispatch(clearError(clearErrorObject))
+    }
 
 
     return (
@@ -33,6 +41,7 @@ export const ManagedInput = (props: IManageInputProps) => {
                 name={name}
                 onChange={(e) => f(e)}
                 className="text-control"
+                onFocus={() => onHandleFocus()}
             />
             {!isValid ? (
                 <div style={{ color: 'red', fontSize: '12px' }}>

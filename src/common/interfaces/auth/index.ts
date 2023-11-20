@@ -31,14 +31,17 @@ export interface IUserChanged {
 }
 
 export interface IAuthState {
-  user: iUserDto;
+  user: IFullUser;
   isAuth: boolean;
+  isLoading: boolean;
+  error: any;
+  isRegistred: boolean;
 }
 
 export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
-  user: IUser;
+  user: IFullUser;
 }
 
 export interface ICity {
@@ -86,4 +89,20 @@ export interface IManageInputProps {
   errorMessage: string;
   validateField: (value: string, confirmPassword?: string) => boolean;
   secondValue?: string;
+}
+
+export interface ILogin {
+  email: string;
+  password: string;
+}
+
+export interface IRegister {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
+export interface IError {
+  error: string | undefined | unknown;
 }
