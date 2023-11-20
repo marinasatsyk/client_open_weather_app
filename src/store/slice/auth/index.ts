@@ -1,15 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AsyncThunkAction } from "@reduxjs/toolkit";
-import { AxiosError } from "axios";
-import {
-  iUserDto,
-  IFullUser,
-  ICity,
-  IError,
-  IAuthState,
-} from "common/interfaces/auth";
-import { error } from "console";
+import { createSlice } from "@reduxjs/toolkit";
+import { IAuthState } from "common/interfaces/auth";
 import { loginUser, registerUser } from "store/thunks/auth";
+import { manageToken } from "utils/helpers";
 
 const initialState = {
   user: {},
@@ -17,21 +9,18 @@ const initialState = {
   error: "",
   isLoading: false,
   isRegistred: false,
+  isRememberMe_r: false,
 } as IAuthState;
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // login(state, action) {
-    //   state.user = action.payload.user;
-    //   state.isAuth = true;
-    //   console.log("Action", action.payload);
-    //   console.log("User from Slice", state.user);
-    //   console.log("IsAuth", state.isAuth);
-    // },
     clearError(state, action) {
       state.error = action.payload;
+    },
+    rememberMe(state, action) {
+      state.isRememberMe_r = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -44,6 +33,7 @@ export const authSlice = createSlice({
       state.isAuth = true;
       state.isLoading = false;
       state.error = "";
+      manageToken(state.isRememberMe_r, action.payload.accessToken);
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       state.error = "";
@@ -70,5 +60,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { clearError } = authSlice.actions;
+export const { clearError, rememberMe } = authSlice.actions;
 export default authSlice.reducer;

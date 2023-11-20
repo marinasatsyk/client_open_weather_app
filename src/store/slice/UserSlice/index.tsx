@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
 import AuthService from '../../../services/AuthService';
 import { iUserDto } from 'common/interfaces/auth';
 
@@ -25,7 +24,6 @@ const UserSlice = createSlice({
     
     reducers: {
         getUserPending: (state) => {
-            console.log('==========in pending user slice')
             state.error = '';
             state.isLoading = true;
         },
@@ -57,24 +55,6 @@ const UserSlice = createSlice({
             state.isAuth = false;
         }
     },
-    // extraReducers: (builder) => {
-    //     builder.addCase(getUser.fulfilled, (state, action) => {
-    //         if (action.payload.status === 200) {
-    //             // Assuming your user data is in action.payload.data
-    //             const userPayload = action.payload.data;
-        
-    //             // Update state.user with the extracted user data
-    //             state.user = {
-    //                 firstName: userPayload.firstName,
-    //                 lastName: userPayload.lastName,
-    //                 email: userPayload.email,
-    //                 isActivated: userPayload.isActivated,
-    //                 id: userPayload.id,
-    //             };
-    //         }
-    //         // state.user = action.payload
-    //     })
-    // }
 });
 
 
@@ -91,4 +71,3 @@ export const {
 
 export default UserSlice.reducer;
 
-// export const  selectCurrentUser  = (state) => state.auth.user;

@@ -8,12 +8,14 @@ import {  useNavigate } from 'react-router-dom';
 import { ManagedInput } from 'components/ManageInput';
 import  "./index.scss";
 import { loginUser, registerUser } from 'store/thunks/auth';
-import { clearError } from 'store/slice/auth';
+import { clearError, rememberMe } from 'store/slice/auth';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import{faSpinner} from '@fortawesome/free-solid-svg-icons';
 
 
 const  AuthComponent: FC = () =>  {   
     
-    const { user,isRegistred, error , isLoading } = UseAppSelector((state) => state.auth);
+    const { user,isRegistred, error , isLoading, isRememberMe_r } = UseAppSelector((state) => state.auth);
     const [isLogin, setIsLogin] = useState<Boolean>(true);
     const [errorAuth, setErrorAuth] = useState<any>({});
     const [isAccountCreated, setIsAccountCreated] = useState(false);
@@ -43,8 +45,9 @@ const  AuthComponent: FC = () =>  {
       setIsAccountCreated(false)
       let error = ""
        dispatch(clearError(error));
-      setIsRemeberMe(false)
-    }
+       setIsRemeberMe(false)
+     }
+       
 
     const handldeSubmit = async ( e: {preventDefault: () => void}) => {
       console.log("submit")
@@ -60,11 +63,12 @@ const  AuthComponent: FC = () =>  {
           const userRegisterData = {firstName, lastName, email, password};
           console.log(userRegisterData)
           await dispatch(registerUser(userRegisterData));
-          if(isRegistred){
-            console.log(isRegistred)
-            setIsAccountCreated(true)
-            setIsLogin(true)
-          }
+
+          // if(isRegistred){
+          //   console.log("❤️❤️❤️", isRegistred)
+          //   setIsAccountCreated(true)
+          //   setIsLogin(true)
+          // }
         }
         
         console.log('user', user)
@@ -135,7 +139,12 @@ const  AuthComponent: FC = () =>  {
       //     setErrorAuth(errorRes)
       //   })
      }
-
+    
+    // 
+    const handleOnclick = (e: {preventDefault: () => void}) => {
+      setIsRemeberMe(!isRemeberMe);
+      dispatch(rememberMe(!isRememberMe_r));
+    }
 
   useEffect(() =>{
     setIsEmailValidate(Validator.email(email));
@@ -154,6 +163,16 @@ const  AuthComponent: FC = () =>  {
       ? setIsSubmitEnabled(true) 
       : setIsSubmitEnabled(false)
     }
+
+    setIsAccountCreated(isRegistred);
+    // Après 3 secondes, notification disparait
+    setTimeout(function() {
+      setIsAccountCreated(false);
+    }, 3000);
+    
+    if(isRegistred){
+      setIsLogin(true)
+    }
   }, [
     isFirstNameValidate,
     isLastNameValidate,
@@ -168,7 +187,8 @@ const  AuthComponent: FC = () =>  {
     isSubmitEnabled,
     isRemeberMe,
     errorAuth,
-  user])
+    user,
+    isRegistred])
   
   console.log("errorAuth", errorAuth)
   console.log("setIsSubmitEnabled", isSubmitEnabled)
@@ -248,7 +268,12 @@ const  AuthComponent: FC = () =>  {
               </div>
 
               <div className="btn-wrap">
-                <button type='submit' onClick={(e) =>  handldeSubmit(e)} disabled={isSubmitEnabled ? false : true}>{!isLogin ? "Register" :"Login" }</button> 
+                  <button type='submit' onClick={(e) =>  handldeSubmit(e)} disabled={isSubmitEnabled ? false : true}>{
+                    isLoading
+                    ? <FontAwesomeIcon icon={faSpinner} spin className='spinner'/> 
+                    :   "Send" 
+                  }
+                  </button> 
                 <div className="input-remember">
               
                 <div id='checkbox-wrap' className={isLogin ? 'wrapInput' : 'hidden'} aria-disabled={isLogin ?  false : true}>
@@ -257,8 +282,9 @@ const  AuthComponent: FC = () =>  {
                         id="isRemeberMe"
                         name="isRemeberMe"
                         checked={isRemeberMe}
-                        onChange={() => setIsRemeberMe(!isRemeberMe)}
+                        onChange={(e) => handleOnclick(e)}
                     />
+
                     <label htmlFor="isRemeberMe" className=''>Remember me</label>
                 </div>
               

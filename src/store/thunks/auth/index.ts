@@ -2,12 +2,16 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { ILogin, IRegister } from "common/interfaces/auth";
 import AuthService from "services/AuthService";
+import { manageToken } from "utils/helpers";
+import { UseAppSelector } from "utils/hook";
 
 export const loginUser = createAsyncThunk(
   "auth/login",
   async (data: ILogin, { rejectWithValue }) => {
+    // const { isRememberMe_r } = UseAppSelector((state) => state.auth);
     try {
       const user = await AuthService.login(data.email, data.password);
+      // manageToken(isRememberMe_r, user.data.accessToken);
       return user.data;
     } catch (error: any) {
       console.log("4", error);

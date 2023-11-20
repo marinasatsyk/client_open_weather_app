@@ -1,3 +1,4 @@
+import { Token } from "common/interfaces/auth";
 export const manageToken = (
   isRememberMe: boolean,
   accessToken: string
@@ -56,4 +57,16 @@ export const Validator = {
       return false;
     }
   },
+};
+
+export const getTokenFromStorage = (storageKey: string): Token | null => {
+  const tokenRaw =
+    JSON.stringify(localStorage.getItem(storageKey)) ||
+    JSON.stringify(sessionStorage.getItem(storageKey));
+  try {
+    return tokenRaw !== null ? JSON.parse(tokenRaw) : null;
+  } catch (err) {
+    console.error("Erreur de parsing :", err);
+    return null;
+  }
 };

@@ -36,6 +36,7 @@ export interface IAuthState {
   isLoading: boolean;
   error: any;
   isRegistred: boolean;
+  isRememberMe_r: boolean;
 }
 
 export interface AuthResponse {
@@ -105,4 +106,8 @@ export interface IRegister {
 
 export interface IError {
   error: string | undefined | unknown;
+}
+
+export interface Token {
+  value: string;
 }
