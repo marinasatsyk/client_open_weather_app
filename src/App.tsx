@@ -11,6 +11,7 @@ import HistoryWeatherComponent from './pages/History-Page';
 import ProfileComponent from './pages/Profile-Page';
 import {  useAuth } from 'utils/hook';
 import './App.css';
+import { SearchCityComponent } from 'components/SearchCity';
 
 const  App : FC  = () =>  {
   document.title = "OpenWeahter App";
@@ -25,35 +26,41 @@ const  App : FC  = () =>  {
               </Route>
 
               <Route   element={<ProtectedRoute />}> 
-                <Route  path= {`/user/:userId/current`} element={<MainCurrentWeatherComponent /> }  />
+                <Route  path= {`/user/current`} element={<MainCurrentWeatherComponent /> }  />
+                {/* <Route  path= {`/user/:userId/search`} element={<MainCurrentWeatherComponent /> }  />
+                <Route  path= {`/user/:userId/forecast`} element={<SearchCityComponent/> }  /> */}
               </Route>
 
               <Route   element={<ProtectedRoute />}> 
-                <Route  path= {`/user/:userId/forecast`} element={<ForecastWeatherComponent /> }  />
+                <Route  path= {`/user/search-city`} element={<SearchCityComponent /> }  />
               </Route>
 
               <Route   element={<ProtectedRoute />}> 
-                <Route  path= {`/user/:userId/details-current-weather`} element={<DetailsCurrentWeatherComponent /> }  />
+                <Route  path= {`/user/forecast`} element={<ForecastWeatherComponent /> }  />
+              </Route>
+
+              <Route   element={<ProtectedRoute />}> 
+                <Route  path= {`/user/details-current-weather`} element={<DetailsCurrentWeatherComponent /> }  />
               </Route>
 
 
               <Route   element={<ProtectedRoute />}> 
-                <Route  path= {`/user/:userId/history`} element={<HistoryWeatherComponent /> }  />
+                <Route  path= {`/user/history`} element={<HistoryWeatherComponent /> }  />
               </Route>
 
               <Route   element={<ProtectedRoute />}> 
-                <Route  path= {`/user/:userId/profile/show`} element={<ProfileComponent /> }  />
+                <Route  path= {`/user/profile/show`} element={<ProfileComponent /> }  />
               </Route>
 
               <Route   element={<ProtectedRoute />}> 
-                <Route  path= {`/user/:userId/profile/edit`} element={<ProfileComponent /> }  />
+                <Route  path= {`/user/profile/edit`} element={<ProfileComponent /> }  />
               </Route>
 
               <Route  
                   path="/" 
                   element={
                     auth
-                    ? <Navigate to= {`/user/:userId/current`} replace={true} />
+                    ? <Navigate to= {`/user/current`} replace={true} />
                     : <Navigate to="/connection" replace={true} />
                     } 
               />

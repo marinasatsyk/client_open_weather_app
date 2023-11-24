@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import { ILogin, IRegister } from "common/interfaces/auth";
+import { IFullUser, ILogin, IRegister } from "common/interfaces/auth";
 import AuthService from "services/AuthService";
 import { manageToken } from "utils/helpers";
 import { UseAppSelector } from "utils/hook";
@@ -40,6 +40,27 @@ export const registerUser = createAsyncThunk(
       return user.data;
     } catch (error: any) {
       console.log("4", error);
+      if (error.response && error.response.data) {
+        console.log("axios", error);
+        return rejectWithValue({ error: error.response.data });
+      } else {
+        console.log("pas axios");
+        return rejectWithValue({ error: error });
+      }
+    }
+  }
+);
+
+export const getUser = createAsyncThunk(
+  "auth/user",
+  async (data, { rejectWithValue }) => {
+    try {
+      console.log("🔎🔎🔎🔎🔎, in search user");
+      let user = await AuthService.getUser();
+      console.log("ASYNC THUNK USER", user.data);
+      return user.data;
+    } catch (error: any) {
+      console.log("4 get user", error);
       if (error.response && error.response.data) {
         console.log("axios", error);
         return rejectWithValue({ error: error.response.data });

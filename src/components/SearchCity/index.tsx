@@ -90,13 +90,9 @@ export const SearchCityComponent = (): JSX.Element => {
     }, [city])
 
     return (
-        <main>
+        < div className='main'>
 
             <section className='search-city-wrapper'>
-              <div className="search-city-block">
-                 <h2>Weather <span className='text-bold'>Forecast</span></h2>
-                <p>Enter below a place you want to know th weather of and select an option from the dropdown </p>
-              </div>
                 <div className="wrap-input">
                     <div className="wrap-bar-search relative">
                       <input type="text" onChange={ onInputChange} value={inputValue} className='input-search-bar-cities'/>
@@ -110,10 +106,10 @@ export const SearchCityComponent = (): JSX.Element => {
                         </ul>
                       : <></>}
                     </div>
-                    <button  className='search-cities-btn' onClick={onSubmit}>Search</button>
+                    <button  className='search-cities-btn' onClick={onSubmit}>Add</button>
                 </div>
             </section>
-        </main>
+        </div>
   )
 }
 

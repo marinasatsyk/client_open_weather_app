@@ -166,9 +166,9 @@ const  AuthComponent: FC = () =>  {
 
     setIsAccountCreated(isRegistred);
     // Après 3 secondes, notification disparait
-    setTimeout(function() {
-      setIsAccountCreated(false);
-    }, 3000);
+    // setTimeout(function() {
+    //   setIsAccountCreated(false);
+    // }, 3000);
     
     if(isRegistred){
       setIsLogin(true)

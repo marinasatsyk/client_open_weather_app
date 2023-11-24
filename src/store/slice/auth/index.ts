@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IAuthState } from "common/interfaces/auth";
-import { loginUser, registerUser } from "store/thunks/auth";
+import { IAuthState, IFullUser } from "common/interfaces/auth";
+import { getUser, loginUser, registerUser } from "store/thunks/auth";
 import { manageToken } from "utils/helpers";
 
 const initialState = {
@@ -36,6 +36,33 @@ export const authSlice = createSlice({
       manageToken(state.isRememberMe_r, action.payload.accessToken);
     });
     builder.addCase(loginUser.rejected, (state, action) => {
+      state.error = "";
+      state.isAuth = false;
+      state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+
+    //user
+    builder.addCase(getUser.pending, (state, action) => {
+      console.log("is here??1");
+
+      state.isAuth = false;
+      state.isLoading = true;
+    });
+
+    builder.addCase(getUser.fulfilled, (state, action) => {
+      console.log("FULLFILLED");
+      const user = action.payload;
+
+      console.log("is here??====>", `${user} an type ${typeof user}`);
+      state.user = user;
+      state.isAuth = true;
+      state.isLoading = false;
+      state.error = "";
+    });
+    builder.addCase(getUser.rejected, (state, action) => {
+      console.log("is here??2");
+
       state.error = "";
       state.isAuth = false;
       state.error = (action.payload as { error: string }).error;

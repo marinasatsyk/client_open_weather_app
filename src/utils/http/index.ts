@@ -1,7 +1,6 @@
 import axios from "axios";
 import { AuthResponse } from "common/interfaces/auth";
-import { error } from "console";
-import { config } from "process";
+import { useNavigate } from "react-router-dom";
 const { REACT_APP_HOST, REACT_APP_PORT, REACT_APP_MAIN_API_ROUTE } =
   process.env;
 const API_URL = `http://${REACT_APP_HOST}:${REACT_APP_PORT}${REACT_APP_MAIN_API_ROUTE}`;
@@ -15,25 +14,15 @@ console.log(API_URL);
 //interceptor request
 $api.interceptors.request.use((config) => {
   console.log("interceptor 1");
-  //tokens
-  const sessionClientTokenRaw = window.sessionStorage.getItem("token");
+  let clientToken = null;
+  const localStorageToken = localStorage.getItem("token");
+  const sessionStorageToken = sessionStorage.getItem("token");
 
-  console.log("interceptor 2");
-
-  const localClientTokenRaw = window.localStorage.getItem("token");
-
-  const sessionClientToken: string | null =
-    sessionClientTokenRaw !== null ? JSON.parse(sessionClientTokenRaw) : null;
-  console.log("interceptor 3");
-
-  const localclientToken: string | null =
-    localClientTokenRaw !== null ? JSON.parse(localClientTokenRaw) : null;
-  console.log("interceptor 4");
-
-  const clientToken = sessionClientToken
-    ? sessionClientToken
-    : localclientToken;
-
+  if (localStorageToken) {
+    clientToken = localStorageToken;
+  } else if (sessionStorageToken) {
+    clientToken = sessionStorageToken;
+  }
   console.log("clientToken", clientToken);
   config.headers.Authorization = `Bearer ${clientToken}`;
   return config;
@@ -47,29 +36,31 @@ $api.interceptors.response.use(
   async (err) => {
     const originalRequest = err.config;
 
-    if (err?.response?.status == 401 && err.config && !err.config._isRetry) {
+    if (err?.response?.status === 401 && err.config && !err.config._isRetry) {
       originalRequest._isRetry = true;
       try {
+        console.log("we refresh token");
         const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {
           withCredentials: true,
         });
-
-        //we replace token exists
-        const sessionClientTokenRaw = window.sessionStorage.getItem("token");
-
-        const sessionClientToken: string | null =
-          sessionClientTokenRaw !== null
-            ? JSON.parse(sessionClientTokenRaw)
-            : null;
+        //we replace token exists???
+        const sessionClientToken = sessionStorage.getItem("token");
 
         sessionClientToken
           ? sessionStorage.setItem("token", response.data.accessToken)
           : localStorage.setItem("token", response.data.accessToken);
 
         console.log("from check auth", response);
+        console.log("from check auth LOCAL", localStorage.getItem("token"));
+        console.log("from check auth SISSION", sessionStorage.getItem("token"));
+
         return $api.request(originalRequest);
       } catch (err) {
-        console.log("not authorized");
+        console.log("not authorized we clear all storages");
+        //if not authorized we must re-login!
+        sessionStorage.clear();
+        localStorage.clear();
+        window.location.href = "/";
       }
     }
     throw err;

@@ -16,12 +16,13 @@ export interface iUserDto {
   isActivated: boolean;
 }
 export interface IFullUser {
-  id: string | null;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
   isActivated: boolean;
   bookmarks: Array<ICity> | [];
+  role: string;
 }
 
 //detailed user interface

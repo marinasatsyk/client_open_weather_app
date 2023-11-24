@@ -1,4 +1,4 @@
-import { AuthResponse, IUser } from "common/interfaces/auth";
+import { AuthResponse, IFullUser, IUser } from "common/interfaces/auth";
 import $api from "../utils/http";
 import { AxiosResponse } from "axios";
 import { error } from "console";
@@ -25,7 +25,13 @@ export default class AuthService {
       password,
     });
   }
-  static async getUser(id: string): Promise<AxiosResponse<IUser>> {
-    return $api.get<IUser>(`/user/${id}`);
+
+  // static async userVerify(): Promise<AxiosResponse<IUser>> {
+  //   console.log("===================>>>>userVerify");
+  //   return $api.get(`/validateAuth`);
+  // }
+
+  static async getUser(): Promise<AxiosResponse<IFullUser>> {
+    return $api.get<IFullUser>(`/user`, { responseType: "json" });
   }
 }

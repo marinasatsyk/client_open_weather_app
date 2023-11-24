@@ -2,6 +2,7 @@ import {FC,  useState, ChangeEvent, useEffect, MouseEvent} from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import{faLocationDot, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
 import "./index.scss";
+import { Link } from 'react-router-dom';
 
 interface IHeaderMobile {
   city: string
@@ -10,9 +11,9 @@ interface IHeaderMobile {
 export default function HeaderMobile(props:IHeaderMobile) {
   const {city} = props;
   const [elementActif, setElementActif] = useState<number | null>(null);
+  const [isModal, setIsModal] = useState(false);
 
   const handleClick = (index:number) => {
-    
     
     setElementActif(index);
 
@@ -32,25 +33,34 @@ export default function HeaderMobile(props:IHeaderMobile) {
       default:
         break;
     }
-
-
-    
   }
 
+  const showModal = () => {
+    setIsModal(!isModal)
+  }
+
+
+  
 
   return (
     <header className="header-mobile">
       <nav >
         <div className="top-navigation-mobile">
-          <div>
-            <FontAwesomeIcon icon={faLocationDot} className="icon icon-m"/>
-          </div>
+          
+          {/* <Link to={'/user/search-city'}> */}
+            <div className='link-icon' onClick={() => showModal()}>
+              <FontAwesomeIcon icon={faLocationDot} className="icon icon-m"/>
+            </div>
+          {/* </Link> */}
+
           <div>
             <h2>{city}</h2>
           </div>
-          <div>
+
+          <div className='link-icon'>
             <FontAwesomeIcon icon={faEllipsisVertical} className="icon icon-m"/>
           </div>
+
         </div>
 
         <ul className="bottom-nav-mobile">
@@ -61,6 +71,6 @@ export default function HeaderMobile(props:IHeaderMobile) {
       </nav>
       
     </header>
-
+  
   )
 }

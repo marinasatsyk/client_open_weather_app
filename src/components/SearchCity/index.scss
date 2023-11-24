@@ -1,27 +1,18 @@
-main {
-  flex: 1;
+.main {
   display: flex;
   justify-content: center;
-  align-items: center;
-  justify-content: center;
   height: 100%;
+  color: white;
   section {
-    max-width: 500px;
-    width: 300px;
-    height: 300px;
-    background: rgba(255, 255, 255, 0.356);
-    border-radius: 5px;
     display: flex;
     flex-direction: column;
+    max-width: 500px;
+    width: 300px;
 
-    h2 {
-      font-weight: 400;
-    }
     .search-city-block {
       margin: 0 10px;
     }
     ul {
-      background: white;
       padding: 0;
       margin: 0;
       width: 164px;
@@ -38,6 +29,7 @@ main {
       cursor: pointer;
       width: 100%;
       text-align: left;
+      color: white;
       &:hover,
       &:focus {
         background: black;
@@ -48,5 +40,24 @@ main {
   .wrap-input {
     display: flex;
     justify-content: center;
+    gap: 20px;
+    margin-top: 50px;
+  }
+
+  input {
+    border-radius: 3px;
+    background: #b9b7b7da;
+    height: 35px;
+    color: white;
+    &:focus-visible {
+      border: 1px solid white !important;
+    }
+  }
+
+  .search-cities-btn {
+    background: #b9b7b7da;
+    border-radius: 3px;
+    color: white;
+    width: 50px;
   }
 }

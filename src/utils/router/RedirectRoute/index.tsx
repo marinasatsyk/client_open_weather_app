@@ -21,7 +21,7 @@ const RedirectRoute = () => {
     const  auth =  useAuth();
     const id = useUserId();
    return(
-    auth&&id ?  <Navigate to={`/user/${id}/current`} replace /> : <Outlet />  
+    auth&&id ?  <Navigate to={`/user/current`} replace /> : <Outlet />  
     ) 
 };
 
