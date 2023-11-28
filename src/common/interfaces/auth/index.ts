@@ -15,13 +15,20 @@ export interface iUserDto {
   email: string;
   isActivated: boolean;
 }
+
+export interface Bookmark {
+  city: ICity;
+  isActive: boolean;
+  isFollowHistory: boolean;
+}
+
 export interface IFullUser {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
   isActivated: boolean;
-  bookmarks: Array<ICity> | [];
+  bookmarks: Array<Bookmark> | [];
   role: string;
 }
 
@@ -48,13 +55,14 @@ export interface AuthResponse {
 
 export interface ICity {
   name: string | null;
-  local_names: string;
+  local_names: object;
   lat: number;
   lon: number;
   country: string;
-  zip: string;
-  insee: string;
-  isHistory: string;
+  zip?: string;
+  insee?: string;
+  isHistory?: string;
+  _id: string;
 }
 
 export interface IpropsFunc {

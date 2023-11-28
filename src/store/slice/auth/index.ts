@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IAuthState, IFullUser } from "common/interfaces/auth";
 import { getUser, loginUser, registerUser } from "store/thunks/auth";
+import { updateActiveBookmark, updateBookmarks } from "store/thunks/user";
 import { manageToken } from "utils/helpers";
 
 const initialState = {
@@ -81,6 +82,39 @@ export const authSlice = createSlice({
     builder.addCase(registerUser.rejected, (state, action) => {
       state.error = "";
       state.isAuth = false;
+      state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+
+    //bookmarks==adding
+    builder.addCase(updateBookmarks.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateBookmarks.fulfilled, (state, action) => {
+      console.log("from builder updateBookmarks.fulfilled", action.payload);
+      const user = action.payload;
+      state.isLoading = false;
+      state.user = user;
+      state.error = "";
+    });
+    builder.addCase(updateBookmarks.rejected, (state, action) => {
+      state.error = "";
+      state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+    //bookmarks==updating cityes
+    builder.addCase(updateActiveBookmark.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateActiveBookmark.fulfilled, (state, action) => {
+      console.log("from builder updateBookmark", action.payload);
+      const user = action.payload;
+      state.isLoading = false;
+      state.user = user;
+      state.error = "";
+    });
+    builder.addCase(updateActiveBookmark.rejected, (state, action) => {
+      state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;
     });

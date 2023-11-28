@@ -1,0 +1,42 @@
+/* Toggle.css */
+
+.toggle-label {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.toggle-input {
+  position: absolute;
+  opacity: 0;
+}
+
+.slider {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  border-radius: 50%;
+  top: 1px;
+  left: 1px;
+  transition: transform 0.3s ease;
+}
+
+.slider.checked {
+  background-color: rgb(17, 92, 50);
+}
+
+.slider.checked::before {
+  transform: translateX(20px);
+}

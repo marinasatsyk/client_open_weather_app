@@ -1,7 +1,6 @@
-import { AuthResponse, IFullUser, IUser } from "common/interfaces/auth";
+import { AuthResponse, IFullUser } from "common/interfaces/auth";
 import $api from "../utils/http";
 import { AxiosResponse } from "axios";
-import { error } from "console";
 
 export default class AuthService {
   static async login(

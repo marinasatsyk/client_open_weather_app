@@ -63,84 +63,16 @@ const  AuthComponent: FC = () =>  {
           const userRegisterData = {firstName, lastName, email, password};
           console.log(userRegisterData)
           await dispatch(registerUser(userRegisterData));
-
-          // if(isRegistred){
-          //   console.log("❤️❤️❤️", isRegistred)
-          //   setIsAccountCreated(true)
-          //   setIsLogin(true)
-          // }
         }
         
         console.log('user', user)
-        // manageToken(isRemeberMe, response.data.accessToken)
-         
-
       }catch(e){
         console.error("error", e)
         setErrorAuth(e)
         return e
       }
-      // const promise = isLogin 
-      // ?  AuthService.login(email, password) 
-      // :  AuthService.registration(email, password,  firstName, lastName);
-      // console.log("2")
-
-      // promise
-      //   .then( response => {
-      //     console.log("3")
-
-      //     const dataUser = response?.data;
-      //     setIsLoading(true)
-      //     if(isLogin){
-      //        dispatch(login(dataUser))
-      //       manageToken(isRemeberMe, response.data.accessToken)
-      //       navigate(`/user/${dataUser.user.id}/current`);
-      //     }else{
-      //       setIsAccountCreated(true)
-      //       setIsLogin(true)
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.log("4", error)
-
-      //     setErrorAuth({})
-      //     let  errorRes: any;
-      //     if (error instanceof AxiosError) {
-      //       console.log("axios", error)
-      //       // La promesse a été rejetée avec une erreur Axios
-      //       const axiosError = error as AxiosError;
-            
-      //         if(axiosError?.response){
-                
-      //           const {data, status, statusText} = axiosError?.response;
-      //           errorRes = {
-      //             data, 
-      //             status,
-      //             statusText,
-      //             typeErr: 'axios'
-      //           }
-      //         }
-  
-      //     } else {
-      //       console.log("pas axios")
-      //       const errorResponse = error as Error;
-      //       if(errorResponse.cause){
-      //         const {cause, message, name, stack} = errorResponse;
-      //         errorRes = {
-      //           cause,
-      //           message,
-      //           name,
-      //           stack,
-      //           typeErr: 'any'
-      //         }
-      //       }
-      //     }
-      //     console.log("errorRes", errorRes)
-      //     setErrorAuth(errorRes)
-      //   })
      }
     
-    // 
     const handleOnclick = (e: {preventDefault: () => void}) => {
       setIsRemeberMe(!isRemeberMe);
       dispatch(rememberMe(!isRememberMe_r));

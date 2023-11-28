@@ -2,6 +2,14 @@ import axios from 'axios';
 import  './index.scss';
 import {useState, ChangeEvent, useEffect} from 'react';
 import { geoOptionType } from 'common/types/geo';
+import { UseAppDispatch, UseAppSelector, UseBookmarks } from 'utils/hook';
+import { updateActiveBookmark, updateBookmarks } from 'store/thunks/user';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import{faSpinner} from '@fortawesome/free-solid-svg-icons';
+// import{ faCircleXmark} from '@fortawesome/react-fontawesome';
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
+import Toggle from 'components/ToggleComponent';
+
 //https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 const {REACT_APP_URI_OPEN_GEO_WEATHER, 
   REACT_APP_STUDENT_API_key, 
@@ -43,7 +51,20 @@ export const SearchCityComponent = (): JSX.Element => {
   const [inputValue, setInputValue] = useState<string>('');
   const [options, setOptions] = useState<[]>([]);
   const [city, setSity] = useState<geoOptionType | null>(null);
-  
+  const {  error , isLoading} = UseAppSelector((state) => state.auth);
+  const [isTrackHistory, setIsTrackHistory] = useState(false);
+  const [isShowHistoryBlock, setIsShowHistoryBlock] = useState(false);
+  const [elementActif, setElementActif] = useState<number | null>(null);
+ 
+
+  const dispatch = UseAppDispatch();
+  const bookmarks = UseBookmarks();
+
+
+  const handleToggleIsTrackHistory = () => {
+    setIsTrackHistory(!isTrackHistory)
+  }
+
   const getSearchOptions = async(value: string) => {
     const result = await axios.get(`${REACT_APP_URI_OPEN_GEO_WEATHER}?q=${value}&limit=${LIMIT}&appid=${REACT_APP_STUDENT_API_key}`)
     const citiesData = result.data;
@@ -53,7 +74,9 @@ export const SearchCityComponent = (): JSX.Element => {
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim().toLocaleLowerCase();
-    setInputValue(value)
+    setIsShowHistoryBlock(false);
+    setIsTrackHistory(false);
+    setInputValue(value);
     if(value ===''){
       setOptions([])
       return
@@ -63,11 +86,24 @@ export const SearchCityComponent = (): JSX.Element => {
 
   const getWeatherData = async(city: geoOptionType) => {
     const endpoints = endpointsArr(city);
-    const globalDataWeahter = await Promise.all(endpoints.map((endpoint) => axios.get(endpoint)));
-    
-    const [{data: currentWeather}, {data:hourly16DaysForecast}, {data:climate30Days}] = globalDataWeahter; 
-     console.log({currentWeather, hourly16DaysForecast, climate30Days})
-    return {currentWeather, hourly16DaysForecast, climate30Days}
+    try{
+
+      // const globalDataWeahter = await Promise.all(endpoints.map((endpoint) => axios.get(endpoint)));
+     
+      const updateBookmarksPayload = {
+        city,
+        isHistory:isTrackHistory,
+        isActive: false //define if city by default
+      };
+      await dispatch(updateBookmarks(updateBookmarksPayload))
+      // const [{data: currentWeather}, {data:hourly16DaysForecast}, {data:climate30Days}] = globalDataWeahter; 
+      // console.log({currentWeather, hourly16DaysForecast, climate30Days})
+  
+      // return {currentWeather, hourly16DaysForecast, climate30Days}
+  
+    }catch(err){
+      console.error(err)
+    }
   }
 
   const onSubmit  = async() => {
@@ -75,11 +111,40 @@ export const SearchCityComponent = (): JSX.Element => {
     await getWeatherData(city)
   }
 
+  const handleClickActive = async(index:number, cityId: string) => {
+    setElementActif(index);
+    //updateBookmarkState
+    try{
+      await dispatch(updateActiveBookmark({cityId}));
+    }catch(err){
+      console.error(err)
+    }
+
+
+    // switch (index) {
+    //   case 1:
+    //     // Comportement pour Élément 1
+    //     console.log('Cliqué sur Élément 1');
+    //     break;
+    //   case 2:
+    //     // Comportement pour Élément 2
+    //     console.log('Cliqué sur Élément 2');
+    //     break;
+    //   case 3:
+    //     // Comportement pour Élément 3
+    //     console.log('Cliqué sur Élément 3');
+    //     break;
+    //   default:
+    //     break;
+    // }
+  }
 
 
 
   const onOptionSelect = (option: geoOptionType) => {
+    console.log(option)
     setSity(option);
+    setIsShowHistoryBlock(true)
   }
 
     useEffect(() => {
@@ -93,7 +158,9 @@ export const SearchCityComponent = (): JSX.Element => {
         < div className='main'>
 
             <section className='search-city-wrapper'>
+                
                 <div className="wrap-input">
+                <div className='container-search-block'>
                     <div className="wrap-bar-search relative">
                       <input type="text" onChange={ onInputChange} value={inputValue} className='input-search-bar-cities'/>
                       {options.length 
@@ -106,8 +173,38 @@ export const SearchCityComponent = (): JSX.Element => {
                         </ul>
                       : <></>}
                     </div>
-                    <button  className='search-cities-btn' onClick={onSubmit}>Add</button>
+                    <button  className='search-cities-btn' onClick={onSubmit}>{
+                      isLoading
+                      ? <FontAwesomeIcon icon={faSpinner} spin className='spinner'/> 
+                      :   "Add" 
+                  }</button>
                 </div>
+                  {isShowHistoryBlock&&
+                  <>
+                    <Toggle isChecked={isTrackHistory} onToggleChange={handleToggleIsTrackHistory} label='Track history data'/>
+                    <p>Historical data recovery will take a few minuts, be patient please</p>
+                  </>
+                  }
+                </div>
+
+                <>
+                {bookmarks&&bookmarks?.length
+                    ?bookmarks.map((bookmark, index) => {
+                      return <div key={bookmark.city._id} className={`followed-city ${bookmark.isActive && 'active'} ${elementActif === index && 'active' }`} onClick={() => handleClickActive(index, bookmark.city._id)}>
+                                <div>
+                                  <span>{bookmark.city.name}, {bookmark.city.country}</span>  
+                                   {bookmark.city.isHistory && (
+                                    <span className='history-mark'>
+                                      <FontAwesomeIcon  icon={icon({name:'helicopter-symbol', style:'solid'})} />
+                                    </span>
+                                   )}
+                                </div>
+                                <FontAwesomeIcon className='close-icon' title='history is tracked' aria-description='history data is available' icon={icon({name: 'circle-xmark', style: 'regular'})  } /> 
+                              </div>
+                        })
+                    :<></>
+                 }
+                </>
             </section>
         </div>
   )

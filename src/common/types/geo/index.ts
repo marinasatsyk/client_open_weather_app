@@ -3,4 +3,5 @@ export type geoOptionType = {
   country: string;
   lat: number;
   lon: number;
+  local_names: object;
 };

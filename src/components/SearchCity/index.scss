@@ -9,8 +9,18 @@
     max-width: 500px;
     width: 300px;
 
+    .container-search-block {
+      display: flex;
+      justify-content: space-between;
+    }
+
     .search-city-block {
       margin: 0 10px;
+    }
+
+    .wrap-toggle {
+      display: flex;
+      justify-content: space-between;
     }
     ul {
       padding: 0;
@@ -39,9 +49,10 @@
   }
   .wrap-input {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     gap: 20px;
     margin-top: 50px;
+    margin-bottom: 150px;
   }
 
   input {
@@ -59,5 +70,38 @@
     border-radius: 3px;
     color: white;
     width: 50px;
+  }
+
+  .followed-city {
+    max-width: 300px;
+    height: 35px;
+    background: rgb(255 255 255 / 42%);
+    border-radius: 3px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    .close-icon {
+      color: rgb(247, 70, 70);
+      font-weight: bold;
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.827);
+      color: black;
+      font-weight: bold;
+      border: 3px solid white;
+    }
+    &.active .history-mark {
+      color: rgb(76, 111, 24);
+    }
+  }
+
+  .history-mark {
+    color: greenyellow;
+    margin-left: 10px;
   }
 }

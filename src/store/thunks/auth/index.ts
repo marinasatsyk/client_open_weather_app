@@ -1,9 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { AxiosError } from "axios";
-import { IFullUser, ILogin, IRegister } from "common/interfaces/auth";
+import { ILogin, IRegister } from "common/interfaces/auth";
 import AuthService from "services/AuthService";
-import { manageToken } from "utils/helpers";
-import { UseAppSelector } from "utils/hook";
 
 export const loginUser = createAsyncThunk(
   "auth/login",

@@ -28,6 +28,16 @@ export const useUserId = () => {
   }
 };
 
+//=============  Cities data hook
+
+export const UseBookmarks = () => {
+  const { bookmarks } = UseAppSelector((state) => state.auth.user);
+  console.log("useBookmarks", bookmarks);
+  if (bookmarks.length > 0) {
+    return bookmarks;
+  }
+};
+
 //============= private axios
 
 // export const useRefreshToken = () => {
