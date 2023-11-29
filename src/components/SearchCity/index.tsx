@@ -10,7 +10,7 @@ import{faSpinner} from '@fortawesome/free-solid-svg-icons';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import Toggle from 'components/ToggleComponent';
 
-//https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+//exemple:  https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 const {REACT_APP_URI_OPEN_GEO_WEATHER, 
   REACT_APP_STUDENT_API_key, 
   REACT_APP_URI_BODY_WEATHER,
@@ -36,16 +36,6 @@ const endpointsArr = (option: geoOptionType) => {
   ]
 } 
 
-// type Props = {
-//   value: string,
-//   providedOptions: [],
-//   onInputChange:(e: ChangeEvent<HTMLInputElement>) => void,
-//   onOptionSelect:(option: geoOptionType) => void,
-//   onSubmit: () => void
-// }
-
-
-// export const SearchCityComponent = ({value, providedOptions, onInputChange, onOptionSelect, onSubmit} : Props): JSX.Element => {
 
 export const SearchCityComponent = (): JSX.Element => {
   const [inputValue, setInputValue] = useState<string>('');
@@ -66,9 +56,13 @@ export const SearchCityComponent = (): JSX.Element => {
   }
 
   const getSearchOptions = async(value: string) => {
-    const result = await axios.get(`${REACT_APP_URI_OPEN_GEO_WEATHER}?q=${value}&limit=${LIMIT}&appid=${REACT_APP_STUDENT_API_key}`)
-    const citiesData = result.data;
-    setOptions(citiesData) 
+    try{
+      const result = await axios.get(`${REACT_APP_URI_OPEN_GEO_WEATHER}?q=${value}&limit=${LIMIT}&appid=${REACT_APP_STUDENT_API_key}`)
+      const citiesData = result.data;
+      setOptions(citiesData); 
+    }catch(err){
+      console.error('error of getting geo data')
+    }
   }
   
 
@@ -96,6 +90,10 @@ export const SearchCityComponent = (): JSX.Element => {
         isActive: false //define if city by default
       };
       await dispatch(updateBookmarks(updateBookmarksPayload))
+      setInputValue("");
+      setSity(null);
+      setIsShowHistoryBlock(false);
+      setIsTrackHistory(false);
       // const [{data: currentWeather}, {data:hourly16DaysForecast}, {data:climate30Days}] = globalDataWeahter; 
       // console.log({currentWeather, hourly16DaysForecast, climate30Days})
   
@@ -109,6 +107,7 @@ export const SearchCityComponent = (): JSX.Element => {
   const onSubmit  = async() => {
     if(!city){return}
     await getWeatherData(city)
+    
   }
 
   const handleClickActive = async(index:number, cityId: string) => {
@@ -148,7 +147,6 @@ export const SearchCityComponent = (): JSX.Element => {
   }
 
   const onOptionSelect = (option: geoOptionType) => {
-    console.log(option)
     setSity(option);
     setIsShowHistoryBlock(true)
   }
