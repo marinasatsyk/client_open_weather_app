@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IAuthState, IFullUser } from "common/interfaces/auth";
 import { getUser, loginUser, registerUser } from "store/thunks/auth";
-import { updateActiveBookmark, updateBookmarks } from "store/thunks/user";
+import {
+  deleteBookmark,
+  updateActiveBookmark,
+  updateBookmarks,
+} from "store/thunks/user";
 import { manageToken } from "utils/helpers";
 
 const initialState = {
@@ -102,6 +106,7 @@ export const authSlice = createSlice({
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;
     });
+
     //bookmarks==updating cityes
     builder.addCase(updateActiveBookmark.pending, (state, action) => {
       state.isLoading = true;
@@ -114,6 +119,23 @@ export const authSlice = createSlice({
       state.error = "";
     });
     builder.addCase(updateActiveBookmark.rejected, (state, action) => {
+      state.error = "";
+      state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+
+    //bookmarks==deleting cities
+    builder.addCase(deleteBookmark.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(deleteBookmark.fulfilled, (state, action) => {
+      console.log("from builder deleteBookmark", action.payload);
+      const user = action.payload;
+      state.isLoading = false;
+      state.user = user;
+      state.error = "";
+    });
+    builder.addCase(deleteBookmark.rejected, (state, action) => {
       state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;

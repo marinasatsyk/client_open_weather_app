@@ -3,7 +3,7 @@ import  './index.scss';
 import {useState, ChangeEvent, useEffect} from 'react';
 import { geoOptionType } from 'common/types/geo';
 import { UseAppDispatch, UseAppSelector, UseBookmarks } from 'utils/hook';
-import { updateActiveBookmark, updateBookmarks } from 'store/thunks/user';
+import { deleteBookmark, updateActiveBookmark, updateBookmarks } from 'store/thunks/user';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import{faSpinner} from '@fortawesome/free-solid-svg-icons';
 // import{ faCircleXmark} from '@fortawesome/react-fontawesome';
@@ -139,7 +139,13 @@ export const SearchCityComponent = (): JSX.Element => {
     // }
   }
 
-
+  const handleDeleteCityBookmark = async(cityId: string ) => {
+    try{
+       await dispatch(deleteBookmark({cityId}));
+    }catch(err){
+      console.log("error deleting bookmark")
+    }
+  }
 
   const onOptionSelect = (option: geoOptionType) => {
     console.log(option)
@@ -190,17 +196,26 @@ export const SearchCityComponent = (): JSX.Element => {
                 <>
                 {bookmarks&&bookmarks?.length
                     ?bookmarks.map((bookmark, index) => {
-                      return <div key={bookmark.city._id} className={`followed-city ${bookmark.isActive && 'active'} ${elementActif === index && 'active' }`} onClick={() => handleClickActive(index, bookmark.city._id)}>
+                      return <div className='wrap-followed-city' key={bookmark.city._id}>
+                      <div  className={`followed-city ${bookmark.isActive && 'active'} ${elementActif === index && 'active' }`} onClick={() => handleClickActive(index, bookmark.city._id)}>
                                 <div>
                                   <span>{bookmark.city.name}, {bookmark.city.country}</span>  
-                                   {bookmark.city.isHistory && (
+                                   {bookmark.isFollowHistory && (
                                     <span className='history-mark'>
                                       <FontAwesomeIcon  icon={icon({name:'helicopter-symbol', style:'solid'})} />
                                     </span>
                                    )}
                                 </div>
-                                <FontAwesomeIcon className='close-icon' title='history is tracked' aria-description='history data is available' icon={icon({name: 'circle-xmark', style: 'regular'})  } /> 
-                              </div>
+                        </div>
+
+                        <FontAwesomeIcon 
+                        className='close-icon' 
+                        title='history is tracked' 
+                        aria-description='history data is available' 
+                        icon={icon({name: 'circle-xmark', style: 'regular'})  } 
+                        onClick={()=>handleDeleteCityBookmark(bookmark.city._id)}
+                        /> 
+                      </div>
                         })
                     :<></>
                  }
