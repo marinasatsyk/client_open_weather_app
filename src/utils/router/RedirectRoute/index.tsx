@@ -19,10 +19,10 @@ import { useAuth, useUserId } from 'utils/hook';
 
 const RedirectRoute = () => {
     const  auth =  useAuth();
-    const id = useUserId();
+         const id = useUserId();
    return(
     auth&&id ?  <Navigate to={`/user/current`} replace /> : <Outlet />  
-    ) 
+         ) 
 };
 
 export default RedirectRoute;

@@ -2,30 +2,27 @@ import HeaderScreen from 'components/Headers/HeaderScreen';
 import HeaderMobile from 'components/Headers/HeaderMobile';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import "./index.scss";
 import SideBarComponent from 'components/SideBar';
-import ModalComponent from 'components/ModalComponent';
-import AuthService from 'services/AuthService';
-import { jwtDecode } from "jwt-decode";
-import { UseAppDispatch } from 'utils/hook';
+import { UseAppDispatch, UseBookmarks, useModal } from 'utils/hook';
 import { getUser } from 'store/thunks/auth';
-import { IFullUser } from 'common/interfaces/auth';
-import { Cookies } from 'react-cookie';
+import { CommonModalComponent } from 'components/CommonModal';
+import { SearchCityComponent } from 'components/SearchCity';
+import  SettingsComponent  from 'components/SettingsComponent';
+import "./index.scss";
 
 interface ICoordinates {
   lat: number | undefined
   lon: number | undefined;
 }  
-interface IJWTPayload {
-  id:string
-}
 
 const DesktopComponent = () => <div>Contenu pour les écrans de bureau</div>;
 const MobileComponent = () => <div>Contenu pour les écrans mobiles</div>;
 
 
 export const DashboardCurrentComponent = () => {
- 
+  const {isModalOpened: isModalSearchOpened, toggle:setModalOpened} = useModal();
+  const {isModalOpened: isModalSettingsOpened, toggle:setModalSettingsOpened} = useModal();
+  const [isShowSideMenu, setShowSideMenu] =  useState(false);
   let initialCurrentCoordites = {
     lat: 48.866667,
     lon: 2.333333,
@@ -33,45 +30,30 @@ export const DashboardCurrentComponent = () => {
   const [currentCoordinates, setIsCurrentCoordinates] = useState<ICoordinates>(initialCurrentCoordites)
   const dispatch = UseAppDispatch();
   const handleClick = async(e: {preventDefault: () => void}) => {
-    
-try{
-  await  dispatch(getUser());
-}catch{
-
-}
-    //token
-    // let clientToken = "";
-    // const refreshToken = localStorage.getItem("token");
-
-    // if (localStorageToken) {
-    //   clientToken = localStorageToken;
-    // } else if (sessionStorageToken) {
-    //   clientToken = sessionStorageToken;
-    // }
-    
-    
-    
-    
-    // try{
-    //   const decoded: IFullUser = await jwtDecode(id_cookie);
-    //   console.log("token decoded!!!", decoded)
-    //   await  dispatch(getUser(decoded));
-        
-    // }catch(err){
-    //   console.log("error when get user", err)
-    // }
-
-    
-     
 
   }
-
+  const toggleSideMenu = () =>  {
+    console.log("click togle")
+    setShowSideMenu(!isShowSideMenu)
+  }
+  console.log('isShowSideMenu', isShowSideMenu)
+  const getUserDashboard =  async() => {
+    console.log("we start get user")
+    await  dispatch(getUser());
+  }
 
   useEffect(() => {
+    console.log("render dashboard")
+    //getUserInformation
+    try{
+      getUserDashboard();
+      
+    }catch(err){
+      console.error(err)
+    }
+    
 
-
-
-    //if no permission for geo browser => Paris information
+    //if no bookmarks active or  permission for geo browser => Paris information
     navigator.geolocation.getCurrentPosition(function(position) {
       console.log("Latitude is :", position.coords.latitude);
       console.log("Longitude is :", position.coords.longitude);
@@ -85,7 +67,6 @@ try{
         })
       }
     });
-
    
   }, []) 
 
@@ -93,10 +74,10 @@ try{
 
   if(isDesktop){
     return(
-      <div className='main-wrapper-current'>
-        <SideBarComponent />
-        <div className='wrap-main-content'>
-              <HeaderScreen  />
+      <div className={`main-wrapper-current ${isShowSideMenu ? 'side-menu-opened' : ''}`}>
+       <SideBarComponent isShowSideMenu={isShowSideMenu}/>
+        <div className={`wrap-main-content`}>
+              <HeaderScreen  isShowSideMenu toggleSideMenu= {toggleSideMenu}/>
               <main>
                   <button className='magic-btn' onClick={(e) => handleClick(e)}></button>
                   <DesktopComponent />
@@ -107,12 +88,27 @@ try{
   }else{
     return (
         <div className='main-wrapper-current'>
-          <HeaderMobile city={'Paris, France'}/>
+          <HeaderMobile 
+              showSearchModal={setModalOpened}
+              showSettingsModal={setModalSettingsOpened}
+            />
           <main>
             <MobileComponent />
               <p>Dashboard</p>
           </main>
-          <ModalComponent />
+            <CommonModalComponent  
+              isModalOpened={isModalSearchOpened}
+              hide={setModalOpened}
+              >
+              <SearchCityComponent/>
+            </CommonModalComponent>
+           
+            <CommonModalComponent  
+              isModalOpened={isModalSettingsOpened}
+              hide={setModalSettingsOpened}
+              >
+              <SettingsComponent/>
+            </CommonModalComponent>
         </div>
     );
   }

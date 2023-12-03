@@ -1,18 +1,27 @@
-import {FC,  useState, ChangeEvent, useEffect, MouseEvent} from 'react';
+import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import{faLocationDot, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
-import "./index.scss";
 import { Link } from 'react-router-dom';
+import { UseBookmarks } from 'utils/hook';
+import "./index.scss";
 
 interface IHeaderMobile {
-  city: string
+  // city: string,
+  showSearchModal: () => void;
+  showSettingsModal: () => void;
 }
 
-export default function HeaderMobile(props:IHeaderMobile) {
-  const {city} = props;
-  const [elementActif, setElementActif] = useState<number | null>(null);
-  const [isModal, setIsModal] = useState(false);
 
+export default function HeaderMobile(props:IHeaderMobile) {
+  const {  showSearchModal, showSettingsModal} = props;
+  const [elementActif, setElementActif] = useState<number | null>(null);
+  const bookmarks = UseBookmarks();
+
+// const [activeCity, setIsActiveCity] = useState(
+//     bookmarks && bookmarks.find(bookmark => bookmark.isActive)
+//     ? `${bookmarks.find(bookmark => bookmark.isActive)?.city.name}, ${bookmarks.find(bookmark => bookmark.isActive)?.city.country}`
+//     : 'Paris, France');
+  
   const handleClick = (index:number) => {
     
     setElementActif(index);
@@ -35,12 +44,6 @@ export default function HeaderMobile(props:IHeaderMobile) {
     }
   }
 
-  const showModal = () => {
-    setIsModal(!isModal)
-  }
-
-
-  
 
   return (
     <header className="header-mobile">
@@ -48,16 +51,20 @@ export default function HeaderMobile(props:IHeaderMobile) {
         <div className="top-navigation-mobile">
           
           {/* <Link to={'/user/search-city'}> */}
-            <div className='link-icon' onClick={() => showModal()}>
+            <div className='link-icon' onClick={() => showSearchModal()}>
               <FontAwesomeIcon icon={faLocationDot} className="icon icon-m"/>
             </div>
           {/* </Link> */}
 
           <div>
-            <h2>{city}</h2>
+            <h2>{
+              bookmarks && bookmarks.find(bookmark => bookmark.isActive)
+              ? `${bookmarks.find(bookmark => bookmark.isActive)?.city.name}, ${bookmarks.find(bookmark => bookmark.isActive)?.city.country}`
+              : 'Paris, France'
+              }</h2>
           </div>
 
-          <div className='link-icon'>
+          <div className='link-icon' onClick={() => showSettingsModal()}>
             <FontAwesomeIcon icon={faEllipsisVertical} className="icon icon-m"/>
           </div>
 

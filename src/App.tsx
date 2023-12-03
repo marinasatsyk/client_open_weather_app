@@ -27,34 +27,16 @@ const  App : FC  = () =>  {
 
               <Route   element={<ProtectedRoute />}> 
                 <Route  path= {`/user/current`} element={<MainCurrentWeatherComponent /> }  />
-                {/* <Route  path= {`/user/:userId/search`} element={<MainCurrentWeatherComponent /> }  />
-                <Route  path= {`/user/:userId/forecast`} element={<SearchCityComponent/> }  /> */}
-              </Route>
-
-              <Route   element={<ProtectedRoute />}> 
-                <Route  path= {`/user/search-city`} element={<SearchCityComponent /> }  />
-              </Route>
-
-              <Route   element={<ProtectedRoute />}> 
+                {/* <Route  path= {`/user/search-city`} element={<SearchCityComponent /> }  /> */}
                 <Route  path= {`/user/forecast`} element={<ForecastWeatherComponent /> }  />
-              </Route>
-
-              <Route   element={<ProtectedRoute />}> 
                 <Route  path= {`/user/details-current-weather`} element={<DetailsCurrentWeatherComponent /> }  />
-              </Route>
-
-
-              <Route   element={<ProtectedRoute />}> 
                 <Route  path= {`/user/history`} element={<HistoryWeatherComponent /> }  />
-              </Route>
-
-              <Route   element={<ProtectedRoute />}> 
                 <Route  path= {`/user/profile/show`} element={<ProfileComponent /> }  />
+                <Route  path= {`/user/profile/edit`} element={<ProfileComponent /> }  />
+                {/* <Route  path= {`/user/settings`} element={<ProfileComponent /> }  /> */}
               </Route>
 
-              <Route   element={<ProtectedRoute />}> 
-                <Route  path= {`/user/profile/edit`} element={<ProfileComponent /> }  />
-              </Route>
+
 
               <Route  
                   path="/" 
@@ -64,7 +46,6 @@ const  App : FC  = () =>  {
                     : <Navigate to="/connection" replace={true} />
                     } 
               />
-
            <Route path="*" element={<Error codeError="404" />} />
         </Routes>
     </Router>

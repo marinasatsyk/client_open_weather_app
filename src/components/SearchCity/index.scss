@@ -1,8 +1,11 @@
 .main {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   height: 100%;
   color: white;
+
   section {
     display: flex;
     flex-direction: column;
@@ -51,7 +54,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-top: 50px;
+    margin-top: 20px;
     margin-bottom: 150px;
   }
 

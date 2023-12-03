@@ -1,8 +1,5 @@
 import {FC,  useState,  useEffect} from 'react';
 import { UseAppDispatch, UseAppSelector } from 'utils/hook';
-import AuthService from 'services/AuthService';
-// import { login } from 'store/slice/auth';
-import  { AxiosError } from 'axios';
 import { Validator, manageToken } from 'utils/helpers';
 import {  useNavigate } from 'react-router-dom';
 import { ManagedInput } from 'components/ManageInput';
@@ -38,7 +35,7 @@ const  AuthComponent: FC = () =>  {
     
     //hooks
     const dispatch = UseAppDispatch();
-
+    const navigate = useNavigate();
 
     function handleChangeForm(): void{
       setIsLogin(!isLogin);
@@ -58,7 +55,7 @@ const  AuthComponent: FC = () =>  {
         if(isLogin){
           const userData = {email, password};
           await dispatch(loginUser(userData));
-          // navigate(`/user/${user.id}/current`);
+           // navigate(`/user/${user.id}/current`);
         }else{
           const userRegisterData = {firstName, lastName, email, password};
           console.log(userRegisterData)

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { error } from "console";
 
 export const UseAppDispatch: () => AppDispatch = useDispatch;
@@ -21,6 +21,14 @@ export const useAuth = () => {
   return clientToken != null ? true : false;
 };
 
+export const useAdmin = () => {
+  const { role } = UseAppSelector((state) => state.auth.user);
+  if (role === "root") {
+    return true;
+  }
+  return false;
+};
+
 export const useUserId = () => {
   const { id } = UseAppSelector((state) => state.auth.user);
   if (id) {
@@ -33,9 +41,29 @@ export const useUserId = () => {
 export const UseBookmarks = () => {
   const { bookmarks } = UseAppSelector((state) => state.auth.user);
   console.log("useBookmarks", bookmarks);
-  if (bookmarks.length > 0) {
+  if (bookmarks?.length > 0) {
     return bookmarks;
+  } else {
+    return [];
   }
+};
+
+interface ModalHook {
+  isModalOpened: boolean;
+  toggle: () => void;
+}
+
+export const useModal = (): ModalHook => {
+  const [isModalOpened, setModalOpened] = useState(false);
+
+  const toggle = () => {
+    setModalOpened(!isModalOpened);
+  };
+
+  return {
+    isModalOpened,
+    toggle,
+  };
 };
 
 //============= private axios

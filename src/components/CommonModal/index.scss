@@ -1,0 +1,17 @@
+.modal-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  background: #000000b3;
+  .close-modal-icon {
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    align-self: flex-end;
+    padding-right: 15px;
+    padding-top: 15px;
+  }
+}

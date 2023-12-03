@@ -31,6 +31,7 @@ export default class AuthService {
   // }
 
   static async getUser(): Promise<AxiosResponse<IFullUser>> {
+    console.log("we call get user");
     return $api.get<IFullUser>(`/user`, { responseType: "json" });
   }
 }

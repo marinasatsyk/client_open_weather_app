@@ -5,7 +5,15 @@ header.header-screen {
   //   left: 0;
   height: 100px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+}
+.wrap-icons-screen-header {
+  display: flex;
+  gap: 15px;
+}
+.icon {
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
 }

@@ -1,0 +1,31 @@
+.wrapSettings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.nav-link {
+  display: block;
+  text-decoration: none;
+  color: white;
+}
+
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  width: 80%;
+  height: 35px;
+  background: rgb(255 255 255 / 42%);
+  border-radius: 3px;
+  color: white;
+  gap: 15px;
+}
+
+.icon {
+  font-size: 25px;
+}

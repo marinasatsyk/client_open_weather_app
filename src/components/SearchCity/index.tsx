@@ -9,6 +9,7 @@ import{faSpinner} from '@fortawesome/free-solid-svg-icons';
 // import{ faCircleXmark} from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import Toggle from 'components/ToggleComponent';
+import { iModalProps } from 'common/interfaces/current';
 
 //exemple:  https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 const {REACT_APP_URI_OPEN_GEO_WEATHER, 
@@ -37,19 +38,20 @@ const endpointsArr = (option: geoOptionType) => {
 } 
 
 
+// export const SearchCityComponent = (props: iModalProps): JSX.Element => {
+//   const {setIsModalShow, isModalShow} = props; 
 export const SearchCityComponent = (): JSX.Element => {
+
   const [inputValue, setInputValue] = useState<string>('');
   const [options, setOptions] = useState<[]>([]);
   const [city, setSity] = useState<geoOptionType | null>(null);
   const {  error , isLoading} = UseAppSelector((state) => state.auth);
   const [isTrackHistory, setIsTrackHistory] = useState(false);
   const [isShowHistoryBlock, setIsShowHistoryBlock] = useState(false);
-  const [elementActif, setElementActif] = useState<number | null>(null);
  
-
   const dispatch = UseAppDispatch();
   const bookmarks = UseBookmarks();
-
+  
 
   const handleToggleIsTrackHistory = () => {
     setIsTrackHistory(!isTrackHistory)
@@ -111,10 +113,10 @@ export const SearchCityComponent = (): JSX.Element => {
   }
 
   const handleClickActive = async(index:number, cityId: string) => {
-    setElementActif(index);
     //updateBookmarkState
     try{
       await dispatch(updateActiveBookmark({cityId}));
+
     }catch(err){
       console.error(err)
     }
@@ -156,11 +158,10 @@ export const SearchCityComponent = (): JSX.Element => {
         setInputValue(city.name);
         setOptions([])
       }
-    }, [city])
+    }, [city ])
 
     return (
         < div className='main'>
-
             <section className='search-city-wrapper'>
                 
                 <div className="wrap-input">
@@ -195,7 +196,7 @@ export const SearchCityComponent = (): JSX.Element => {
                 {bookmarks&&bookmarks?.length
                     ?bookmarks.map((bookmark, index) => {
                       return <div className='wrap-followed-city' key={bookmark.city._id}>
-                      <div  className={`followed-city ${bookmark.isActive && 'active'} ${elementActif === index && 'active' }`} onClick={() => handleClickActive(index, bookmark.city._id)}>
+                      <div  className={`followed-city ${bookmark.isActive && 'active'}`} onClick={() => handleClickActive(index, bookmark.city._id)}>
                                 <div>
                                   <span>{bookmark.city.name}, {bookmark.city.country}</span>  
                                    {bookmark.isFollowHistory && (
