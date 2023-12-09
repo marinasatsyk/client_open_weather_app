@@ -12,6 +12,10 @@
     max-width: 500px;
     width: 300px;
 
+    @media screen and (min-width: 601px) {
+      width: auto;
+    }
+
     .container-search-block {
       display: flex;
       justify-content: space-between;
@@ -73,20 +77,28 @@
     border-radius: 3px;
     color: white;
     width: 50px;
+    cursor: pointer;
+    @media screen and (min-width: 601px) {
+      background: transparent;
+    }
   }
 
   .wrap-followed-city {
     display: flex;
-
     max-width: 300px;
     align-items: center;
     margin-bottom: 15px;
     gap: 10px;
 
+    @media screen and (min-width: 601px) {
+      width: auto;
+    }
+
     .close-icon {
       color: rgb(247, 70, 70);
       font-weight: bold;
       font-size: 25px;
+      cursor: pointer;
     }
   }
 

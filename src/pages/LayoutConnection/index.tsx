@@ -1,30 +1,19 @@
-//************** */
-import {  useSelector } from 'react-redux/es/hooks/useSelector';
-import   {FC } from 'react';
-import  { RootState } from '../../store';
-
-import AuthComponent from '../AuthComponent';
-
+import HeaderConnectionComponent from '../../components/Headers/HeaderConnection';
+import { Outlet } from 'react-router-dom';
 import "./index.scss";
-import HeaderConnectionComponent from '../Headers/HeaderConnection';
-import {  useNavigate } from 'react-router-dom';
 
 
-// const  MainComponent:FC<{}>  = () =>  {
-const  MainComponent:FC  = () =>  {
-
-  const { isAuth } = useSelector ((state: RootState) => state.auth)
+const  LayoutConnection  = () =>  {
       return(
         <>
           <HeaderConnectionComponent/>
           <main className='connection-wrap'>
-            <AuthComponent/>
+            <Outlet />
           </main>
         </>
         )
 }
-
-export default MainComponent
+export default LayoutConnection
 
 
 

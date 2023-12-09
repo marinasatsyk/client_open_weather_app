@@ -2,25 +2,22 @@ import HeaderScreen from 'components/Headers/HeaderScreen';
 import HeaderMobile from 'components/Headers/HeaderMobile';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import SideBarComponent from 'components/SideBar';
 import { UseAppDispatch, UseBookmarks, useModal } from 'utils/hook';
 import { getUser } from 'store/thunks/auth';
 import { CommonModalComponent } from 'components/CommonModal';
 import { SearchCityComponent } from 'components/SearchCity';
 import  SettingsComponent  from 'components/SettingsComponent';
-import "./index.scss";
 import { Outlet } from 'react-router-dom';
+import SideBarAdmin from 'components/admin/SideBarAdmin';
+// import "./index.scss";
 
 interface ICoordinates {
   lat: number | undefined
   lon: number | undefined;
 }  
 
-const DesktopComponent = () => <div>Contenu pour les écrans de bureau</div>;
-const MobileComponent = () => <div>Contenu pour les écrans mobiles</div>;
 
-
-export const LayoutPublicComponent = () => {
+const LayoutAdminComponent = () => {
 
 
   const {isModalOpened: isModalSearchOpened, toggle:setModalOpened} = useModal();
@@ -78,14 +75,12 @@ export const LayoutPublicComponent = () => {
   if(isDesktop){
     return(
       <div className={`main-wrapper-current ${isShowSideMenu ? 'side-menu-opened' : ''}`}>
-       <SideBarComponent isShowSideMenu={isShowSideMenu}/>
+       <SideBarAdmin isShowSideMenu={isShowSideMenu}/>
         <div className={`wrap-main-content`}>
               <HeaderScreen  isShowSideMenu toggleSideMenu= {toggleSideMenu}/>
               <main>
                   <button className='magic-btn' onClick={(e) => handleClick(e)}></button>
                  <Outlet />
-                  <DesktopComponent />
-                 
               </main>
         </div>
       </div>
@@ -98,11 +93,9 @@ export const LayoutPublicComponent = () => {
               showSettingsModal={setModalSettingsOpened}
             />
             <main>
-            <Outlet/>
-              <MobileComponent />
-                <p>Dashboard</p>
-            
+                <Outlet/>
             </main>
+
             <CommonModalComponent  
               isModalOpened={isModalSearchOpened}
               hide={setModalOpened}
@@ -123,3 +116,4 @@ export const LayoutPublicComponent = () => {
 
 
 
+export default LayoutAdminComponent;

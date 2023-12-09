@@ -1,53 +1,54 @@
 import   {FC } from 'react';
-import { BrowserRouter as Router,  Route, Routes, redirect, Navigate } from 'react-router-dom';
-import AuthComponent from './pages/Auth-Page';
-import Error from './components/Error';
-import RedirectRoute from './utils/router/RedirectRoute';
-import ProtectedRoute from './utils/router/ProtectedRoute';
-import MainCurrentWeatherComponent from './pages/Main-Current-Weather-Page';
-import ForecastWeatherComponent from './pages/Forecast-Page';
-import DetailsCurrentWeatherComponent from './pages/Details-Current-Weather-Page';
-import HistoryWeatherComponent from './pages/History-Page';
-import ProfileComponent from './pages/Profile-Page';
-import {  useAuth } from 'utils/hook';
+import { Navigate, Route, BrowserRouter as Router, Routes} from 'react-router-dom';
+import PublicRouter from 'utils/router/PublicRouter';
 import './App.css';
-import { SearchCityComponent } from 'components/SearchCity';
+import AdminRouter from 'utils/router/AdminRouter';
+import Error from 'components/Error';
+import RedirectRoute from 'utils/router/RedirectRoute';
+import LayoutConnection from 'pages/LayoutConnection';
+import AuthComponent from 'components/AuthComponent';
+import AuthRouter from 'utils/router/AuthRouter';
+import { useAdmin, useAuth } from 'utils/hook';
 
 const  App : FC  = () =>  {
   document.title = "OpenWeahter App";
   const auth = useAuth();
+  const isAdmin = useAdmin();
+
   return(
     <Router>
-        <Routes>
-              <Route element = {<RedirectRoute />}>
+      <Routes>
+        {/**connection part */}
+        {/* <Route element = {<RedirectRoute />}>
+              <Route element={<LayoutConnection />}>
                   <Route path="/connection"  
                       element={<AuthComponent />} 
                   /> 
               </Route>
+        </Route> */}
+        <Route path='/connection' element={<AuthRouter />}/>
+        <Route path='/user/*' element={<PublicRouter />}/>
+        <Route path='/admin/*' element={<AdminRouter />}/>
+       
+        <Route  
+            path="/" 
+            element={
+            auth&&!isAdmin
+            ? <Navigate to= {`/user/current`} replace={true} />
+            : <Navigate to="/connection" replace={true} />
+            } 
+        />
+        <Route  
+            path="/" 
+            element={
+            auth&&isAdmin
+            ? <Navigate to= {`/admin/dashboard`} replace={true} />
+            : <Navigate to="/connection" replace={true} />
+            } 
+          />
 
-              <Route   element={<ProtectedRoute />}> 
-                <Route  path= {`/user/current`} element={<MainCurrentWeatherComponent /> }  />
-                {/* <Route  path= {`/user/search-city`} element={<SearchCityComponent /> }  /> */}
-                <Route  path= {`/user/forecast`} element={<ForecastWeatherComponent /> }  />
-                <Route  path= {`/user/details-current-weather`} element={<DetailsCurrentWeatherComponent /> }  />
-                <Route  path= {`/user/history`} element={<HistoryWeatherComponent /> }  />
-                <Route  path= {`/user/profile/show`} element={<ProfileComponent /> }  />
-                <Route  path= {`/user/profile/edit`} element={<ProfileComponent /> }  />
-                {/* <Route  path= {`/user/settings`} element={<ProfileComponent /> }  /> */}
-              </Route>
-
-
-
-              <Route  
-                  path="/" 
-                  element={
-                    auth
-                    ? <Navigate to= {`/user/current`} replace={true} />
-                    : <Navigate to="/connection" replace={true} />
-                    } 
-              />
-           <Route path="*" element={<Error codeError="404" />} />
-        </Routes>
+        <Route path="*" element={<Error codeError="404" />} />
+      </Routes>
     </Router>
   )
 }

@@ -10,7 +10,7 @@ interface iSideMenu{
   isShowSideMenu: boolean
 }
 
-export default function SideBarComponent({isShowSideMenu}: iSideMenu) {
+ const SideBarAdmin = ({isShowSideMenu}: iSideMenu) =>  {
   const [isShowSideSubMenu, setIsShowSideSubMenu] = useState(false);
 
   const toggleSubMenu = () => {
@@ -21,18 +21,14 @@ export default function SideBarComponent({isShowSideMenu}: iSideMenu) {
 
   return (
     <>    
-        
         {
         !isShowSideSubMenu&&<div className={`wrap-side-menu ${isShowSideMenu ? 'side-menu-enter side-menu-enter-active' : 'side-menu-exit side-menu-exit-active'}`}>
             <nav>
                 <ul className='side-bar-menu'>
-                    <li onClick={()=>toggleSubMenu()}>
-                      <span>Locations</span>
-                      <FontAwesomeIcon  icon={icon({name:'sort-up', style:'solid'})} rotation={90} className="icon-rotation" />
-                      </li>
-                    <Link to={"current"}><li>Today</li></Link>
-                    <Link to={"forecast"}><li>Forecast</li></Link>
-                    <Link to={"history"}><li>History</li></Link>
+                    <Link to={"dashboard"}><li>Dashboard Admin</li></Link>
+                    <Link to={"user"}><li>User</li></Link>
+                    <Link to={"user/edit"}><li>Edit User</li></Link>
+                    <Link to={"user/new"}><li>Create new User</li></Link>
                 </ul>
             </nav>
           </div>
@@ -49,3 +45,5 @@ export default function SideBarComponent({isShowSideMenu}: iSideMenu) {
     </>
   )
 }
+
+export default SideBarAdmin;

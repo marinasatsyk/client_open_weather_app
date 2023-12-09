@@ -1,6 +1,6 @@
 import {useEffect} from 'react'
 import PropTypes from 'prop-types'
-import UserService from '../../services/UserSevice'
+import UserService from '../../../services/UserSevice'
 
 
 const DetailsCurrentWeatherComponent = () => {

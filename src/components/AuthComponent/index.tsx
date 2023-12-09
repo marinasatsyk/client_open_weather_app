@@ -3,11 +3,11 @@ import { UseAppDispatch, UseAppSelector } from 'utils/hook';
 import { Validator, manageToken } from 'utils/helpers';
 import {  useNavigate } from 'react-router-dom';
 import { ManagedInput } from 'components/ManageInput';
-import  "./index.scss";
 import { loginUser, registerUser } from 'store/thunks/auth';
 import { clearError, rememberMe } from 'store/slice/auth';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import{faSpinner} from '@fortawesome/free-solid-svg-icons';
+import  "./index.scss";
 
 
 const  AuthComponent: FC = () =>  {   
