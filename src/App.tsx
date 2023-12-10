@@ -26,7 +26,7 @@ const  App : FC  = () =>  {
                   /> 
               </Route>
         </Route> */}
-        <Route path='/connection' element={<AuthRouter />}/>
+        <Route path='/connection/*' element={<AuthRouter />}/>
         <Route path='/user/*' element={<PublicRouter />}/>
         <Route path='/admin/*' element={<AdminRouter />}/>
        

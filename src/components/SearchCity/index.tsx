@@ -10,6 +10,7 @@ import{faSpinner} from '@fortawesome/free-solid-svg-icons';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import Toggle from 'components/ToggleComponent';
 import { iModalProps } from 'common/interfaces/current';
+import { getCurrentWeather } from 'store/thunks/currentwheather';
 
 //exemple:  https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 const {REACT_APP_URI_OPEN_GEO_WEATHER, 
@@ -112,11 +113,18 @@ export const SearchCityComponent = (): JSX.Element => {
     
   }
 
-  const handleClickActive = async(index:number, cityId: string) => {
+  const handleClickActive = async(index:number, cityId: string, cityLat: number, cityLon: number) => {
     //updateBookmarkState
     try{
       await dispatch(updateActiveBookmark({cityId}));
-
+      if(cityLat&&cityLon){
+        const data = {
+          lat: String(cityLat),
+          lon: String(cityLon)
+        }
+        console.log("we chanched active city", data)
+        await dispatch(getCurrentWeather(data))
+      }
     }catch(err){
       console.error(err)
     }
@@ -196,7 +204,7 @@ export const SearchCityComponent = (): JSX.Element => {
                 {bookmarks&&bookmarks?.length
                     ?bookmarks.map((bookmark, index) => {
                       return <div className='wrap-followed-city' key={bookmark.city._id}>
-                      <div  className={`followed-city ${bookmark.isActive && 'active'}`} onClick={() => handleClickActive(index, bookmark.city._id)}>
+                      <div  className={`followed-city ${bookmark.isActive && 'active'}`} onClick={() => handleClickActive(index, bookmark.city._id, bookmark.city.lat, bookmark.city.lon)}>
                                 <div>
                                   <span>{bookmark.city.name}, {bookmark.city.country}</span>  
                                    {bookmark.isFollowHistory && (

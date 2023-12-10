@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from 'react';
 import { getUser } from 'store/thunks/auth';
 import { getCurrentWeather } from 'store/thunks/currentwheather';
 import { UseAppDispatch, UseBookmarks,UseActiveBookmark,  useModal, UseAppSelector } from 'utils/hook';
-
+import "./index.scss";
 //page
 interface ICoordinates {
   lat: number | undefined
@@ -164,29 +164,25 @@ const CurrentWeatherComponent = () => {
 
       if(Object.keys(currentActiveBookmark).length){
         console.log(console.log('❤️❤️❤️❤️coordinates', currentActiveBookmark) )
-        await getFuncCurrentWeather(String(currentActiveBookmark?.lat), String(currentActiveBookmark?.lon))
+        await  getFuncCurrentWeather(String(currentActiveBookmark?.lat), String(currentActiveBookmark?.lon))
         
       }
     }
 
-    
-    
-    
-    // if(Object.keys(currentCoordinates).length){
-    //   console.log(console.log('❤️❤️❤️❤️coordinates', currentCoordinates) )
-    //   if(currentCoordinates?.lat&&currentCoordinates?.lon){
-    //     console.log(console.log('coordinates', currentCoordinates) )
-    //     getFuncCurrentWeather(String(currentCoordinates?.lat), String(currentCoordinates?.lon))
-    //   }
-    // }
-  
     return (
-      // <DashboardCurrentComponent />
-      <div>CurrentWeatherComponent</div>
+      <div className="wrap-main-current-weather">
+        <div className="wrap-common-long-daily">
+          <div className='current-common-wrap'>CurrentWeatherComponent</div>
+          <div className='long-daily-forecast'>16-day forecast</div>
+        </div>
+        <div className="wrap-chort-forecast-radar">
+          <div className='current-chort-hourly'>Short forecast</div>
+          <div className='current-radar'>Radar</div>
+        </div>
+      </div>
     )
   
 }
-
 
 
 export default CurrentWeatherComponent

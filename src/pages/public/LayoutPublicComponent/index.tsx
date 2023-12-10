@@ -32,7 +32,7 @@ export const LayoutPublicComponent = () => {
        <SideBarComponent isShowSideMenu={isShowSideMenu}/>
         <div className={`wrap-main-content`}>
               <HeaderScreen  isShowSideMenu toggleSideMenu= {toggleSideMenu}/>
-              <main>
+              <main className='screen'>
                  <Outlet />
               </main>
         </div>
@@ -45,7 +45,7 @@ export const LayoutPublicComponent = () => {
               showSearchModal={setModalOpened}
               showSettingsModal={setModalSettingsOpened}
           />
-          <main>
+          <main className='mobile'>
             <Outlet/>
           </main>
           <CommonModalComponent  
