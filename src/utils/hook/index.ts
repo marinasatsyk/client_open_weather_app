@@ -48,6 +48,20 @@ export const UseBookmarks = () => {
   }
 };
 
+export const UseActiveBookmark = () => {
+  const { bookmarks } = UseAppSelector((state) => state.auth.user);
+
+  console.log("useBookmarks", bookmarks);
+  if (
+    bookmarks?.length > 0 &&
+    bookmarks.some((bookmark) => bookmark.isActive)
+  ) {
+    return bookmarks.filter((bookmark) => bookmark.isActive)[0];
+  } else {
+    return null;
+  }
+};
+
 interface ModalHook {
   isModalOpened: boolean;
   toggle: () => void;

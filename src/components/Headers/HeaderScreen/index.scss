@@ -12,8 +12,22 @@ header.header-screen {
   display: flex;
   gap: 15px;
 }
+
 .icon {
   font-size: 25px;
   font-weight: bold;
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.icons-menu {
+  display: flex;
+  gap: 20px;
+}
+a {
+  text-decoration: none;
+  color: white;
 }

@@ -19,9 +19,10 @@ function AuthRouter() {
     <Routes>
         <Route element = {<RedirectRoute />}>
               <Route element={<LayoutConnection />}>
-              <Route  index element={<AuthComponent />} />
-                  <Route path="/connection"  
-                      element={<AuthComponent />} 
+                  <Route index element={<AuthComponent />} />
+                  <Route 
+                        path="/connection"  
+                        element={<AuthComponent />} 
                   /> 
               </Route>
         </Route>

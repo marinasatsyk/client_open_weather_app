@@ -25,12 +25,12 @@ const RedirectRoute = () => {
   
     if(auth&&!admin){
      console.log("coucou user")
-    return (<Navigate to={`/user/current`} replace />)
+    return (<Navigate to={`/user/current`}  />)
    }else if(auth&&admin){
      console.log("coucou admin")
-     return (<Navigate to={`/admin/dashboard`} replace />)
-   }else{
-     return (<Outlet /> )
+     return (<Navigate to={`/admin/dashboard`}  />)
+    }else{
+      return (<Outlet /> )
    }
 };
 

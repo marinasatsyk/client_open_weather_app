@@ -28,14 +28,6 @@ function AdminRouter() {
             </Route>
         </Route>
 
-        {/* <Route  
-            path="/" 
-            element={
-            auth&&admin
-            ? <Navigate to= {`/admin/dashboard`} replace={true} />
-            : <Navigate to="/connection" replace={true} />
-            } 
-        /> */}
         <Route path="*" element={<Error codeError="404" />} />
     </Routes>
   )

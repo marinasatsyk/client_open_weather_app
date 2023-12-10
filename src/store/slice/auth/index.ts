@@ -6,6 +6,7 @@ import {
   updateActiveBookmark,
   updateBookmarks,
 } from "store/thunks/user";
+
 import { manageToken } from "utils/helpers";
 
 const initialState = {

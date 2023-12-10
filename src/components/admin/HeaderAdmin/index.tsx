@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 
-import "./index.scss";
+// import "./index.scss";
 import { Link, useNavigate } from 'react-router-dom';
 
 interface iHeaderScrin {
@@ -10,7 +10,7 @@ interface iHeaderScrin {
 }
 
 
-export default function HeaderScreen({isShowSideMenu, toggleSideMenu}: iHeaderScrin) {
+function HeaderAdmin({isShowSideMenu, toggleSideMenu}: iHeaderScrin) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -28,7 +28,7 @@ export default function HeaderScreen({isShowSideMenu, toggleSideMenu}: iHeaderSc
           title='sidebar'
           />
           
-          <Link to="current">
+          <Link to="dashboard">
             <FontAwesomeIcon  
               icon={icon({name:'house', style:'solid'})} 
               className="icon"
@@ -38,23 +38,14 @@ export default function HeaderScreen({isShowSideMenu, toggleSideMenu}: iHeaderSc
        </div>
 
       <div className="wrap-header">
-        <div className='header-block-one'>
-            <span>Weather</span>
-            <span>Forecast</span>
-        </div>
-        <div className='header-block-two'>
-          <div className='empty flex'></div>
-          <div className='third-logo flex'>& history </div>
-        </div>
+        <h1>Admin</h1>
       </div>
       <div className="icons-menu">
-          <Link to="profile/show">
-              <FontAwesomeIcon  
-                icon={icon({name:'circle-user', style:'solid'})} 
-                className="icon"
-                title='profile'
-              />
-          </Link>
+          <FontAwesomeIcon  
+            icon={icon({name:'circle-user', style:'solid'})} 
+            className="icon"
+            title='profile'
+          />
           
           <FontAwesomeIcon 
             onClick={() => handleLogout()}  
@@ -66,3 +57,6 @@ export default function HeaderScreen({isShowSideMenu, toggleSideMenu}: iHeaderSc
     </header>
   )
 }
+
+
+export default  HeaderAdmin;

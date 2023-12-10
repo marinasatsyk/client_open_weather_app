@@ -9,6 +9,7 @@ import { SearchCityComponent } from 'components/SearchCity';
 import  SettingsComponent  from 'components/SettingsComponent';
 import { Outlet } from 'react-router-dom';
 import SideBarAdmin from 'components/admin/SideBarAdmin';
+import HeaderAdmin from 'components/admin/HeaderAdmin';
 // import "./index.scss";
 
 interface ICoordinates {
@@ -29,9 +30,6 @@ const LayoutAdminComponent = () => {
   }
   const [currentCoordinates, setIsCurrentCoordinates] = useState<ICoordinates>(initialCurrentCoordites)
   const dispatch = UseAppDispatch();
-  const handleClick = async(e: {preventDefault: () => void}) => {
-
-  }
   const toggleSideMenu = () =>  {
     console.log("click togle")
     setShowSideMenu(!isShowSideMenu)
@@ -77,9 +75,8 @@ const LayoutAdminComponent = () => {
       <div className={`main-wrapper-current ${isShowSideMenu ? 'side-menu-opened' : ''}`}>
        <SideBarAdmin isShowSideMenu={isShowSideMenu}/>
         <div className={`wrap-main-content`}>
-              <HeaderScreen  isShowSideMenu toggleSideMenu= {toggleSideMenu}/>
+              <HeaderAdmin  isShowSideMenu toggleSideMenu= {toggleSideMenu}/>
               <main>
-                  <button className='magic-btn' onClick={(e) => handleClick(e)}></button>
                  <Outlet />
               </main>
         </div>

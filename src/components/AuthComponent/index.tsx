@@ -1,4 +1,4 @@
-import {FC,  useState,  useEffect} from 'react';
+import {FC,  useState,  useEffect, useRef} from 'react';
 import { UseAppDispatch, UseAppSelector } from 'utils/hook';
 import { Validator, manageToken } from 'utils/helpers';
 import {  useNavigate } from 'react-router-dom';
@@ -36,6 +36,8 @@ const  AuthComponent: FC = () =>  {
     //hooks
     const dispatch = UseAppDispatch();
     const navigate = useNavigate();
+
+    const flag = useRef(false)
 
     function handleChangeForm(): void{
       setIsLogin(!isLogin);
@@ -76,32 +78,34 @@ const  AuthComponent: FC = () =>  {
     }
 
   useEffect(() =>{
-    setIsEmailValidate(Validator.email(email));
-    setIsFirstNameIsValidate(Validator.name(firstName));
-    setIsLastNameIsValidate(Validator.name(lastName));
-    setIsPasswordValidate(Validator.password(password));
-    setIsConfirmPasswordValidate(Validator.confirmPassword(password, confirmPassword));
-
-    if(isLogin) {
-      isEmailValidate  
+      setIsEmailValidate(Validator.email(email));
+      setIsFirstNameIsValidate(Validator.name(firstName));
+      setIsLastNameIsValidate(Validator.name(lastName));
+      setIsPasswordValidate(Validator.password(password));
+      setIsConfirmPasswordValidate(Validator.confirmPassword(password, confirmPassword));
+      
+      if(isLogin) {
+        isEmailValidate  
         ? setIsSubmitEnabled(true) 
         : setIsSubmitEnabled(false)
         console.log("isEmailValidate", isEmailValidate, "isPasswordValidate",  isPasswordValidate)
-    }else{
-      isEmailValidate &&   isPasswordValidate &&   isFirstNameValidate &&   isLastNameValidate && isConfirmPasswordValidate
-      ? setIsSubmitEnabled(true) 
-      : setIsSubmitEnabled(false)
-    }
-
-    setIsAccountCreated(isRegistred);
-    // Après 3 secondes, notification disparait
-    // setTimeout(function() {
-    //   setIsAccountCreated(false);
-    // }, 3000);
-    
-    if(isRegistred){
-      setIsLogin(true)
-    }
+      }else{
+        isEmailValidate &&   isPasswordValidate &&   isFirstNameValidate &&   isLastNameValidate && isConfirmPasswordValidate
+        ? setIsSubmitEnabled(true) 
+        : setIsSubmitEnabled(false)
+      }
+      
+      setIsAccountCreated(isRegistred);
+      // Après 3 secondes, notification disparait
+      // setTimeout(function() {
+        //   setIsAccountCreated(false);
+        // }, 3000);
+        
+        if(isRegistred){
+          setIsLogin(true)
+        }
+        
+     
   }, [
     isFirstNameValidate,
     isLastNameValidate,

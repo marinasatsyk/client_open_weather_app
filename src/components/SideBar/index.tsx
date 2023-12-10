@@ -30,21 +30,22 @@ export default function SideBarComponent({isShowSideMenu}: iSideMenu) {
                       <span>Locations</span>
                       <FontAwesomeIcon  icon={icon({name:'sort-up', style:'solid'})} rotation={90} className="icon-rotation" />
                       </li>
-                    <Link to={"current"}><li>Today</li></Link>
-                    <Link to={"forecast"}><li>Forecast</li></Link>
-                    <Link to={"history"}><li>History</li></Link>
+                    <li><Link to={"current"}>Today</Link></li>
+                    <li><Link to={"forecast"}>Forecast</Link></li>
+                    <li><Link to={"history"}>History</Link></li>
                 </ul>
             </nav>
           </div>
         }
         { 
-        isShowSideSubMenu&&<div className={`wrap-side-menu ${isShowSideMenu ? 'side-menu-enter side-menu-enter-active' : 'side-menu-exit side-menu-exit-active'}`}>
-              <div className='back-btn' onClick={()=>toggleSubMenu()}>
-                <span>Locations</span>
-                <FontAwesomeIcon  icon={icon({name:'sort-up', style:'solid'})} rotation={270} className="icon-rotation" />
-              </div>
-              <SearchCityComponent />
-          </div>
+          isShowSideSubMenu&&
+          <div className={`wrap-side-menu ${isShowSideMenu ? 'side-menu-enter side-menu-enter-active' : 'side-menu-exit side-menu-exit-active'}`} title='back'>
+                <div className='back-btn' onClick={()=>toggleSubMenu()}>
+                  <span className='title-back'>Locations</span>
+                  <FontAwesomeIcon  icon={icon({name:'sort-up', style:'solid'})} rotation={270} className="icon-rotation-back" />
+                </div>
+                <SearchCityComponent />
+            </div>
           }
     </>
   )

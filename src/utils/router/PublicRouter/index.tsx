@@ -36,14 +36,6 @@ function PublicRouter() {
             </Route>
         </Route>
 
-        {/* <Route  
-            path="/" 
-            element={
-            auth&&!isAdmin
-            ? <Navigate to= {`/user/current`} replace={true} />
-            : <Navigate to="/connection" replace={true} />
-            } 
-        /> */}
         <Route path="*" element={<Error codeError="404" />} />
     </Routes>
   )

@@ -31,7 +31,7 @@ const  App : FC  = () =>  {
         <Route path='/admin/*' element={<AdminRouter />}/>
        
         <Route  
-            path="/" 
+            path="/*" 
             element={
             auth&&!isAdmin
             ? <Navigate to= {`/user/current`} replace={true} />
@@ -39,7 +39,7 @@ const  App : FC  = () =>  {
             } 
         />
         <Route  
-            path="/" 
+            path="/*" 
             element={
             auth&&isAdmin
             ? <Navigate to= {`/admin/dashboard`} replace={true} />
