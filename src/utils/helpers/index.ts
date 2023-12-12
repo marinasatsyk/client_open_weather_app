@@ -1,4 +1,7 @@
 import { Token } from "common/interfaces/auth";
+import { format } from "date-fns";
+import * as moment from "moment-timezone";
+
 export const manageToken = (
   isRememberMe: boolean,
   accessToken: string
@@ -70,3 +73,27 @@ export const getTokenFromStorage = (storageKey: string): Token | null => {
     return null;
   }
 };
+
+export const getDate = () => {
+  const date = new Date();
+  return format(date, "eeee, d MMMM yyyy");
+};
+
+export function formatUnixTime(
+  unixTime: number,
+  timeZone: string = moment.tz.guess()
+): string {
+  console.log("timeZone", timeZone);
+  const date = moment.unix(unixTime).tz(timeZone);
+  return date.format("HH:mm");
+}
+
+export function getWindDirection(degrees: number) {
+  degrees = ((degrees % 360) + 360) % 360;
+
+  const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+
+  const index = Math.round((degrees % 360) / 45) % 8;
+
+  return directions[index];
+}

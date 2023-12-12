@@ -12,7 +12,7 @@
   height: 45%;
 }
 
-.wrap-chort-forecast-radar {
+.wrap-short-forecast-radar {
   display: flex;
   gap: 20px;
   height: 45%;
@@ -20,13 +20,14 @@
 
 .current-common-wrap,
 .long-daily-forecast,
-.current-chort-hourly,
+.current-short-hourly,
 .current-radar {
   flex: 1;
+  position: relative;
 }
 
 .long-daily-forecast,
-.current-chort-hourly,
+.current-short-hourly,
 .current-radar {
   background: #ffffff3f;
   border-radius: 3px;

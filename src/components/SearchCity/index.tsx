@@ -13,34 +13,33 @@ import { iModalProps } from 'common/interfaces/current';
 import { getCurrentWeather } from 'store/thunks/currentwheather';
 
 //exemple:  https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
-const {REACT_APP_URI_OPEN_GEO_WEATHER, 
+const {
+  REACT_APP_URI_OPEN_GEO_WEATHER, 
   REACT_APP_STUDENT_API_key, 
-  REACT_APP_URI_BODY_WEATHER,
-  REACT_APP_CURRENT_WEATHER_PREFIX,
-  REACT_APP_CURRENT_WEATHER_KEYWORD,
-  REACT_APP_16DAYS_FORECAST_CLIMAT_WEATHER_PREFIX,
-  REACT_APP_16DAYS_FORECAST_WEATHER_KEYWORD,
-  REACT_APP_30DAYS_CLIMAT_WEATHER_KEYWORD
+  // REACT_APP_URI_BODY_WEATHER,
+  // REACT_APP_CURRENT_WEATHER_PREFIX,
+  // REACT_APP_CURRENT_WEATHER_KEYWORD,
+  // REACT_APP_16DAYS_FORECAST_CLIMAT_WEATHER_PREFIX,
+  // REACT_APP_16DAYS_FORECAST_WEATHER_KEYWORD,
+  // REACT_APP_30DAYS_CLIMAT_WEATHER_KEYWORD
 } = process.env;
 
-const LIMIT = 5;
-const UNITS='metric'
+ const LIMIT = 5;
+// const UNITS='metric'
 
 
 
-const endpointsArr = (option: geoOptionType) => {
+// const endpointsArr = (option: geoOptionType) => {
 
-  return [
-    `https://${REACT_APP_CURRENT_WEATHER_PREFIX}.${REACT_APP_URI_BODY_WEATHER}/${REACT_APP_CURRENT_WEATHER_KEYWORD}?lat=${option.lat}&lon=${option.lon}&appid=${REACT_APP_STUDENT_API_key}&units=${UNITS}`,
-    `https://${REACT_APP_16DAYS_FORECAST_CLIMAT_WEATHER_PREFIX}.${REACT_APP_URI_BODY_WEATHER}/${REACT_APP_16DAYS_FORECAST_WEATHER_KEYWORD}?lat=${option.lat}&lon=${option.lon}&appid=${REACT_APP_STUDENT_API_key}&units=${UNITS}`,
-    `https://${REACT_APP_16DAYS_FORECAST_CLIMAT_WEATHER_PREFIX}.${REACT_APP_URI_BODY_WEATHER}/${REACT_APP_30DAYS_CLIMAT_WEATHER_KEYWORD}?lat=${option.lat}&lon=${option.lon}&appid=${REACT_APP_STUDENT_API_key}&units=${UNITS}`,
+//   return [
+//     `https://${REACT_APP_CURRENT_WEATHER_PREFIX}.${REACT_APP_URI_BODY_WEATHER}/${REACT_APP_CURRENT_WEATHER_KEYWORD}?lat=${option.lat}&lon=${option.lon}&appid=${REACT_APP_STUDENT_API_key}&units=${UNITS}`,
+//     `https://${REACT_APP_16DAYS_FORECAST_CLIMAT_WEATHER_PREFIX}.${REACT_APP_URI_BODY_WEATHER}/${REACT_APP_16DAYS_FORECAST_WEATHER_KEYWORD}?lat=${option.lat}&lon=${option.lon}&appid=${REACT_APP_STUDENT_API_key}&units=${UNITS}`,
+//     `https://${REACT_APP_16DAYS_FORECAST_CLIMAT_WEATHER_PREFIX}.${REACT_APP_URI_BODY_WEATHER}/${REACT_APP_30DAYS_CLIMAT_WEATHER_KEYWORD}?lat=${option.lat}&lon=${option.lon}&appid=${REACT_APP_STUDENT_API_key}&units=${UNITS}`,
   
-  ]
-} 
+//   ]
+// } 
 
 
-// export const SearchCityComponent = (props: iModalProps): JSX.Element => {
-//   const {setIsModalShow, isModalShow} = props; 
 export const SearchCityComponent = (): JSX.Element => {
 
   const [inputValue, setInputValue] = useState<string>('');
@@ -82,7 +81,7 @@ export const SearchCityComponent = (): JSX.Element => {
   }
 
   const getWeatherData = async(city: geoOptionType) => {
-    const endpoints = endpointsArr(city);
+    // const endpoints = endpointsArr(city);
     try{
 
       // const globalDataWeahter = await Promise.all(endpoints.map((endpoint) => axios.get(endpoint)));

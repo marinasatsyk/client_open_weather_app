@@ -4,6 +4,12 @@ import { getUser } from 'store/thunks/auth';
 import { getCurrentWeather } from 'store/thunks/currentwheather';
 import { UseAppDispatch, UseBookmarks,UseActiveBookmark,  useModal, UseAppSelector } from 'utils/hook';
 import "./index.scss";
+import CurrentWeatherCommon from 'components/Current';
+import DailyForecastComponent from 'components/DailyForecast';
+import HourlyForecastComponent from 'components/HourlyForecast';
+import RadarWeatherComponent from 'components/Radar';
+import { getDailyForecastWeather } from 'store/thunks/dailyweather';
+import { getHourlyForecastWeather } from 'store/thunks/hourlyweather';
 //page
 interface ICoordinates {
   lat: number | undefined
@@ -28,10 +34,17 @@ const CurrentWeatherComponent = () => {
     await  dispatch(getUser());
   }
 
-  const getFuncCurrentWeather =  async(lat: string, lon: string) => {
+  const getFuncDashboardWeather =  async(lat: string, lon: string) => {
     console.log("we start get current weather")
     await  dispatch(getCurrentWeather({lat,  lon}));
+    await  dispatch(getDailyForecastWeather({lat,  lon}));
+    await  dispatch(getHourlyForecastWeather({lat,  lon}));
+     
+    //forecast houryly here
   }
+
+
+  
 
 
   // const getBrowserCoodinates = () => {
@@ -164,7 +177,7 @@ const CurrentWeatherComponent = () => {
 
       if(Object.keys(currentActiveBookmark).length){
         console.log(console.log('❤️❤️❤️❤️coordinates', currentActiveBookmark) )
-        await  getFuncCurrentWeather(String(currentActiveBookmark?.lat), String(currentActiveBookmark?.lon))
+        await  getFuncDashboardWeather(String(currentActiveBookmark?.lat), String(currentActiveBookmark?.lon))
         
       }
     }
@@ -172,12 +185,15 @@ const CurrentWeatherComponent = () => {
     return (
       <div className="wrap-main-current-weather">
         <div className="wrap-common-long-daily">
-          <div className='current-common-wrap'>CurrentWeatherComponent</div>
-          <div className='long-daily-forecast'>16-day forecast</div>
+          <section className='current-common-wrap'><CurrentWeatherCommon /></section>
+          <section className='long-daily-forecast'>
+            
+            <DailyForecastComponent />
+          </section>     
         </div>
-        <div className="wrap-chort-forecast-radar">
-          <div className='current-chort-hourly'>Short forecast</div>
-          <div className='current-radar'>Radar</div>
+        <div className="wrap-short-forecast-radar">
+          <section className='current-short-hourly'><HourlyForecastComponent/></section>
+          <section className='current-radar'><RadarWeatherComponent /></section>
         </div>
       </div>
     )

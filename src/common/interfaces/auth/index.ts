@@ -121,6 +121,181 @@ export interface Token {
   value: string;
 }
 
+/**FORECAST DAILY "FD"*/
+interface CoordFD {
+  lon: number;
+  lat: number;
+}
+
+interface WeatherFD {
+  id: number;
+  main: string;
+  description: string;
+  icon: string;
+}
+
+interface TemperatureFD {
+  day: number;
+  min: number;
+  max: number;
+  night: number;
+  eve: number;
+  morn: number;
+}
+
+interface FeelsLikeFD {
+  day: number;
+  night: number;
+  eve: number;
+  morn: number;
+}
+
+interface DayForecastFD {
+  dt: number;
+  sunrise: number;
+  sunset: number;
+  temp: TemperatureFD;
+  feels_like: FeelsLikeFD;
+  pressure: number;
+  humidity: number;
+  weather: WeatherFD[];
+  speed: number;
+  deg: number;
+  gust: number;
+  clouds: number;
+  pop: number;
+  snow?: number;
+  rain?: number;
+}
+
+interface CityFD {
+  id: number;
+  name: string;
+  coord: CoordFD;
+  country: string;
+  population: number;
+  timezone: number;
+}
+
+export interface WeatherDataFD {
+  city: CityFD;
+  cod: string;
+  message: number;
+  cnt: number;
+  list: DayForecastFD[];
+}
+
+export interface IWeatherStateFD {
+  data: WeatherDataFD;
+  isLoading: boolean;
+  error: any;
+}
+
+/**FORECAST HOURLY "FH"*/
+
+interface MainFH {
+  temp: number;
+  feels_like: number;
+  temp_min: number;
+  temp_max: number;
+  pressure: number;
+  sea_level: number;
+  grnd_level: number;
+  humidity: number;
+  temp_kf: number;
+}
+
+interface WeatherFH {
+  id: number;
+  main: string;
+  description: string;
+  icon: string;
+}
+
+interface CloudsFH {
+  all: number;
+}
+
+interface WindFH {
+  speed: number;
+  deg: number;
+  gust: number;
+}
+
+interface SnowFH {
+  "1h"?: number;
+}
+
+interface SysFH {
+  pod: string;
+}
+
+interface ListFH {
+  dt: number;
+  main: MainFH;
+  weather: WeatherFH[];
+  clouds: CloudsFH;
+  wind: WindFH;
+  visibility: number;
+  pop: number;
+  snow: SnowFH;
+  sys: SysFH;
+  dt_txt: string;
+}
+
+export interface WeatherDataFH {
+  cod: string;
+  message: number;
+  cnt: number;
+  list: ListFH[];
+}
+
+export interface IWeatherStateFH {
+  data: WeatherDataFH;
+  isLoading: boolean;
+  error: any;
+}
+
+/**WEATHER POLLUTION */
+interface CoordPollution {
+  lon: number;
+  lat: number;
+}
+
+interface MainPollution {
+  aqi: number;
+}
+
+interface ComponentsPollution {
+  co: number;
+  no: number;
+  no2: number;
+  o3: number;
+  so2: number;
+  pm2_5: number;
+  pm10: number;
+  nh3: number;
+}
+
+interface ListPollution {
+  main: MainPollution;
+  components: ComponentsPollution;
+  dt: number;
+}
+
+export interface WeatherDataPollution {
+  coord: CoordPollution;
+  list: ListPollution[];
+}
+
+export interface IWeatherStatePollution {
+  data: WeatherDataPollution;
+  isLoading: boolean;
+  error: any;
+}
+
+/**COMMON CURRENT WEATHER DASHBOARD */
+
 export interface IWeatherReq {
   lat: string;
   lon: string;
@@ -166,10 +341,11 @@ export interface IWeatherDataRes {
   id: number;
   name: string;
   cod: number;
+  pollution: ListPollution;
 }
 
 export interface IWheatherState {
-  currentWeather: IWeatherDataRes;
+  data: IWeatherDataRes;
   isLoading: boolean;
   error: any;
 }

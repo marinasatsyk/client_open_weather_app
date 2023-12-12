@@ -4,7 +4,7 @@ import { getCurrentWeather } from "store/thunks/currentwheather";
 // import  {IWeatherDataRes}
 
 const initialState = {
-  currentWeather: {},
+  data: {},
   isLoading: false,
   error: "",
 } as IWheatherState;
@@ -25,7 +25,7 @@ export const weatherSlice = createSlice({
     builder.addCase(getCurrentWeather.fulfilled, (state, action) => {
       console.log("getCurrentWeather fullfiled==============>", action.payload);
       const currentWeather = action.payload;
-      state.currentWeather = currentWeather;
+      state.data = currentWeather;
       state.isLoading = false;
       state.error = "";
     });

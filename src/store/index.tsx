@@ -3,9 +3,13 @@ import { configureStore, combineReducers  } from "@reduxjs/toolkit";
 // import auth from './slice/UserSlice';
 import auth from './slice/auth';
 import currentWeather from './slice/weather';
-import { useDispatch } from 'react-redux'
-import { deflateRaw } from "zlib";
+import dailyForecast from './slice/dailyWeather';
+import hourlyForecast from './slice/hourlyWeather';
+import pollutionWeather from './slice/pollutionWeather';
+
 import { composeWithDevTools } from "@reduxjs/toolkit/dist/devtoolsExtension";
+
+
 // import storage from 'redux-persist/lib/storage';
 
 
@@ -19,7 +23,10 @@ import { composeWithDevTools } from "@reduxjs/toolkit/dist/devtoolsExtension";
 const store = configureStore({
     reducer: {
         auth ,
-        currentWeather
+        currentWeather,
+        dailyForecast,
+        hourlyForecast,
+        pollutionWeather
     },
     devTools: true,
     middleware: (getDefaultMiddleware) =>

@@ -4,6 +4,7 @@ import App from './App';
 import { Provider } from 'react-redux';
 import store from './store';
 import './index.css';
+import './assets/scss/open-weather-icons.scss';
 
 
 const root = ReactDOM.createRoot(
