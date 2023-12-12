@@ -6,7 +6,7 @@ import { UseAppDispatch, UseBookmarks,UseActiveBookmark,  useModal, UseAppSelect
 import "./index.scss";
 import CurrentWeatherCommon from 'components/Current';
 import DailyForecastComponent from 'components/DailyForecast';
-import HourlyForecastComponent from 'components/HourlyForecast';
+import  ScreenHourlyForecastComponent from 'components/HourlyForecast/screenHourly';
 import RadarWeatherComponent from 'components/Radar';
 import { getDailyForecastWeather } from 'store/thunks/dailyweather';
 import { getHourlyForecastWeather } from 'store/thunks/hourlyweather';
@@ -41,6 +41,7 @@ const CurrentWeatherComponent = () => {
     await  dispatch(getHourlyForecastWeather({lat,  lon}));
      
     //forecast houryly here
+    setCurrentCoordinates({lat: Number(lat),  lon: Number(lon)})
   }
 
 
@@ -192,8 +193,10 @@ const CurrentWeatherComponent = () => {
           </section>     
         </div>
         <div className="wrap-short-forecast-radar">
-          <section className='current-short-hourly'><HourlyForecastComponent/></section>
-          <section className='current-radar'><RadarWeatherComponent /></section>
+          <section className='current-short-hourly'><ScreenHourlyForecastComponent/></section>
+          {currentCoordinates.lat&&currentCoordinates.lon
+          &&    <section className='current-radar'><RadarWeatherComponent lat={currentCoordinates.lat} lon={currentCoordinates.lon}/></section>
+          }
         </div>
       </div>
     )

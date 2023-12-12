@@ -1,8 +1,15 @@
+import LeafletMapComponent from 'components/LeafletComponent'
 import React from 'react'
 
-function RadarWeatherComponent() {
+interface IRadar {lat: number, 
+  lon: number
+}
+function RadarWeatherComponent(props: IRadar) {
   return (
-    <div>RadarWeatherComponent</div>
+    <div className="wrap-radar-component">
+      <div>RadarWeatherComponent</div>
+        <LeafletMapComponent lat={props.lat} lon = {props.lon} />
+    </div>
   )
 }
 
