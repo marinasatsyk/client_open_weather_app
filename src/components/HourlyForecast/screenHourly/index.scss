@@ -22,8 +22,46 @@
       justify-content: center;
       align-items: center;
     }
-    svg {
+    svg,
+    .quality p {
       font-size: 20px;
+      transition: scale 0.5s ease-in-out;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+    .icon-container {
+      &.active-icon {
+        background-color: rgba(0, 0, 0, 0.6);
+        svg,
+        .quality p {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .main-container-screen-hourly {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    width: 100%;
+    h2 {
+      height: 35px;
+    }
+    .chart-container {
+      flex: 1;
+      width: 600px;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
     }
   }
 }
