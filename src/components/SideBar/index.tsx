@@ -21,7 +21,6 @@ export default function SideBarComponent({isShowSideMenu}: iSideMenu) {
 
   return (
     <>    
-        
         {
         !isShowSideSubMenu&&<div className={`wrap-side-menu ${isShowSideMenu ? 'side-menu-enter side-menu-enter-active' : 'side-menu-exit side-menu-exit-active'}`}>
             <nav>
@@ -39,8 +38,8 @@ export default function SideBarComponent({isShowSideMenu}: iSideMenu) {
         }
         { 
           isShowSideSubMenu&&
-          <div className={`wrap-side-menu ${isShowSideMenu ? 'side-menu-enter side-menu-enter-active' : 'side-menu-exit side-menu-exit-active'}`} title='back'>
-                <div className='back-btn' onClick={()=>toggleSubMenu()}>
+          <div className={`wrap-side-menu ${isShowSideMenu ? 'side-menu-enter side-menu-enter-active' : 'side-menu-exit side-menu-exit-active'}`} >
+                <div className='back-btn' onClick={()=>toggleSubMenu()} title='back'>
                   <span className='title-back'>Locations</span>
                   <FontAwesomeIcon  icon={icon({name:'sort-up', style:'solid'})} rotation={270} className="icon-rotation-back" />
                 </div>

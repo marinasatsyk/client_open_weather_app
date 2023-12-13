@@ -24,9 +24,6 @@ function DailyForecastComponent() {
     };
 
 
-    
-
-
     console.log(data.list)
     if(isLoading){
         return <FontAwesomeIcon  icon={icon({name: 'spinner', style:'solid'})}  spin className='spinner-current'/> 

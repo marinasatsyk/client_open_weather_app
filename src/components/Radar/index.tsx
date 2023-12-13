@@ -1,5 +1,5 @@
 import LeafletMapComponent from 'components/LeafletComponent'
-import React from 'react'
+import './index.scss';
 
 interface IRadar {lat: number, 
   lon: number
@@ -7,7 +7,7 @@ interface IRadar {lat: number,
 function RadarWeatherComponent(props: IRadar) {
   return (
     <div className="wrap-radar-component">
-      <div>RadarWeatherComponent</div>
+      <h2>RadarWeatherComponent</h2>
         <LeafletMapComponent lat={props.lat} lon = {props.lon} />
     </div>
   )

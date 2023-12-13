@@ -11,6 +11,8 @@ import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 import Toggle from 'components/ToggleComponent';
 import { iModalProps } from 'common/interfaces/current';
 import { getCurrentWeather } from 'store/thunks/currentwheather';
+import { getDailyForecastWeather } from 'store/thunks/dailyweather';
+import { getHourlyForecastWeather } from 'store/thunks/hourlyweather';
 
 //exemple:  https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
 const {
@@ -121,8 +123,10 @@ export const SearchCityComponent = (): JSX.Element => {
           lat: String(cityLat),
           lon: String(cityLon)
         }
-        console.log("we chanched active city", data)
-        await dispatch(getCurrentWeather(data))
+        console.log("we chanched active city", data);
+        await dispatch(getCurrentWeather(data));
+        await  dispatch(getDailyForecastWeather(data));
+        await  dispatch(getHourlyForecastWeather(data));
       }
     }catch(err){
       console.error(err)

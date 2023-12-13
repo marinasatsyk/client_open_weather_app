@@ -10,6 +10,7 @@ import { SunsetSVG } from "components/svg/Sunset";
 
 const CurrentWeatherCommon = () => {
   const {error , isLoading, data} = UseAppSelector((state) => state.currentWeather);
+  // const {bookmarks} = UseAppSelector((state) => state.auth.user);
 
 
   const getDate = () => {
@@ -28,6 +29,8 @@ const CurrentWeatherCommon = () => {
   const style = {
     transform: `rotate(${rotationValue}deg)`,
   };
+
+
 
 
   const getPollutionState = (dataPollution: number) => {
@@ -56,6 +59,7 @@ const CurrentWeatherCommon = () => {
     return pollutionStatus;
   }
 
+  
 
   if(isLoading){
     return <FontAwesomeIcon  icon={icon({name: 'spinner', style:'solid'})}  spin className='spinner-current'/> 
@@ -65,6 +69,7 @@ const CurrentWeatherCommon = () => {
       <div className="container-current-data">
           <div className="title-current">
           <div className="title-part">
+            {/**TODO NAME OF CITY */}
               <h1>{data.name}, {data?.sys?.country ? data?.sys?.country : ""} </h1>
               <div className="date">{getDate()}</div>
             </div>
@@ -72,6 +77,7 @@ const CurrentWeatherCommon = () => {
           <div className="feels-like">{data?.main?.feels_like ? data?.main?.feels_like : ""}°C</div>
           <div className="feels-like">Cloudiness {data?.clouds?.all ? data?.clouds?.all : ""} %</div>
           </div>
+          
           
           <div className="current-temperature">
               <h1>{data?.main?.temp ? data?.main?.temp : ""}°C</h1>

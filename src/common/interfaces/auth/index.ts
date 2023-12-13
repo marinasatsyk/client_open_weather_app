@@ -17,6 +17,7 @@ export interface iUserDto {
 }
 
 export interface Bookmark {
+  length: Bookmark | undefined;
   city: ICity;
   isActive: boolean;
   isFollowHistory: boolean;

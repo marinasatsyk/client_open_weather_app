@@ -10,6 +10,7 @@ import  ScreenHourlyForecastComponent from 'components/HourlyForecast/screenHour
 import RadarWeatherComponent from 'components/Radar';
 import { getDailyForecastWeather } from 'store/thunks/dailyweather';
 import { getHourlyForecastWeather } from 'store/thunks/hourlyweather';
+import HourlyCurrentForecastComponent from 'components/HourlyForecast';
 //page
 interface ICoordinates {
   lat: number | undefined
@@ -193,7 +194,7 @@ const CurrentWeatherComponent = () => {
           </section>     
         </div>
         <div className="wrap-short-forecast-radar">
-          <section className='current-short-hourly'><ScreenHourlyForecastComponent/></section>
+          <section className='current-short-hourly'><HourlyCurrentForecastComponent/></section>
           {currentCoordinates.lat&&currentCoordinates.lon
           &&    <section className='current-radar'><RadarWeatherComponent lat={currentCoordinates.lat} lon={currentCoordinates.lon}/></section>
           }
