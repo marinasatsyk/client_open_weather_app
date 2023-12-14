@@ -119,4 +119,6 @@ export type ChartData = {
   labels: string[];
   min?: number;
   max?: number;
+  startDate: string;
+  endDate: string;
 };

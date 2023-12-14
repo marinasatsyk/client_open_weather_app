@@ -23,6 +23,7 @@ import {
   options,
 } from "./chartHelpers";
 import "./index.scss";
+import moment from "moment";
 
 ChartJS.register(
   CategoryScale,
@@ -33,24 +34,54 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+ChartJS.defaults.color = "#fff";
 
-export function ChartComponentHouryly() {
+type ChartObject = {
+  labels: string[];
+  values: number[];
+  ranges: {
+    from: string;
+    to: string;
+  };
+};
+
+//plugin block
+// const legendMargin = {
+//   id: "legendMargin",
+//   beforeInit(chart, legend, option) {
+//     console.log(chart.legend.fit);
+//     const fitValue = chart.legend.fit;
+//     chart.legend.fi = function fit() {
+//       fitValue.bind(chart.legend)();
+//       return (this.height += 20);
+//     };
+//   },
+// };
+
+export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
   const {
     error,
     isLoading,
     data: dataR,
   } = UseAppSelector((state) => state.hourlyForecast);
 
-  const [isDisabledPrevBtn, setIsDisabledPrevBtn] = useState(false);
-  const [isDisabledNextBtn, setIsDisabledNextBtn] = useState(false);
+  // const [isDisabledPrevBtn, setIsDisabledPrevBtn] = useState(false);
+  // const [isDisabledNextBtn, setIsDisabledNextBtn] = useState(false);
   const [currentIndexData, setCurrentIndexData] = useState(0);
-  const [currentKey, setCurrentKey] = useState<WeatherDataKeys>(
-    WeatherDataKeys.TEMP
-  );
+  // const [currentKey, setCurrentKey] = useState<WeatherDataKeys>(
+  //   WeatherDataKeys.TEMP
+  // );
+
+  const { activeKey: currentKey } = props;
+  console.log("currentkey", currentKey);
+
   const [chartData, setChartData] = useState<ChartData>({
     data: [],
     labels: [],
+    startDate: "",
+    endDate: "",
   });
+
   /**
    * data complete
    * dataset à montrer: commence par 0 et montré par 24 h
@@ -61,7 +92,7 @@ export function ChartComponentHouryly() {
   useEffect(() => {
     // Chargement initial des données
     !isLoading && updateChartData();
-  }, []);
+  }, [currentKey]);
 
   //Select function to use
 
@@ -90,6 +121,7 @@ export function ChartComponentHouryly() {
       };
     }
 
+    console.log("in function===========>", key);
     if ("main" in data[0] && key in data[0].main) {
       return filterMainData(
         index,
@@ -110,28 +142,54 @@ export function ChartComponentHouryly() {
     lat: number,
     lon: number
   ) => {
-    const filteredData = data.slice(index, index + 12).map((item) => ({
-      // timestamp: item.dt * 1000,
+    console.log("in main");
+
+    const filteredData = data.slice(index, index + 24).map((item) => ({
       timestamp: item.dt,
-      // timeZone: item.timeZone,
       value: item.main[key] as number,
     }));
 
+    // const chartObj: ChartObject = {
+    //   labels: [],
+    //   values: [],
+    //   ranges: { from: "", to: "" },
+    // };
+
+    // const values = filteredData.map((item) => {
+    //   if (item.timestamp && item.value) {
+    //     chartObj.values.push(item.value);
+    //     chartObj.labels.push(getHoursFromUnixTime(item.timestamp, lat, lon));
+    //   }
+
+    //   return item.value;
+    // });
+
     const values = filteredData.map((item) => item.value);
+
     const minValue = Math.min(...values);
     const maxValue = Math.max(...values);
 
     const labels = filteredData.map((item) => {
-      // const date = new Date(item.timestamp);
-      // return `${date.getHours()}h`;
       return getHoursFromUnixTime(item.timestamp, lat, lon);
     });
+
+    const sortedTimestamps = filteredData.sort(
+      (a, b) => a.timestamp - b.timestamp
+    );
+    const startDate = moment
+      .unix(sortedTimestamps[0].timestamp)
+      .format("D MMM YYYY");
+    const endDate = moment
+      .unix(sortedTimestamps[sortedTimestamps.length - 1].timestamp)
+      .format("D MMM YYYY");
 
     return {
       data: filteredData,
       labels: labels,
       min: minValue,
       max: maxValue,
+      startDate,
+      endDate,
     };
   };
 
@@ -142,49 +200,73 @@ export function ChartComponentHouryly() {
     lat: number,
     lon: number
   ) => {
-    const filteredData = data.slice(index, index + 12).map((item) => ({
-      timestamp: item.dt * 1000,
-      value: item[key] as number,
+    console.log("in other", index, index + 24);
+
+    const filteredData = data.slice(index, index + 24).map((item) => ({
+      timestamp: item.dt,
+      value:
+        key !== "wind" ? (item[key] as number) : (item[key].speed as number),
     }));
 
-    const values = filteredData.map((item) => item.value);
+    // const chartObj: ChartObject = {
+    //   labels: [],
+    //   values: [],
+    // };
+
+    const values =
+      key !== "wind"
+        ? filteredData.map((item) => item.value)
+        : filteredData.map((item) => item.value);
+
+    // console.log(chartObj);
+
     const minValue = Math.min(...values);
     const maxValue = Math.max(...values);
 
     const labels = filteredData.map((item) => {
-      const date = new Date(item.timestamp);
-      return `${date.getHours()}H`;
+      return getHoursFromUnixTime(item.timestamp, lat, lon);
     });
+
+    const sortedTimestamps = filteredData.sort(
+      (a, b) => a.timestamp - b.timestamp
+    );
+    const startDate = moment
+      .unix(sortedTimestamps[0].timestamp)
+      .format("D MMM YYYY");
+    const endDate = moment
+      .unix(sortedTimestamps[sortedTimestamps.length - 1].timestamp)
+      .format("D MMM YYYY");
 
     return {
       data: filteredData,
       labels: labels,
       min: minValue,
       max: maxValue,
+      startDate,
+      endDate,
     };
   };
 
   const handlePrev = () => {
-    if (currentIndexData >= 12) {
+    if (currentIndexData >= 24) {
       console.log("*************click prev");
-      setCurrentIndexData(currentIndexData - 12);
+      setCurrentIndexData(currentIndexData - 24);
       updateChartData();
     }
   };
 
   const handleNext = () => {
-    if (currentIndexData + 12 < dataR.list.length) {
+    if (currentIndexData + 24 < dataR.list.length) {
       console.log("*************click next");
-      setCurrentIndexData(currentIndexData + 12);
+      setCurrentIndexData(currentIndexData + 24);
       updateChartData();
     }
   };
 
   const updateChartData = () => {
-    console.log("dataR.city.timezone?????????????", dataR);
-
     if (Object.keys(dataR).length) {
-      const { data, labels, min, max } = filterData(
+      //@ts-ignore
+      const { data, labels, min, max, startDate, endDate } = filterData(
         currentIndexData,
         dataR.list,
         currentKey,
@@ -194,7 +276,14 @@ export function ChartComponentHouryly() {
       console.log("data from chart js", data, labels);
       const dataForChart = data.map((item) => item.value);
       console.log(dataForChart);
-      setChartData({ data: dataForChart, labels, min, max });
+      setChartData({
+        data: dataForChart,
+        labels,
+        min,
+        max,
+        startDate,
+        endDate,
+      });
     }
     return;
     // Mettez à jour votre state ou effectuez toute autre logique nécessaire avec les données filtrées
@@ -204,27 +293,60 @@ export function ChartComponentHouryly() {
    * Function for DATA CHART
    */
 
+  let titleChart = "";
+  let chartColor = "rgb(255, 99, 132)";
+
+  switch (currentKey) {
+    case WeatherDataKeys.TEMP:
+      // Comportement pour Élément 1
+      titleChart = "Temperature, °C";
+      chartColor = "rgb(255, 99, 132)";
+      break;
+    case WeatherDataKeys.POP:
+      // Comportement pour Élément 2
+      titleChart = "Probality of precipitations, %";
+      chartColor = "rgb(77, 77, 255)";
+      break;
+    case WeatherDataKeys.WIND:
+      titleChart = "Wind, m/s";
+      chartColor = "rgb(224,231,34)";
+      break;
+    case WeatherDataKeys.PRESSURE:
+      titleChart = "Pressure, hPa";
+      chartColor = "rgb(68,214,44)";
+      break;
+    case WeatherDataKeys.HUMIDITY:
+      titleChart = "Humidity, %";
+      chartColor = "rgb(255,173,0)";
+      break;
+    case WeatherDataKeys.VISIBILITY:
+      titleChart = "Visibility, m";
+      chartColor = "rgb(210,39,48)";
+      break;
+    case WeatherDataKeys.FEELS_LIKE:
+      titleChart = "Felt, °C";
+      chartColor = "rgb(172,55,238)";
+      break;
+    default:
+      titleChart = "Temperature, °C";
+      chartColor = "rgb(255, 99, 132)";
+      break;
+  }
+
   const dataChart = {
     labels: chartData.labels,
     datasets: [
       {
-        label: currentKey,
+        label: titleChart,
         data: chartData.data,
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        borderColor: chartColor,
+        // backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: chartColor,
         yAxisID: "y",
       },
     ],
   };
-  // if (isLoading) {
-  //   return (
-  //     <FontAwesomeIcon
-  //       icon={icon({ name: "spinner", style: "solid" })}
-  //       spin
-  //       className="spinner-current"
-  //     />
-  //   );
-  // } else {
+
   return (
     <>
       <Line
@@ -237,15 +359,14 @@ export function ChartComponentHouryly() {
           plugins: {
             title: {
               display: true,
-              text: "we change title ici",
+              text: `From ${chartData.startDate} to ${chartData.endDate}`,
+              position: "top",
+              padding: {
+                bottom: 15,
+              },
             },
           },
           scales: {
-            // y: {
-            //   type: "linear" as const,
-            //   display: true,
-            //   position: "left" as const,
-            // },
             y: {
               type: "linear" as const,
               display: true,

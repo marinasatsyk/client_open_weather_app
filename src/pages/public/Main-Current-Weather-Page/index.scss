@@ -1,21 +1,33 @@
 .wrap-main-current-weather {
   height: 100%;
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @media screen and (min-width: 1600px) {
+    width: 75%;
+  }
 }
 
 .wrap-common-long-daily {
   display: flex;
   gap: 20px;
   height: 45%;
+  @media screen and (max-width: 1800px) {
+    flex-direction: column;
+    height: auto;
+  }
 }
 
 .wrap-short-forecast-radar {
   display: flex;
   gap: 20px;
   height: 45%;
+  @media screen and (max-width: 1800px) {
+    flex-direction: column;
+    height: auto;
+  }
 }
 
 .current-common-wrap,
@@ -26,11 +38,6 @@
   position: relative;
   overflow: hidden;
   min-width: 400px;
-}
-
-.long-daily-forecast,
-.current-short-hourly,
-.current-radar {
   background: #ffffff3f;
   border-radius: 3px;
 }

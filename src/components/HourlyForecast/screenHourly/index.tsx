@@ -5,10 +5,14 @@ import { format } from "date-fns";
 import "./index.scss";
 import { useState } from "react";
 import ChartComponentHouryly from "components/charts/ChartHourly";
+import { WeatherDataKeys } from "components/charts/ChartHourly/chartHelpers";
 
 function ScreenHourlyForecastComponent() {
   const { error, isLoading } = UseAppSelector((state) => state.hourlyForecast);
   const [elementActif, setElementActif] = useState<number>(1);
+  const [activeKey, setActiveKey] = useState<WeatherDataKeys>(
+    WeatherDataKeys.TEMP
+  );
 
   const handleClickMenuActive = (index: number) => {
     setElementActif(index);
@@ -17,16 +21,45 @@ function ScreenHourlyForecastComponent() {
       case 1:
         // Comportement pour Élément 1
         console.log("Cliqué sur Élément 1");
+        setActiveKey(WeatherDataKeys.TEMP);
         break;
       case 2:
         // Comportement pour Élément 2
         console.log("Cliqué sur Élément 2");
+        setActiveKey(WeatherDataKeys.POP);
         break;
       case 3:
         // Comportement pour Élément 3
         console.log("Cliqué sur Élément 3");
+        setActiveKey(WeatherDataKeys.WIND);
+        break;
+      case 4:
+        // Comportement pour Élément 3
+        console.log("Cliqué sur Élément 3");
+        setActiveKey(WeatherDataKeys.PRESSURE);
+        break;
+      case 5:
+        // Comportement pour Élément 3
+        console.log("Cliqué sur Élément 3");
+        setActiveKey(WeatherDataKeys.HUMIDITY);
+        break;
+      case 6:
+        // Comportement pour Élément 3
+        console.log("Cliqué sur Élément 3");
+        setActiveKey(WeatherDataKeys.VISIBILITY);
+        break;
+      case 7:
+        // Comportement pour Élément 3
+        console.log("Cliqué sur Élément 3");
+
+        break;
+      case 8:
+        // Comportement pour Élément 3
+        console.log("Cliqué sur Élément 3");
+        setActiveKey(WeatherDataKeys.FEELS_LIKE);
         break;
       default:
+        setActiveKey(WeatherDataKeys.TEMP);
         break;
     }
   };
@@ -94,7 +127,7 @@ function ScreenHourlyForecastComponent() {
         >
           <FontAwesomeIcon icon={icon({ name: "eye", style: "solid" })} />
         </div>
-        <div
+        {/* <div
           className={`quality icon-container ${
             elementActif === 7 ? "active-icon" : ""
           }`}
@@ -102,7 +135,7 @@ function ScreenHourlyForecastComponent() {
           onClick={() => handleClickMenuActive(7)}
         >
           <p>AQI</p>
-        </div>
+        </div> */}
         <div
           className={`felt icon-container ${
             elementActif === 8 ? "active-icon" : ""
@@ -125,7 +158,7 @@ function ScreenHourlyForecastComponent() {
               className="spinner-current"
             />
           ) : (
-            <ChartComponentHouryly />
+            <ChartComponentHouryly activeKey={activeKey} />
           )}
         </div>
       </div>
