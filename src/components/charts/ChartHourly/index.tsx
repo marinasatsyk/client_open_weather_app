@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,13 +10,19 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { format } from "date-fns";
-import "./index.scss";
 import { UseAppSelector } from "utils/hook";
 import { WeatherDataFH } from "common/interfaces/auth";
+import {
+  ChartData,
+  MainWeatherData,
+  WeatherData,
+  WeatherDataKeys,
+  getHoursFromUnixTime,
+  options,
+} from "./chartHelpers";
+import "./index.scss";
 
 ChartJS.register(
   CategoryScale,
@@ -28,97 +34,13 @@ ChartJS.register(
   Legend
 );
 
-const getHour = (unixTimestamp: number) => {
-  const inputDate = new Date(unixTimestamp * 1000);
-  return format(inputDate, "HH[h]");
-};
-
-export const options = {
-  responsive: true,
-  interaction: {
-    mode: "index" as const,
-    intersect: false,
-  },
-  stacked: false,
-  plugins: {
-    title: {
-      display: true,
-      text: "Chart.js Line Chart - Multi Axis",
-    },
-  },
-  scales: {
-    // y: {
-    //   type: "linear" as const,
-    //   display: true,
-    //   position: "left" as const,
-    // },
-    y: {
-      type: "linear" as const,
-      display: true,
-      position: "right" as const,
-      grid: {
-        drawOnChartArea: false,
-      },
-    },
-  },
-};
-
-// const labels = ["January", "February", "March", "April", "May", "June", "July"];
-
-// export const dataEx = {
-//   labels,
-//   datasets: [
-//     {
-//       label: "Dataset",
-//       data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-//       borderColor: "rgb(53, 162, 235)",
-//       backgroundColor: "rgba(53, 162, 235, 0.5)",
-//       yAxisID: "y",
-//     },
-//   ],
-// };
-
-enum WeatherDataKeys {
-  TEMP = "temp",
-  FEELS_LIKE = "feels_like",
-  PRESSURE = "pressure",
-  HUMIDITY = "humidity",
-  WIND = "wind",
-  VISIBILITY = "visibility",
-  POP = "pop",
-}
-
-type MainWeatherData = {
-  temp: number;
-  feels_like: number;
-  pressure: number;
-  humidity: number;
-};
-
-type WeatherData = {
-  dt: number;
-  main: MainWeatherData;
-  wind: {
-    speed: number;
-  };
-  visibility: number;
-  pop: number;
-};
-
-type WeatherDataKeysUnion = keyof WeatherData | keyof MainWeatherData;
-
-type ChartData = {
-  data: number[];
-  labels: string[];
-  min?: number;
-  max?: number;
-};
 export function ChartComponentHouryly() {
   const {
     error,
     isLoading,
     data: dataR,
   } = UseAppSelector((state) => state.hourlyForecast);
+
   const [isDisabledPrevBtn, setIsDisabledPrevBtn] = useState(false);
   const [isDisabledNextBtn, setIsDisabledNextBtn] = useState(false);
   const [currentIndexData, setCurrentIndexData] = useState(0);
@@ -138,7 +60,7 @@ export function ChartComponentHouryly() {
 
   useEffect(() => {
     // Chargement initial des données
-    updateChartData();
+    !isLoading && updateChartData();
   }, []);
 
   //Select function to use
@@ -146,9 +68,19 @@ export function ChartComponentHouryly() {
   const filterData = (
     index: number,
     data: WeatherData[],
-    key: WeatherDataKeys
+    key: WeatherDataKeys,
+    lat: number,
+    lon: number
   ) => {
-    if (index < 0 || index >= data.length) {
+    if (!data || !dataR?.list) {
+      return {
+        data: [],
+        labels: [],
+        min: undefined,
+        max: undefined,
+      };
+    }
+    if (index < 0 || index >= dataR?.list.length) {
       console.error("Index out of range");
       return {
         data: [],
@@ -159,19 +91,29 @@ export function ChartComponentHouryly() {
     }
 
     if ("main" in data[0] && key in data[0].main) {
-      return filterMainData(index, data, key as keyof MainWeatherData);
+      return filterMainData(
+        index,
+        data,
+        key as keyof MainWeatherData,
+        lat,
+        lon
+      );
     } else {
-      return filterOtherData(index, data, key as keyof WeatherData);
+      return filterOtherData(index, data, key as keyof WeatherData, lat, lon);
     }
   };
 
   const filterMainData = (
     index: number,
     data: WeatherData[],
-    key: keyof MainWeatherData
+    key: keyof MainWeatherData,
+    lat: number,
+    lon: number
   ) => {
     const filteredData = data.slice(index, index + 12).map((item) => ({
-      timestamp: item.dt * 1000,
+      // timestamp: item.dt * 1000,
+      timestamp: item.dt,
+      // timeZone: item.timeZone,
       value: item.main[key] as number,
     }));
 
@@ -180,8 +122,9 @@ export function ChartComponentHouryly() {
     const maxValue = Math.max(...values);
 
     const labels = filteredData.map((item) => {
-      const date = new Date(item.timestamp);
-      return `${date.getHours()}H`;
+      // const date = new Date(item.timestamp);
+      // return `${date.getHours()}h`;
+      return getHoursFromUnixTime(item.timestamp, lat, lon);
     });
 
     return {
@@ -195,7 +138,9 @@ export function ChartComponentHouryly() {
   const filterOtherData = (
     index: number,
     data: WeatherData[],
-    key: keyof WeatherData
+    key: keyof WeatherData,
+    lat: number,
+    lon: number
   ) => {
     const filteredData = data.slice(index, index + 12).map((item) => ({
       timestamp: item.dt * 1000,
@@ -221,6 +166,7 @@ export function ChartComponentHouryly() {
 
   const handlePrev = () => {
     if (currentIndexData >= 12) {
+      console.log("*************click prev");
       setCurrentIndexData(currentIndexData - 12);
       updateChartData();
     }
@@ -228,23 +174,29 @@ export function ChartComponentHouryly() {
 
   const handleNext = () => {
     if (currentIndexData + 12 < dataR.list.length) {
+      console.log("*************click next");
       setCurrentIndexData(currentIndexData + 12);
       updateChartData();
     }
   };
 
   const updateChartData = () => {
-    const { data, labels, min, max } = filterData(
-      currentIndexData,
-      dataR.list,
-      currentKey
-    );
+    console.log("dataR.city.timezone?????????????", dataR);
 
-    console.log("data from chart js", data, labels);
-
-    const dataForChart = data.map((item) => item.value);
-    console.log(dataForChart);
-    setChartData({ data: dataForChart, labels, min, max });
+    if (Object.keys(dataR).length) {
+      const { data, labels, min, max } = filterData(
+        currentIndexData,
+        dataR.list,
+        currentKey,
+        dataR.city.coord.lat,
+        dataR.city.coord.lon
+      );
+      console.log("data from chart js", data, labels);
+      const dataForChart = data.map((item) => item.value);
+      console.log(dataForChart);
+      setChartData({ data: dataForChart, labels, min, max });
+    }
+    return;
     // Mettez à jour votre state ou effectuez toute autre logique nécessaire avec les données filtrées
   };
 
@@ -264,10 +216,48 @@ export function ChartComponentHouryly() {
       },
     ],
   };
-
+  // if (isLoading) {
+  //   return (
+  //     <FontAwesomeIcon
+  //       icon={icon({ name: "spinner", style: "solid" })}
+  //       spin
+  //       className="spinner-current"
+  //     />
+  //   );
+  // } else {
   return (
     <>
-      <Line options={options} data={dataChart} />
+      <Line
+        options={{
+          responsive: true,
+          interaction: {
+            mode: "index" as const,
+            intersect: false,
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: "we change title ici",
+            },
+          },
+          scales: {
+            // y: {
+            //   type: "linear" as const,
+            //   display: true,
+            //   position: "left" as const,
+            // },
+            y: {
+              type: "linear" as const,
+              display: true,
+              position: "top" as const,
+              grid: {
+                drawOnChartArea: false,
+              },
+            },
+          },
+        }}
+        data={dataChart}
+      />
       <div className="btn-container">
         <div className="wrap-left-btn" onClick={() => handlePrev()}>
           <FontAwesomeIcon

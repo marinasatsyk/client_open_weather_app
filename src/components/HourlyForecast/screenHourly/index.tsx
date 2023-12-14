@@ -7,6 +7,7 @@ import { useState } from "react";
 import ChartComponentHouryly from "components/charts/ChartHourly";
 
 function ScreenHourlyForecastComponent() {
+  const { error, isLoading } = UseAppSelector((state) => state.hourlyForecast);
   const [elementActif, setElementActif] = useState<number>(1);
 
   const handleClickMenuActive = (index: number) => {
@@ -117,7 +118,15 @@ function ScreenHourlyForecastComponent() {
       <div className="main-container-screen-hourly">
         <h2>Hourly Forecast</h2>
         <div className="chart-container">
-          <ChartComponentHouryly />
+          {isLoading ? (
+            <FontAwesomeIcon
+              icon={icon({ name: "spinner", style: "solid" })}
+              spin
+              className="spinner-current"
+            />
+          ) : (
+            <ChartComponentHouryly />
+          )}
         </div>
       </div>
     </div>

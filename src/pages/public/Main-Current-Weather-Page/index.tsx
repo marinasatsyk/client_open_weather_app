@@ -202,14 +202,14 @@ const CurrentWeatherComponent = () => {
         <section className="current-short-hourly">
           <HourlyCurrentForecastComponent />
         </section>
-        {currentCoordinates.lat && currentCoordinates.lon && (
-          <section className="current-radar">
+        <section className="current-radar">
+          {currentCoordinates.lat && currentCoordinates.lon && (
             <RadarWeatherComponent
               lat={currentCoordinates.lat}
               lon={currentCoordinates.lon}
             />
-          </section>
-        )}
+          )}
+        </section>
       </div>
     </div>
   );

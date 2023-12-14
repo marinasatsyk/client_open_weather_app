@@ -1,4 +1,9 @@
 .btn-container {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 660px;
+  align-items: center;
   svg {
     font-size: 30px;
     cursor: pointer;

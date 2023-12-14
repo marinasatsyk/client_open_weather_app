@@ -244,11 +244,26 @@ interface ListFH {
   dt_txt: string;
 }
 
+export interface CityFH {
+  id: number;
+  name: string;
+  country: string;
+  population: number;
+  timezone: number;
+  sunrise: number;
+  sunset: number;
+  coord: {
+    lat: number;
+    lon: number;
+  };
+}
+
 export interface WeatherDataFH {
   cod: string;
   message: number;
   cnt: number;
   list: ListFH[];
+  city: CityFH;
 }
 
 export interface IWeatherStateFH {
