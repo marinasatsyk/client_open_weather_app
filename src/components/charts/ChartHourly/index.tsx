@@ -134,16 +134,7 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
       value: item.main[key] as number,
     }));
 
-    const filteredDataT = data.slice(index, index + 24).map((item) => ({
-      timestamp: getHoursFromUnixTime(item.dt, lat, lon),
-      value: item.main[key] as number,
-      date: getDateFromUnixTime(item.dt, lat, lon),
-    }));
-
-    console.log("data for display", filteredDataT);
-
     const values = filteredData.map((item) => item.value);
-
     const minValue = Math.min(...values);
     const maxValue = Math.max(...values);
 
@@ -160,6 +151,14 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
     const endDate = moment
       .unix(sortedTimestamps[sortedTimestamps.length - 1].timestamp)
       .format("D MMM YYYY");
+
+    //refacto?
+    // const filteredDataT = data.slice(index, index + 24).map((item) => ({
+    //   timestamp: getHoursFromUnixTime(item.dt, lat, lon),
+    //   value: item.main[key] as number,
+    //   date: getDateFromUnixTime(item.dt, lat, lon),
+    // }));
+    // console.log("data for display", filteredDataT);
 
     return {
       data: filteredData,
@@ -178,8 +177,7 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
     lat: number,
     lon: number
   ) => {
-    console.log("in other", index, index + 24);
-
+    console.log("🎲in other", index);
     const filteredData = data.slice(index, index + 24).map((item) => ({
       timestamp: item.dt,
       value:
@@ -227,26 +225,34 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
 
   const handlePrev = () => {
     if (currentIndexData >= 24) {
-      // setIsDisabledPrevBtn(false)
       console.log("*************click prev");
       setCurrentIndexData(currentIndexData - 24);
       updateChartData();
     }
-    // setIsDisabledPrevBtn(true)
   };
 
   const handleNext = () => {
     if (currentIndexData + 24 < dataR.list.length) {
-      // setIsDisabledNextBtn(false);
       console.log("*************click next");
       setCurrentIndexData(currentIndexData + 24);
       updateChartData();
     }
-    // setIsDisabledNextBtn(true);
   };
 
   const updateChartData = () => {
+    //we disable btn when no data for display in nex/prev range
     if (Object.keys(dataR).length) {
+      if (currentIndexData + 24 >= dataR.list.length) {
+        setIsDisabledNextBtn(true);
+      } else {
+        setIsDisabledNextBtn(false);
+      }
+
+      if (currentIndexData < 24) {
+        setIsDisabledPrevBtn(true);
+      } else {
+        setIsDisabledPrevBtn(false);
+      }
       console.log("we update filter data", currentIndexData);
       //@ts-ignore
       const { data, labels, min, max, startDate, endDate } = filterData(
@@ -330,7 +336,10 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
 
   return (
     <div className="main-chart-container">
-      <div className="wrap-left-btn" onClick={() => handlePrev()}>
+      <div
+        className={`wrap-left-btn ${isDisabledPrevBtn && "hidden"}`}
+        onClick={() => handlePrev()}
+      >
         <FontAwesomeIcon
           icon={icon({ name: "circle-chevron-left", style: "solid" })}
         />
@@ -381,7 +390,10 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
           data={dataChart}
         />
       </div>
-      <div className="wrap-right-btn" onClick={() => handleNext()}>
+      <div
+        className={`wrap-right-btn ${isDisabledNextBtn && "hidden"}`}
+        onClick={() => handleNext()}
+      >
         <FontAwesomeIcon
           icon={icon({ name: "circle-chevron-right", style: "solid" })}
         />

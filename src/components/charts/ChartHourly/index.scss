@@ -10,9 +10,15 @@
 
   .wrap-left-btn {
     padding-left: 5px;
+    &.hidden {
+      visibility: hidden;
+    }
   }
   .wrap-right-btn {
     padding-right: 5px;
+    &.hidden {
+      visibility: hidden;
+    }
   }
   svg {
     font-size: 30px;

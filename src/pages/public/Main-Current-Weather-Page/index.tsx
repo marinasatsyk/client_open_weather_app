@@ -17,6 +17,9 @@ import RadarWeatherComponent from "components/Radar";
 import { getDailyForecastWeather } from "store/thunks/dailyweather";
 import { getHourlyForecastWeather } from "store/thunks/hourlyweather";
 import HourlyCurrentForecastComponent from "components/HourlyForecast";
+import { CommonModalComponent } from "components/CommonModal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 interface ICoordinates {
   lat: number | undefined;
@@ -34,8 +37,12 @@ const CurrentWeatherComponent = () => {
     lat: undefined,
     lon: undefined,
   });
-
-  const bookmarks = UseBookmarks();
+  const { bookmarks } = UseAppSelector((state) => state.auth.user);
+  const { isLoading } = UseAppSelector((state) => state.auth);
+  const {
+    isModalOpened: isModalSettingsOpened,
+    toggle: setModalSettingsOpened,
+  } = useModal();
 
   const getUserDashboard = async () => {
     console.log("we start get user");
@@ -69,6 +76,7 @@ const CurrentWeatherComponent = () => {
       console.log("🍩", isInitialMount);
 
       getUserDashboard();
+      setTimeout(() => {}, 500);
 
       getCoordinates();
     } else {
@@ -133,31 +141,46 @@ const CurrentWeatherComponent = () => {
     }
   }
 
-  return (
-    <div className="wrap-main-current-weather">
-      <div className="wrap-common-long-daily">
-        <section className="current-common-wrap">
-          <CurrentWeatherCommon />
-        </section>
-        <section className="long-daily-forecast">
-          <DailyForecastComponent />
-        </section>
+  if (isLoading) {
+    return (
+      <CommonModalComponent
+        isModalOpened={isModalSettingsOpened}
+        hide={setModalSettingsOpened}
+      >
+        <FontAwesomeIcon
+          icon={icon({ name: "spinner", style: "solid" })}
+          spin
+          className="spinner-current"
+        />
+      </CommonModalComponent>
+    );
+  } else {
+    return (
+      <div className="wrap-main-current-weather">
+        <div className="wrap-common-long-daily">
+          <section className="current-common-wrap">
+            <CurrentWeatherCommon />
+          </section>
+          <section className="long-daily-forecast">
+            <DailyForecastComponent />
+          </section>
+        </div>
+        <div className="wrap-short-forecast-radar">
+          <section className="current-short-hourly">
+            <HourlyCurrentForecastComponent />
+          </section>
+          <section className="current-radar">
+            {currentCoordinates.lat && currentCoordinates.lon && (
+              <RadarWeatherComponent
+                lat={currentCoordinates.lat}
+                lon={currentCoordinates.lon}
+              />
+            )}
+          </section>
+        </div>
       </div>
-      <div className="wrap-short-forecast-radar">
-        <section className="current-short-hourly">
-          <HourlyCurrentForecastComponent />
-        </section>
-        <section className="current-radar">
-          {currentCoordinates.lat && currentCoordinates.lon && (
-            <RadarWeatherComponent
-              lat={currentCoordinates.lat}
-              lon={currentCoordinates.lon}
-            />
-          )}
-        </section>
-      </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default CurrentWeatherComponent;
