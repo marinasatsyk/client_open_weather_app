@@ -1,110 +1,123 @@
-@media screen and (min-width: 601px) {
-  section.long-daily-forecast {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+section.long-daily-forecast {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.wrap-daily-forecast {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 5px;
+  max-height: 450px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  font-size: 12px;
+  &::-webkit-scrollbar {
+    width: 10px; /* width of  scrollbar */
   }
 
-  .wrap-daily-forecast {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    gap: 5px;
-    max-height: 450px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    font-size: 12px;
-    &::-webkit-scrollbar {
-      width: 10px; /* width of  scrollbar */
-    }
-
-    &::-webkit-scrollbar-track {
-      background-color: rgba(255, 255, 255, 0.5); /* color of scrollbar track */
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: rgba(255, 255, 255, 0.856); /* color of the slider */
-      height: 10px;
-      border-radius: 3px;
-    }
+  &::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0.5); /* color of scrollbar track */
   }
 
-  .daily-forecast-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    padding: 3px;
-    &:hover {
-      cursor: pointer;
-      background-color: rgba(255, 255, 255, 0.5);
-      border-radius: 3px;
-    }
-
-    .left-side,
-    .centre-icon,
-    .right-side {
-      flex: 1;
-    }
-
-    .left-side {
-      display: flex;
-      gap: 5px;
-    }
-    .centre-icon {
-      display: flex;
-      justify-content: center;
-    }
-
-    .max,
-    .min {
-      display: flex;
-      gap: 3px;
-    }
-
-    .right-side {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.856); /* color of the slider */
+    height: 10px;
+    border-radius: 3px;
   }
+}
 
-  .additional-component {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.15s ease-out;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .expand {
-    max-height: 200px;
-    transition: max-height 0.25s ease-in;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+.daily-forecast-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  padding: 3px;
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 3px;
   }
 
-  .chevron {
-    transition: transform 0.3s ease;
+  .left-side,
+  .centre-icon,
+  .right-side {
+    flex: 1;
   }
 
-  .rotate {
-    transform: rotate(180deg);
+  .left-side {
+    display: flex;
+    gap: 5px;
+  }
+  .centre-icon {
+    display: flex;
+    justify-content: center;
   }
 
-  .temperature-block,
-  .other-components,
-  .wind-and-other {
+  .max,
+  .min {
+    display: flex;
+    gap: 3px;
+  }
+
+  .right-side {
     display: flex;
     justify-content: space-between;
-    gap: 3px;
-    font-size: 12px;
+    align-items: center;
   }
-  .sub-title {
-    font-weight: bold;
+}
+
+.additional-component {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.15s ease-out;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.expand {
+  max-height: 200px;
+  transition: max-height 0.25s ease-in;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+}
+
+.chevron {
+  transition: transform 0.3s ease;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+.temperature-block,
+.other-components,
+.wind-and-other {
+  display: flex;
+  justify-content: space-between;
+  gap: 3px;
+  font-size: 12px;
+}
+.sub-title {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  .long-daily-forecast {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff36;
+    border-radius: 3px;
+    width: 380px;
+    margin-bottom: 20px;
+    h2 {
+      font-size: 14px;
+    }
   }
 }

@@ -18,3 +18,22 @@
   height: 100%;
   align-items: center;
 }
+
+@media screen and (max-width: 767px) {
+  .current-radar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2117647059);
+    width: 380px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 3px;
+  }
+  .wrap-leaflet-part {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}

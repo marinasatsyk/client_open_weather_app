@@ -20,6 +20,7 @@ import HourlyCurrentForecastComponent from "components/HourlyForecast";
 import { CommonModalComponent } from "components/CommonModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { useMediaQuery } from "react-responsive";
 
 interface ICoordinates {
   lat: number | undefined;
@@ -43,6 +44,7 @@ const CurrentWeatherComponent = () => {
     isModalOpened: isModalSettingsOpened,
     toggle: setModalSettingsOpened,
   } = useModal();
+  const isDesktop = useMediaQuery({ minWidth: 768 });
 
   const getUserDashboard = async () => {
     console.log("we start get user");
@@ -155,20 +157,57 @@ const CurrentWeatherComponent = () => {
       </CommonModalComponent>
     );
   } else {
-    return (
-      <div className="wrap-main-current-weather">
-        <div className="wrap-common-long-daily">
+    if (isDesktop) {
+      return (
+        <div className="wrap-main-current-weather">
+          <div className="wrap-common-long-daily">
+            <section className="current-common-wrap">
+              {currentCoordinates.lat && currentCoordinates.lon && (
+                <CurrentWeatherCommon
+                  lat={currentCoordinates.lat}
+                  lon={currentCoordinates.lon}
+                />
+              )}
+            </section>
+            <section className="long-daily-forecast">
+              <DailyForecastComponent />
+            </section>
+          </div>
+          <div className="wrap-short-forecast-radar">
+            <section className="current-short-hourly">
+              <HourlyCurrentForecastComponent />
+            </section>
+            <section className="current-radar">
+              {currentCoordinates.lat && currentCoordinates.lon && (
+                <RadarWeatherComponent
+                  lat={currentCoordinates.lat}
+                  lon={currentCoordinates.lon}
+                />
+              )}
+            </section>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="wrap-main-current-weather">
           <section className="current-common-wrap">
-            <CurrentWeatherCommon />
+            {currentCoordinates.lat && currentCoordinates.lon && (
+              <CurrentWeatherCommon
+                lat={currentCoordinates.lat}
+                lon={currentCoordinates.lon}
+              />
+            )}
           </section>
+
+          {/* <section className="current-short-hourly">
+            <HourlyCurrentForecastComponent /> 
+          </section>
+
           <section className="long-daily-forecast">
             <DailyForecastComponent />
           </section>
-        </div>
-        <div className="wrap-short-forecast-radar">
-          <section className="current-short-hourly">
-            <HourlyCurrentForecastComponent />
-          </section>
+         
           <section className="current-radar">
             {currentCoordinates.lat && currentCoordinates.lon && (
               <RadarWeatherComponent
@@ -176,10 +215,10 @@ const CurrentWeatherComponent = () => {
                 lon={currentCoordinates.lon}
               />
             )}
-          </section>
+          </section> */}
         </div>
-      </div>
-    );
+      );
+    }
   }
 };
 

@@ -1,5 +1,13 @@
 .leaflet-container {
-  height: 390px;
-  width: 490px;
+  height: 250px;
+  width: 350px;
   border-radius: 3px;
+}
+
+@media screen and (min-width: 601px) {
+  .leaflet-container {
+    height: 390px;
+    width: 490px;
+    border-radius: 3px;
+  }
 }
