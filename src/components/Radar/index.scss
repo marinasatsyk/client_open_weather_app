@@ -1,8 +1,20 @@
 .wrap-radar-component {
   height: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 20px;
+}
+
+.side-menu-radar {
+  height: 100%;
+  width: 55px;
+  background: rgba(255, 255, 255, 0.792);
+}
+
+.wrap-leaflet-part {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  align-items: center;
 }

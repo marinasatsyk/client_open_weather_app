@@ -19,6 +19,7 @@ import {
   MainWeatherData,
   WeatherData,
   WeatherDataKeys,
+  getDateFromUnixTime,
   getHoursFromUnixTime,
   options,
 } from "./chartHelpers";
@@ -45,19 +46,6 @@ type ChartObject = {
   };
 };
 
-//plugin block
-// const legendMargin = {
-//   id: "legendMargin",
-//   beforeInit(chart, legend, option) {
-//     console.log(chart.legend.fit);
-//     const fitValue = chart.legend.fit;
-//     chart.legend.fi = function fit() {
-//       fitValue.bind(chart.legend)();
-//       return (this.height += 20);
-//     };
-//   },
-// };
-
 export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
   const {
     error,
@@ -65,12 +53,9 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
     data: dataR,
   } = UseAppSelector((state) => state.hourlyForecast);
 
-  // const [isDisabledPrevBtn, setIsDisabledPrevBtn] = useState(false);
-  // const [isDisabledNextBtn, setIsDisabledNextBtn] = useState(false);
+  const [isDisabledPrevBtn, setIsDisabledPrevBtn] = useState(false);
+  const [isDisabledNextBtn, setIsDisabledNextBtn] = useState(false);
   const [currentIndexData, setCurrentIndexData] = useState(0);
-  // const [currentKey, setCurrentKey] = useState<WeatherDataKeys>(
-  //   WeatherDataKeys.TEMP
-  // );
 
   const { activeKey: currentKey } = props;
   console.log("currentkey", currentKey);
@@ -92,7 +77,7 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
   useEffect(() => {
     // Chargement initial des données
     !isLoading && updateChartData();
-  }, [currentKey]);
+  }, [currentKey, currentIndexData]);
 
   //Select function to use
 
@@ -121,7 +106,7 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
       };
     }
 
-    console.log("in function===========>", key);
+    console.log("in function=========== update>", key);
     if ("main" in data[0] && key in data[0].main) {
       return filterMainData(
         index,
@@ -142,27 +127,20 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
     lat: number,
     lon: number
   ) => {
-    console.log("in main");
+    console.log("❤️in main", index);
 
     const filteredData = data.slice(index, index + 24).map((item) => ({
       timestamp: item.dt,
       value: item.main[key] as number,
     }));
 
-    // const chartObj: ChartObject = {
-    //   labels: [],
-    //   values: [],
-    //   ranges: { from: "", to: "" },
-    // };
+    const filteredDataT = data.slice(index, index + 24).map((item) => ({
+      timestamp: getHoursFromUnixTime(item.dt, lat, lon),
+      value: item.main[key] as number,
+      date: getDateFromUnixTime(item.dt, lat, lon),
+    }));
 
-    // const values = filteredData.map((item) => {
-    //   if (item.timestamp && item.value) {
-    //     chartObj.values.push(item.value);
-    //     chartObj.labels.push(getHoursFromUnixTime(item.timestamp, lat, lon));
-    //   }
-
-    //   return item.value;
-    // });
+    console.log("data for display", filteredDataT);
 
     const values = filteredData.map((item) => item.value);
 
@@ -249,22 +227,27 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
 
   const handlePrev = () => {
     if (currentIndexData >= 24) {
+      // setIsDisabledPrevBtn(false)
       console.log("*************click prev");
       setCurrentIndexData(currentIndexData - 24);
       updateChartData();
     }
+    // setIsDisabledPrevBtn(true)
   };
 
   const handleNext = () => {
     if (currentIndexData + 24 < dataR.list.length) {
+      // setIsDisabledNextBtn(false);
       console.log("*************click next");
       setCurrentIndexData(currentIndexData + 24);
       updateChartData();
     }
+    // setIsDisabledNextBtn(true);
   };
 
   const updateChartData = () => {
     if (Object.keys(dataR).length) {
+      console.log("we update filter data", currentIndexData);
       //@ts-ignore
       const { data, labels, min, max, startDate, endDate } = filterData(
         currentIndexData,
@@ -285,8 +268,8 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
         endDate,
       });
     }
+
     return;
-    // Mettez à jour votre state ou effectuez toute autre logique nécessaire avec les données filtrées
   };
 
   /**
@@ -298,12 +281,10 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
 
   switch (currentKey) {
     case WeatherDataKeys.TEMP:
-      // Comportement pour Élément 1
       titleChart = "Temperature, °C";
       chartColor = "rgb(255, 99, 132)";
       break;
     case WeatherDataKeys.POP:
-      // Comportement pour Élément 2
       titleChart = "Probality of precipitations, %";
       chartColor = "rgb(77, 77, 255)";
       break;
@@ -348,50 +329,64 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
   };
 
   return (
-    <>
-      <Line
-        options={{
-          responsive: true,
-          interaction: {
-            mode: "index" as const,
-            intersect: false,
-          },
-          plugins: {
-            title: {
-              display: true,
-              text: `From ${chartData.startDate} to ${chartData.endDate}`,
-              position: "top",
-              padding: {
-                bottom: 15,
-              },
-            },
-          },
-          scales: {
-            y: {
-              type: "linear" as const,
-              display: true,
-              position: "top" as const,
-              grid: {
-                drawOnChartArea: false,
-              },
-            },
-          },
-        }}
-        data={dataChart}
-      />
-      <div className="btn-container">
-        <div className="wrap-left-btn" onClick={() => handlePrev()}>
-          <FontAwesomeIcon
-            icon={icon({ name: "circle-chevron-left", style: "solid" })}
-          />
-        </div>
-        <div className="wrap-right-btn" onClick={() => handleNext()}>
-          <FontAwesomeIcon
-            icon={icon({ name: "circle-chevron-right", style: "solid" })}
-          />
-        </div>
+    <div className="main-chart-container">
+      <div className="wrap-left-btn" onClick={() => handlePrev()}>
+        <FontAwesomeIcon
+          icon={icon({ name: "circle-chevron-left", style: "solid" })}
+        />
       </div>
-    </>
+      <div className="chart-container">
+        <Line
+          options={{
+            responsive: true,
+            interaction: {
+              mode: "index" as const,
+              intersect: false,
+            },
+            plugins: {
+              title: {
+                display: true,
+                text: `From ${chartData.startDate} to ${chartData.endDate}`,
+                position: "top",
+                padding: {
+                  bottom: 15,
+                },
+              },
+            },
+            scales: {
+              x: {
+                border: {
+                  dash: [3],
+                  // color: "white",
+                },
+                grid: {
+                  color: "rgba(255, 255, 255, 0.3)",
+                },
+              },
+              y: {
+                type: "linear" as const,
+                display: true,
+                position: "right" as const,
+                grid: {
+                  // drawOnChartArea: false,
+                  color: "rgba(255, 255, 255, 0.3)",
+                },
+                border: {
+                  dash: [3],
+                  color: "white",
+                },
+              },
+            },
+          }}
+          data={dataChart}
+        />
+      </div>
+      <div className="wrap-right-btn" onClick={() => handleNext()}>
+        <FontAwesomeIcon
+          icon={icon({ name: "circle-chevron-right", style: "solid" })}
+        />
+      </div>
+    </div>
   );
 }
 

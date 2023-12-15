@@ -23,16 +23,9 @@ interface IRadar {
 }
 const LeafletMapComponent = (props: IRadar) => {
   const { bookmarks } = UseAppSelector((state) => state.auth.user);
-  // const bookmarks = UseBookmarks();
   const [activeBookmarkLocalState, setIsActiveBookmarkLocalState] = useState(
     {}
   );
-  // const activeBookmark = bookmarks.find(bookmark => bookmark.isActive);
-  // console.log("****************************", activeBookmark)
-
-  // if(activeBookmark){
-  //   setIsActiveBookmarkLocalState(activeBookmark)
-  // }
 
   const getActiveBookmark = () => {
     console.log("useBookmarks", bookmarks);
@@ -48,8 +41,6 @@ const LeafletMapComponent = (props: IRadar) => {
 
   const activeBookmark = getActiveBookmark();
 
-  console.log("❗❗❗❗❗❗❗❗❗❗❗", activeBookmark);
-
   const markers = [
     {
       geocode: activeBookmark
@@ -63,19 +54,6 @@ const LeafletMapComponent = (props: IRadar) => {
     iconSize: [35, 35],
   });
 
-  // const createCustomClusterIcon = (cluster) => {
-  //    return new  divIcon({
-  //     html: `<div class = "cluster-icon">${cluster.getChildCount()}</div>`,
-  //     className: "custom-marker-cluster"
-  //     iconSize: point(33, 33, true)
-  //    });
-  // }
-
-  // useEffect(() => {
-
-  // }, [activeBookmarkLocalState])
-
-  console.log("lat long leaflet================>>>>>>>>>>>>>", markers);
   return (
     <MapContainer
       //@ts-ignore

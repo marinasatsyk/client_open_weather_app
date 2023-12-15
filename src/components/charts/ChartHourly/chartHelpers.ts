@@ -22,22 +22,8 @@ const getHour = (unixTimestamp: number) => {
 
 function offsetToTimezoneByCoord(lat: number, lon: number): string {
   const timeZone: string = moment.tz.guess(true); // Get the default timezone
-
-  // Find the timezone that matches the given offset and country
-  //   const matchingTimezone: string | undefined = Object.values(
-  //     //@ts-ignore
-  //     countries as Record<string, Country>
-  //   ).find(
-  //     (countryInfo) =>
-  //       countryInfo.utcOffset === offsetHours && countryInfo.id === country
-  //   )?.timezone;
-
-  console.log(lat, lon);
   const countryFinded = tz_lookup(lat, lon);
-  console.log("**************************", countryFinded);
-
   if (countryFinded) {
-    console.log(countryFinded);
     return countryFinded;
   } else {
     return timeZone;
@@ -54,6 +40,16 @@ export function getHoursFromUnixTime(
   return date.format("HH[h]");
 }
 
+export function getDateFromUnixTime(
+  unixTime: number,
+  lat: number,
+  lon: number
+): string {
+  const timeZone: string = offsetToTimezoneByCoord(lat, lon);
+  const date: moment.Moment = moment.unix(unixTime).tz(timeZone);
+  return date.format("DD/MM/YYYY");
+}
+
 export const options = {
   responsive: true,
   interaction: {
@@ -68,11 +64,6 @@ export const options = {
     },
   },
   scales: {
-    // y: {
-    //   type: "linear" as const,
-    //   display: true,
-    //   position: "left" as const,
-    // },
     y: {
       type: "linear" as const,
       display: true,

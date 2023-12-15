@@ -150,7 +150,7 @@ function ScreenHourlyForecastComponent() {
       </div>
       <div className="main-container-screen-hourly">
         <h2>Hourly Forecast</h2>
-        <div className="chart-container">
+        <div className="wrap-chart-container">
           {isLoading ? (
             <FontAwesomeIcon
               icon={icon({ name: "spinner", style: "solid" })}

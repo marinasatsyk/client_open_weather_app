@@ -1,11 +1,32 @@
-.btn-container {
-  position: absolute;
+.main-chart-container {
   display: flex;
-  justify-content: space-between;
-  width: 600px;
   align-items: center;
+  gap: 10px;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 3px;
+  width: 490px;
+  height: 390px;
+
+  .wrap-left-btn {
+    padding-left: 5px;
+  }
+  .wrap-right-btn {
+    padding-right: 5px;
+  }
   svg {
     font-size: 30px;
     cursor: pointer;
   }
+}
+
+.chart-container {
+  flex: 1;
+  // height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  padding: 5px;
 }
