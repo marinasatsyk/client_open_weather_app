@@ -365,3 +365,25 @@ export interface IWheatherState {
   isLoading: boolean;
   error: any;
 }
+
+export interface IFullAdminUser {
+  id: string;
+  email: string;
+  isActivated: boolean;
+  activationLink: string;
+  firstName: string;
+  lastName: string;
+  createdDateTime: string;
+  role: string;
+  preferences: {
+    theme: string;
+    language: string;
+  };
+  bookmarks: Array<Bookmark> | [];
+}
+
+export interface IAdminUsersState {
+  users: Array<IFullAdminUser>;
+  isLoading: boolean;
+  error: any;
+}
