@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { registerUser } from "store/thunks/auth";
 import { Validator } from "utils/helpers";
 import { UseAppDispatch, UseAppSelector } from "utils/hook";
-import "./index.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { UserRoleDataKeys } from "common/interfaces/auth";
 import { createUser } from "store/thunks/admin";
+import "./index.scss";
 
 const DialogForm = () => {
   const { isLoading, users, error } = UseAppSelector((state) => state.admin);
@@ -31,16 +31,18 @@ const DialogForm = () => {
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isRegistred, setIsAccountCreated] = useState(false);
   const [role, setRoleKey] = useState<UserRoleDataKeys>(UserRoleDataKeys.USER);
-  const [isValidSelect, setIsValidSelect] = useState(false);
+
+  const [isRoleValidate, setIsRoleValidate] = useState(false);
   const [errorMessageSelect, setErrorMessageSelect] = useState("");
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedRole = e.target.value as UserRoleDataKeys;
     if (Object.values(UserRoleDataKeys).includes(selectedRole)) {
-      setIsValidSelect(true);
+      setIsRoleValidate(true);
       setRoleKey(selectedRole);
+      console.log(selectedRole);
     } else {
-      setIsValidSelect(false);
+      setIsRoleValidate(false);
       setErrorMessageSelect("Valeur de rôle invalide");
       console.error("Valeur de rôle invalide");
     }
@@ -60,16 +62,16 @@ const DialogForm = () => {
       Validator.confirmPassword(password, confirmPassword)
     );
     //select is valid?????
-    setIsValidSelect(Validator.roleValidate(role));
+    setIsRoleValidate(Validator.roleValidate(role));
 
     isEmailValidate &&
     isPasswordValidate &&
     isFirstNameValidate &&
     isLastNameValidate &&
+    isRoleValidate &&
     isConfirmPasswordValidate
       ? setIsSubmitEnabled(true)
       : setIsSubmitEnabled(false);
-
     setIsAccountCreated(isRegistred);
 
     // Après 3 secondes, notification disparait
@@ -82,15 +84,16 @@ const DialogForm = () => {
     isEmailValidate,
     isPasswordValidate,
     isConfirmPasswordValidate,
+    isRoleValidate,
     firstName,
     lastName,
     email,
     password,
     confirmPassword,
-    isSubmitEnabled,
     isRemeberMe,
     errorAuth,
-    // user,
+    role,
+    isSubmitEnabled,
     isRegistred,
   ]);
 
@@ -101,7 +104,7 @@ const DialogForm = () => {
 
     try {
       const userRegisterData = { firstName, lastName, email, password, role };
-      console.log(userRegisterData);
+      console.log("========================", userRegisterData);
       await dispatch(createUser(userRegisterData));
     } catch (e) {
       console.error("error", e);
@@ -170,14 +173,14 @@ const DialogForm = () => {
       /> */}
       <div className="select-input">
         <label htmlFor="userRole">Sélectionnez un rôle :</label>
-        <select name="role" id="role">
+        <select name="role" id="role" onChange={(e) => handleOnChange(e)}>
           {userRoles.map((role) => (
             <option key={role} value={role}>
-              {<div>{role}</div>}
+              {role}
             </option>
           ))}
         </select>
-        {!isValidSelect && (
+        {!isRoleValidate && (
           <div style={{ color: "red", fontSize: "12px" }}>
             {errorMessageSelect}
           </div>
