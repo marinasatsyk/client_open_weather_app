@@ -366,6 +366,7 @@ export interface IWheatherState {
   error: any;
 }
 
+/**admin part */
 export interface IFullAdminUser {
   id: string;
   email: string;
@@ -386,4 +387,23 @@ export interface IAdminUsersState {
   users: Array<IFullAdminUser>;
   isLoading: boolean;
   error: any;
+  createdUser: IFullAdminUser;
+}
+
+export enum UserRoleDataKeys {
+  ADMIN = "root",
+  USER = "user",
+}
+
+//create user from admin
+export interface ICreateAdminUser {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  role: UserRoleDataKeys;
+}
+
+export interface CreateResponse {
+  user: IFullAdminUser;
 }

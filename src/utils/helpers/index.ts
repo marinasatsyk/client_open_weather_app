@@ -1,4 +1,4 @@
-import { Token } from "common/interfaces/auth";
+import { Token, UserRoleDataKeys } from "common/interfaces/auth";
 import { format } from "date-fns";
 import * as moment from "moment-timezone";
 
@@ -59,6 +59,13 @@ export const Validator = {
     } else {
       return false;
     }
+  },
+
+  roleValidate: (role: string | undefined): boolean => {
+    if (!role) {
+      return false;
+    }
+    return Object.values(UserRoleDataKeys).includes(role as UserRoleDataKeys);
   },
 };
 

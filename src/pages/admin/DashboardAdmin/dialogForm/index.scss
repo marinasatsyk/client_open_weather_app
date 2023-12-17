@@ -1,0 +1,25 @@
+.form-add-user {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 50%;
+  .wrapInput,
+  .select-input {
+    display: flex;
+    flex-direction: column;
+  }
+  label {
+    text-transform: capitalize;
+  }
+  input,
+  select,
+  .submit-btn {
+    border-radius: 3px;
+    background: white !important;
+    height: 35px;
+  }
+
+  .submit-btn {
+    cursor: pointer;
+  }
+}

@@ -1,11 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IAdminUsersState } from "common/interfaces/auth";
-import { getAllUsers } from "store/thunks/admin";
+import { createUser, getAllUsers } from "store/thunks/admin";
 
 const initialState = {
   users: [],
   error: "",
   isLoading: false,
+  createdUser: {
+    id: "",
+    email: "",
+    isActivated: false,
+    activationLink: "",
+    firstName: "",
+    lastName: "",
+    createdDateTime: "",
+    role: "",
+    preferences: {
+      theme: "",
+      language: "",
+    },
+    bookmarks: [],
+  },
 } as IAdminUsersState;
 
 export const adminSlice = createSlice({
@@ -28,6 +43,25 @@ export const adminSlice = createSlice({
       state.error = "";
     });
     builder.addCase(getAllUsers.rejected, (state, action) => {
+      state.error = "";
+      state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+
+    //create user from admin
+    builder.addCase(createUser.pending, (state, action) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(createUser.fulfilled, (state, action) => {
+      console.log("from builder createUser", action.payload);
+      const user = action.payload.user;
+      state.isLoading = false;
+      state.createdUser = user;
+      state.error = "";
+    });
+
+    builder.addCase(createUser.rejected, (state, action) => {
       state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;
