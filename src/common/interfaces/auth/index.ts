@@ -368,7 +368,7 @@ export interface IWheatherState {
 
 /**admin part */
 export interface IFullAdminUser {
-  id: string;
+  _id: string;
   email: string;
   isActivated: boolean;
   activationLink: string;
@@ -387,7 +387,7 @@ export interface IAdminUsersState {
   users: Array<IFullAdminUser>;
   isLoading: boolean;
   error: any;
-  createdUser: IFullAdminUser;
+  adminUser: IFullAdminUser;
 }
 
 export enum UserRoleDataKeys {

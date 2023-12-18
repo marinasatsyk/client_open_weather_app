@@ -9,16 +9,18 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { UserRoleDataKeys } from "common/interfaces/auth";
 import { createUser } from "store/thunks/admin";
 import "./index.scss";
+import admin from "store/slice/admin";
 
 const DialogForm = () => {
-  const { isLoading, users, error } = UseAppSelector((state) => state.admin);
+  const { isLoading, users, adminUser, error } = UseAppSelector(
+    (state) => state.admin
+  );
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isRemeberMe, setIsRemeberMe] = useState(false);
   const [errorAuth, setErrorAuth] = useState<any>({});
 
   //**validation states front side */
@@ -31,7 +33,6 @@ const DialogForm = () => {
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [isRegistred, setIsAccountCreated] = useState(false);
   const [role, setRoleKey] = useState<UserRoleDataKeys>(UserRoleDataKeys.USER);
-
   const [isRoleValidate, setIsRoleValidate] = useState(false);
   const [errorMessageSelect, setErrorMessageSelect] = useState("");
 
@@ -40,7 +41,6 @@ const DialogForm = () => {
     if (Object.values(UserRoleDataKeys).includes(selectedRole)) {
       setIsRoleValidate(true);
       setRoleKey(selectedRole);
-      console.log(selectedRole);
     } else {
       setIsRoleValidate(false);
       setErrorMessageSelect("Valeur de rôle invalide");
@@ -50,6 +50,7 @@ const DialogForm = () => {
   //hooks
 
   const dispatch = UseAppDispatch();
+  const navigate = useNavigate();
 
   const userRoles = Object.values(UserRoleDataKeys);
 
@@ -90,11 +91,11 @@ const DialogForm = () => {
     email,
     password,
     confirmPassword,
-    isRemeberMe,
     errorAuth,
     role,
     isSubmitEnabled,
     isRegistred,
+    adminUser,
   ]);
 
   const handldeSubmit = async (e: { preventDefault: () => void }) => {
@@ -104,14 +105,20 @@ const DialogForm = () => {
 
     try {
       const userRegisterData = { firstName, lastName, email, password, role };
-      console.log("========================", userRegisterData);
+
       await dispatch(createUser(userRegisterData));
+      navigate(`/admin/dashboard`);
+
+      setTimeout(() => {}, 300);
+      navigateToCreatedUser();
     } catch (e) {
       console.error("error", e);
       // setErrorAuth(e);
       return e;
     }
   };
+
+  const navigateToCreatedUser = () => {};
 
   return (
     <div className="form-add-user">
@@ -162,15 +169,6 @@ const DialogForm = () => {
         validateField={Validator.confirmPassword}
         secondValue={password}
       />
-      {/* <ManagedInput
-        id="role"
-        type="role"
-        name="role"
-        value={role}
-        setValue={setRoleKey}
-        errorMessage="Not allowed"
-        validateField={Validator.role}
-      /> */}
       <div className="select-input">
         <label htmlFor="userRole">Sélectionnez un rôle :</label>
         <select name="role" id="role" onChange={(e) => handleOnChange(e)}>

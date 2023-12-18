@@ -12,15 +12,17 @@ import {
   ICellRendererParams,
   ModuleRegistry,
   GridReadyEvent,
+  SelectionChangedEvent,
 } from "ag-grid-community";
 import { IFullAdminUser } from "common/interfaces/auth";
 import DialogForm from "./dialogForm";
 import { CommonModalComponent } from "components/CommonModal";
+import { useNavigate } from "react-router-dom";
 
 const DashboardAdmin = () => {
   const { auth, admin } = UseAppSelector((state) => state);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [gridApi, setGridApi] = useState(null);
   const [tableData, setTableData] = useState<Array<IFullAdminUser>>([]);
 
@@ -102,6 +104,14 @@ const DashboardAdmin = () => {
   //   }
   // };
 
+  const rowSelectionType = "single";
+  //@ts-ignore
+  const onSelectChanged = (event: SelectionChangedEvent<TData>) => {
+    console.log(event.api.getSelectedRows());
+    const selectedData = event.api.getSelectedRows()[0]._id;
+    navigate(`/admin/user/${selectedData}`);
+  };
+
   if (admin.isLoading) {
     return <div>on loading</div>;
   }
@@ -121,6 +131,8 @@ const DashboardAdmin = () => {
             columnDefs={colDefs}
             defaultColDef={defeaultColDef}
             // onGridReady={onGridReady}
+            rowSelection={rowSelectionType}
+            onSelectionChanged={onSelectChanged}
           />
         </div>
       </section>

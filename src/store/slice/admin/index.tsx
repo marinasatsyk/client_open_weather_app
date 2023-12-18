@@ -6,8 +6,8 @@ const initialState = {
   users: [],
   error: "",
   isLoading: false,
-  createdUser: {
-    id: "",
+  adminUser: {
+    _id: "",
     email: "",
     isActivated: false,
     activationLink: "",
@@ -29,6 +29,9 @@ export const adminSlice = createSlice({
   reducers: {
     clearError(state, action) {
       state.error = action.payload;
+    },
+    clearCreatedUser(state, action) {
+      state.adminUser = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -57,7 +60,7 @@ export const adminSlice = createSlice({
       console.log("from builder createUser", action.payload);
       const user = action.payload.user;
       state.isLoading = false;
-      state.createdUser = user;
+      state.adminUser = user;
       state.error = "";
     });
 

@@ -53,19 +53,19 @@ const LayoutAdminComponent = () => {
     }
 
     //if no bookmarks active or  permission for geo browser => Paris information
-    navigator.geolocation.getCurrentPosition(function (position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-      const { latitude, longitude } = position.coords;
+    // navigator.geolocation.getCurrentPosition(function (position) {
+    //   console.log("Latitude is :", position.coords.latitude);
+    //   console.log("Longitude is :", position.coords.longitude);
+    //   const { latitude, longitude } = position.coords;
 
-      console.log("Longitude is :", position);
-      if (latitude && longitude) {
-        setIsCurrentCoordinates({
-          lon: longitude,
-          lat: latitude,
-        });
-      }
-    });
+    //   console.log("Longitude is :", position);
+    //   if (latitude && longitude) {
+    //     setIsCurrentCoordinates({
+    //       lon: longitude,
+    //       lat: latitude,
+    //     });
+    //   }
+    // });
   }, []);
 
   const isDesktop = useMediaQuery({ minWidth: 768 });
