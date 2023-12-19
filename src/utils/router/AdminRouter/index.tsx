@@ -23,7 +23,7 @@ function AdminRouter() {
           <Route path={`dashboard`} element={<DashboardAdmin />} />
           <Route path={`user`}>
             <Route path={`:uid`} element={<UserAdmin />} />
-            <Route path={`edit/:uid`} element={<UserAdminEdit />} />
+            <Route path={`:uid/edit`} element={<UserAdminEdit />} />
             <Route path={`new`} element={<UserAdminAdd />} />
           </Route>
         </Route>

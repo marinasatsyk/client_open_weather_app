@@ -107,18 +107,18 @@ const DialogForm = () => {
       const userRegisterData = { firstName, lastName, email, password, role };
 
       await dispatch(createUser(userRegisterData));
-      navigate(`/admin/dashboard`);
 
       setTimeout(() => {}, 300);
-      navigateToCreatedUser();
+
+      if (!error) {
+        navigate(`/admin/dashboard`);
+      }
     } catch (e) {
       console.error("error", e);
       // setErrorAuth(e);
       return e;
     }
   };
-
-  const navigateToCreatedUser = () => {};
 
   return (
     <div className="form-add-user">
@@ -182,6 +182,9 @@ const DialogForm = () => {
           <div style={{ color: "red", fontSize: "12px" }}>
             {errorMessageSelect}
           </div>
+        )}
+        {error && (
+          <div style={{ color: "red", fontSize: "12px" }}>{error.message}</div>
         )}
       </div>
 
