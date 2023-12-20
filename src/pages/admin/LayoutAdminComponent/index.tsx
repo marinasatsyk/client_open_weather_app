@@ -10,7 +10,7 @@ import SettingsComponent from "components/SettingsComponent";
 import { Outlet } from "react-router-dom";
 import SideBarAdmin from "components/admin/SideBarAdmin";
 import HeaderAdmin from "components/admin/HeaderAdmin";
-// import "./index.scss";
+import "./index.scss";
 
 interface ICoordinates {
   lat: number | undefined;
@@ -80,7 +80,7 @@ const LayoutAdminComponent = () => {
         <SideBarAdmin isShowSideMenu={isShowSideMenu} />
         <div className={`wrap-main-content`}>
           <HeaderAdmin isShowSideMenu toggleSideMenu={toggleSideMenu} />
-          <main>
+          <main className="admin-main">
             <Outlet />
           </main>
         </div>

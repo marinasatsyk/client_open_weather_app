@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { getAllUsers } from "store/thunks/admin";
 import { UseAppSelector } from "utils/hook";
-
+import "./index.scss";
 const UserAdmin = () => {
   const { adminUser, users } = UseAppSelector((state) => state.admin);
   const { user } = UseAppSelector((state) => state.auth);
@@ -26,25 +26,57 @@ const UserAdmin = () => {
   };
 
   return (
-    <div className="wrap">
-      <div className="user-admin">UserAdmin</div>
+    <div className="wrap-user-admin-container">
       <button onClick={() => getUser()}>Edit User</button>
+      <h1>User Information</h1>
       {params.uid &&
         users.map(
           (user) =>
             user._id === params.uid && (
-              <section key={user._id}>
-                <h1>First Name: {user.firstName}</h1>
-                <div>Last Name: {user.lastName}</div>
-                <div>User ID{user._id}</div>
-                <div>Account activated: {user.isActivated ? "Yes" : "No"}</div>
-                <div>Account activation link: {user.activationLink}</div>
-                <div>Created DateTime: {user.createdDateTime}</div>
-                <div>Role: {user.role}</div>
+              <section key={user._id} className="user-section">
+                <h3 className="wrap-item-user-info">
+                  <span className="description-user">First Name:</span>
+                  <span className="content transform">{user.firstName}</span>
+                </h3>
+                <div className="wrap-item-user-info">
+                  <span className="description-user">Last Name:</span>
+                  <span className="content transform">{user.lastName}</span>
+                </div>
+                <div className="wrap-item-user-info">
+                  <span className="description-user">User ID</span>
+                  <span className="content"> {user._id}</span>
+                </div>
+                <div className="wrap-item-user-info">
+                  <div className="mail-part">
+                    <span className="description-user">Email</span>
+                    <span className="content"> {user.email}</span>
+                  </div>
+                  <div className="bage">
+                    {user.isActivated ? "Confirmed" : "Not confirmed"}
+                  </div>
+                </div>
+                <div className="wrap-item-user-info">
+                  <span className="description-user">
+                    Account activation link:
+                  </span>
+                  <span className="content">{user.activationLink}</span>
+                </div>
+                <div className="wrap-item-user-info">
+                  <span className="description-user">Created DateTime:</span>
+                  <span className="content"> {user.createdDateTime}</span>
+                </div>
+
+                <div className="wrap-item-user-info">
+                  <span className="description-user">Role:</span>
+                  <span className="content">{user.role}</span>
+                </div>
                 <section className="user-bookmarks">
                   <h3>Bookmarks</h3>
                   <BookmarksComponent bookmarks={user.bookmarks} />
                 </section>
+
+                <button className="modify">Modify User</button>
+                <button className="delete">Delete User</button>
               </section>
             )
         )}
