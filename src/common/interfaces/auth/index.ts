@@ -46,6 +46,10 @@ export interface IAuthState {
   error: any;
   isRegistred: boolean;
   isRememberMe_r: boolean;
+  stateResponse: {
+    message: string;
+    success: boolean;
+  };
 }
 
 export interface AuthResponse {
@@ -388,6 +392,10 @@ export interface IAdminUsersState {
   isLoading: boolean;
   error: any;
   adminUser: IFullAdminUser;
+  stateResponse: {
+    message: string;
+    success: boolean;
+  };
 }
 
 export enum UserRoleDataKeys {

@@ -7,6 +7,14 @@ import {
 } from "common/interfaces/auth";
 import { AxiosResponse } from "axios";
 
+interface IUpdateUser {
+  email: string;
+  firstName: string;
+  lastName: string;
+  role?: UserRoleDataKeys;
+  isActivated?: boolean;
+}
+
 export default class AdminService {
   static async getAllUsers(): Promise<AxiosResponse<Array<IFullAdminUser>>> {
     console.log("we call get user");
@@ -28,6 +36,15 @@ export default class AdminService {
       email,
       password,
       role,
+    });
+  }
+
+  static async updateUserFromAdmin(
+    dataForUpdate: IUpdateUser,
+    userId: string
+  ): Promise<AxiosResponse<IFullAdminUser>> {
+    return $api.put<IFullAdminUser>(`/user/${userId}/update`, {
+      dataForUpdate,
     });
   }
 }

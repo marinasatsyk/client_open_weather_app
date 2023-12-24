@@ -5,6 +5,8 @@ import {
   deleteBookmark,
   updateActiveBookmark,
   updateBookmarks,
+  updateUser,
+  deleteUser,
 } from "store/thunks/user";
 
 import { manageToken } from "utils/helpers";
@@ -16,6 +18,10 @@ const initialState = {
   isLoading: false,
   isRegistred: false,
   isRememberMe_r: false,
+  stateResponse: {
+    message: "",
+    success: false,
+  },
 } as IAuthState;
 
 export const authSlice = createSlice({
@@ -137,6 +143,43 @@ export const authSlice = createSlice({
       state.error = "";
     });
     builder.addCase(deleteBookmark.rejected, (state, action) => {
+      state.error = "";
+      state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+
+    //update User
+    builder.addCase(updateUser.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      console.log("from builder updateUser", action.payload);
+      const user = action.payload;
+      state.isLoading = false;
+      state.user = user;
+      state.error = "";
+    });
+    builder.addCase(updateUser.rejected, (state, action) => {
+      state.error = "";
+      state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+
+    //delete User
+    builder.addCase(deleteUser.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(deleteUser.fulfilled, (state, action) => {
+      console.log("from builder deleteBookmark", action.payload);
+      const response = action.payload;
+      state.isLoading = false;
+      //@TODO
+      const { message, success } = response;
+      state.stateResponse.message = message;
+      state.stateResponse.success = success;
+      state.error = "";
+    });
+    builder.addCase(deleteUser.rejected, (state, action) => {
       state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;

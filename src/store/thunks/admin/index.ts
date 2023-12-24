@@ -1,7 +1,22 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ICreateAdminUser } from "common/interfaces/auth";
+import { ICreateAdminUser, UserRoleDataKeys } from "common/interfaces/auth";
 import AdminService from "services/AdminService";
+import UserService from "services/UserSevice";
 
+interface IUserUpdate {
+  userId: string;
+  dataUpdate: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    role?: UserRoleDataKeys;
+    isActivated?: boolean;
+  };
+}
+
+interface IUserId {
+  userId: string;
+}
 export const getAllUsers = createAsyncThunk(
   "admin/users",
   async (data, { rejectWithValue }) => {
@@ -33,6 +48,28 @@ export const createUser = createAsyncThunk(
         data.role
       );
       return user.data;
+    } catch (error: any) {
+      console.log("4", error);
+      if (error.response && error.response.data) {
+        console.log("axios", error);
+        return rejectWithValue({ error: error.response.data });
+      } else {
+        console.log("pas axios");
+        return rejectWithValue({ error: error });
+      }
+    }
+  }
+);
+
+export const updateUserFromAdmin = createAsyncThunk(
+  "user/update",
+  async (data: IUserUpdate, { rejectWithValue }) => {
+    try {
+      const updatedUser = await AdminService.updateUserFromAdmin(
+        data.dataUpdate,
+        data.userId
+      );
+      return updatedUser.data;
     } catch (error: any) {
       console.log("4", error);
       if (error.response && error.response.data) {

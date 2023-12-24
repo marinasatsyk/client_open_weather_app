@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IAdminUsersState } from "common/interfaces/auth";
-import { createUser, getAllUsers } from "store/thunks/admin";
+import {
+  createUser,
+  getAllUsers,
+  updateUserFromAdmin,
+} from "store/thunks/admin";
+import { deleteUser } from "store/thunks/user";
 
 const initialState = {
   users: [],
@@ -20,6 +25,10 @@ const initialState = {
       language: "",
     },
     bookmarks: [],
+  },
+  stateResponse: {
+    message: "",
+    success: false,
   },
 } as IAdminUsersState;
 
@@ -65,6 +74,45 @@ export const adminSlice = createSlice({
     });
 
     builder.addCase(createUser.rejected, (state, action) => {
+      state.error = "";
+      state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+
+    //update user from admin
+    builder.addCase(updateUserFromAdmin.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateUserFromAdmin.fulfilled, (state, action) => {
+      console.log("from builder updateUserFromAdmin", action.payload);
+      const user = action.payload;
+      state.isLoading = false;
+      state.adminUser = user;
+      state.error = "";
+    });
+    builder.addCase(updateUserFromAdmin.rejected, (state, action) => {
+      state.error = "";
+      state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+
+    //delete user from admin
+    //delete User
+    builder.addCase(deleteUser.pending, (state, action) => {
+      state.error = "";
+      state.isLoading = true;
+    });
+    builder.addCase(deleteUser.fulfilled, (state, action) => {
+      console.log("from builder deleteBookmark", action.payload);
+      const response = action.payload;
+      state.isLoading = false;
+      //@TODO
+      const { message, success } = response;
+      state.stateResponse.message = message;
+      state.stateResponse.success = success;
+      state.error = "";
+    });
+    builder.addCase(deleteUser.rejected, (state, action) => {
       state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;

@@ -8,8 +8,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 import "./index.scss";
+import { deleteUser } from "store/thunks/user";
 const UserAdmin = () => {
-  const { adminUser, users } = UseAppSelector((state) => state.admin);
+  const { adminUser, users, error } = UseAppSelector((state) => state.admin);
   const { user } = UseAppSelector((state) => state.auth);
   const params = useParams();
   const navigate = useNavigate();
@@ -26,6 +27,18 @@ const UserAdmin = () => {
 
   const getUser = () => {
     navigate(`edit`);
+  };
+
+  const onHandleDelete = (e: { preventDefault: () => void }) => {
+    if (params.uid && params.uid !== "") {
+      const data = {
+        userId: params.uid,
+      };
+      dispatch<any>(deleteUser(data));
+      if (!error.message) {
+        navigate(`/admin/dashboard`);
+      }
+    }
   };
 
   return (
@@ -96,7 +109,9 @@ const UserAdmin = () => {
                   >
                     BlackList
                   </button> */}
-                  <button className="delete">Delete User</button>
+                  <button className="delete" onClick={(e) => onHandleDelete(e)}>
+                    Delete User
+                  </button>
                 </div>
               </section>
             )
