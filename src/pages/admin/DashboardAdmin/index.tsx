@@ -116,7 +116,7 @@ const DashboardAdmin = () => {
   }
 
   return (
-    <main>
+    <div className="wrap-dashboard-admin">
       {/* <div>
         <button onClick={() => handleAddUser()}>Add User</button>
       </div> */}
@@ -141,7 +141,7 @@ const DashboardAdmin = () => {
       <CommonModalComponent isModalOpened={isModalOpened} hide={setModalOpened}>
         <DialogForm />
       </CommonModalComponent>
-    </main>
+    </div>
   );
 };
 

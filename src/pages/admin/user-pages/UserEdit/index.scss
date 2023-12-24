@@ -1,0 +1,57 @@
+.wrap-user-admin-container.edit {
+  h1 {
+    margin-bottom: 20px;
+  }
+  label {
+    display: none;
+  }
+  label.custom {
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  input {
+    width: 250px;
+    height: 35px;
+    border-radius: 3px;
+    font-weight: 200;
+    font-size: 16px;
+  }
+  input[type="checkbox"] {
+    height: 20px;
+    width: 20px;
+  }
+
+  select {
+    border-radius: 3px;
+    background: white !important;
+    height: 35px;
+  }
+  .btn-wrap {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+
+  button {
+    border-radius: 3px;
+    cursor: pointer;
+    height: 35px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    &.save {
+      background: #48db0d6b;
+      color: white;
+    }
+    &.save[disabled] {
+      cursor: not-allowed;
+    }
+    &.cancel {
+      background: #f2f4f26b;
+      color: white;
+    }
+  }
+}

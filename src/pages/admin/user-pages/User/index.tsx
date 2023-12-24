@@ -4,6 +4,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { getAllUsers } from "store/thunks/admin";
 import { UseAppSelector } from "utils/hook";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
+
 import "./index.scss";
 const UserAdmin = () => {
   const { adminUser, users } = UseAppSelector((state) => state.admin);
@@ -16,7 +19,7 @@ const UserAdmin = () => {
     //@ts-ignore
     if (user.role === "root") {
       //@ts-ignore
-      dispatch(getAllUsers());
+      // dispatch(getAllUsers());
     }
     setTimeout(() => {}, 500);
   }, []);
@@ -27,7 +30,6 @@ const UserAdmin = () => {
 
   return (
     <div className="wrap-user-admin-container">
-      <button onClick={() => getUser()}>Edit User</button>
       <h1>User Information</h1>
       {params.uid &&
         users.map(
@@ -36,6 +38,7 @@ const UserAdmin = () => {
               <section key={user._id} className="user-section">
                 <h3 className="wrap-item-user-info">
                   <span className="description-user">First Name:</span>
+
                   <span className="content transform">{user.firstName}</span>
                 </h3>
                 <div className="wrap-item-user-info">
@@ -43,16 +46,14 @@ const UserAdmin = () => {
                   <span className="content transform">{user.lastName}</span>
                 </div>
                 <div className="wrap-item-user-info">
-                  <span className="description-user">User ID</span>
-                  <span className="content"> {user._id}</span>
-                </div>
-                <div className="wrap-item-user-info">
-                  <div className="mail-part">
-                    <span className="description-user">Email</span>
-                    <span className="content"> {user.email}</span>
-                  </div>
+                  <span className="description-user">Email</span>
+                  <span className="content"> {user.email}</span>
                   <div className="bage">
-                    {user.isActivated ? "Confirmed" : "Not confirmed"}
+                    {user.isActivated ? (
+                      <span>Activated</span>
+                    ) : (
+                      <span>Not activated</span>
+                    )}
                   </div>
                 </div>
                 <div className="wrap-item-user-info">
@@ -72,11 +73,31 @@ const UserAdmin = () => {
                 </div>
                 <section className="user-bookmarks">
                   <h3>Bookmarks</h3>
-                  <BookmarksComponent bookmarks={user.bookmarks} />
+                  {user.bookmarks.length ? (
+                    <BookmarksComponent bookmarks={user.bookmarks} />
+                  ) : (
+                    <div>No bookmarks</div>
+                  )}
                 </section>
 
-                <button className="modify">Modify User</button>
-                <button className="delete">Delete User</button>
+                <div className="btn-wrap-user">
+                  <button className="modify" onClick={() => getUser()}>
+                    Edit User
+                  </button>
+                  {/* <button
+                    className="disconnect"
+                     onClick={(e) => onDisconnect(e)}
+                  >
+                    Disconnect
+                  </button> */}
+                  {/* <button
+                    className="blackList"
+                     onClick={(e) => onDisconnect(e)}
+                  >
+                    BlackList
+                  </button> */}
+                  <button className="delete">Delete User</button>
+                </div>
               </section>
             )
         )}
@@ -95,14 +116,20 @@ const BookmarksComponent: React.FC<BookmarksComponentProps> = (props) => {
     <>
       {bookmarks.length > 0 &&
         bookmarks.map((bookmark, index) => (
-          <article key={index}>
+          <article key={index} className="wrap-bookmark">
             <div className="bookmark-city">ID City: {`${bookmark.city}`}</div>
-            <div className="bookmark-city">
-              Is User follow his history : {bookmark.isFollowHistory}
-            </div>
-            <div className="bookmark-city">
-              Is this City is active: {bookmark.isActive}
-            </div>
+            {bookmark.isFollowHistory && (
+              <span className="history-mark" title="user follow history data">
+                <FontAwesomeIcon
+                  icon={icon({ name: "helicopter-symbol", style: "solid" })}
+                />
+              </span>
+            )}
+            {bookmark.isActive && (
+              <span className="active-mark" title="current active city">
+                <FontAwesomeIcon icon={icon({ name: "a", style: "solid" })} />
+              </span>
+            )}
           </article>
         ))}
     </>

@@ -67,6 +67,9 @@ export const Validator = {
     }
     return Object.values(UserRoleDataKeys).includes(role as UserRoleDataKeys);
   },
+  activatedStatus: (isActivated: boolean): boolean => {
+    return typeof isActivated === "boolean" ? true : false;
+  },
 };
 
 export const getTokenFromStorage = (storageKey: string): Token | null => {
