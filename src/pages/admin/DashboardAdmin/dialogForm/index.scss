@@ -3,6 +3,12 @@
   flex-direction: column;
   gap: 30px;
   width: 50%;
+  label.manage-input {
+    display: none;
+  }
+  .description-user {
+    width: 30%;
+  }
   .wrapInput,
   .select-input {
     display: flex;
@@ -12,14 +18,39 @@
     text-transform: capitalize;
   }
   input,
-  select,
-  .submit-btn {
+  select {
     border-radius: 3px;
     background: white !important;
     height: 35px;
   }
 
-  .submit-btn {
+  button {
+    border-radius: 3px;
     cursor: pointer;
+    height: 35px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    &.save {
+      background: #48db0d6b;
+      color: white;
+    }
+    &.save[disabled] {
+      cursor: not-allowed;
+    }
+  }
+
+  .error-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 20px;
+    .error-body {
+      color: red;
+      font-size: 20px;
+    }
   }
 }

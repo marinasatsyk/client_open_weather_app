@@ -62,7 +62,7 @@ export const createUser = createAsyncThunk(
 );
 
 export const updateUserFromAdmin = createAsyncThunk(
-  "user/update",
+  "admin/user/update",
   async (data: IUserUpdate, { rejectWithValue }) => {
     try {
       const updatedUser = await AdminService.updateUserFromAdmin(
@@ -72,6 +72,46 @@ export const updateUserFromAdmin = createAsyncThunk(
       return updatedUser.data;
     } catch (error: any) {
       console.log("4", error);
+      if (error.response && error.response.data) {
+        console.log("axios", error);
+        return rejectWithValue({ error: error.response.data });
+      } else {
+        console.log("pas axios");
+        return rejectWithValue({ error: error });
+      }
+    }
+  }
+);
+
+export const getUserAdmin = createAsyncThunk(
+  "admin/user/get",
+  async (data: IUserId, { rejectWithValue }) => {
+    try {
+      console.log("🔎, in thunk get  user");
+      let user = await AdminService.getUserFromAdmin(data.userId);
+      console.log("ASYNC THUNK user", user.data);
+      return user.data;
+    } catch (error: any) {
+      console.log("get all users", error);
+      if (error.response && error.response.data) {
+        return rejectWithValue({ error: error.response.data });
+      } else {
+        return rejectWithValue({ error: error });
+      }
+    }
+  }
+);
+
+export const deleteUserAdmin = createAsyncThunk(
+  "admin/user/delete",
+  async (data: IUserId, { rejectWithValue }) => {
+    try {
+      const responseDeletedUser = await AdminService.deleteUserFromAdmin(
+        data.userId
+      );
+      return responseDeletedUser.data;
+    } catch (error: any) {
+      console.log("delete Bookmark", error);
       if (error.response && error.response.data) {
         console.log("axios", error);
         return rejectWithValue({ error: error.response.data });

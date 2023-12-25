@@ -15,6 +15,10 @@ interface IUpdateUser {
   isActivated?: boolean;
 }
 
+interface IUserDeleteRes {
+  success: boolean;
+  message: string;
+}
 export default class AdminService {
   static async getAllUsers(): Promise<AxiosResponse<Array<IFullAdminUser>>> {
     console.log("we call get user");
@@ -46,5 +50,17 @@ export default class AdminService {
     return $api.put<IFullAdminUser>(`/user/${userId}/update`, {
       dataForUpdate,
     });
+  }
+
+  static async getUserFromAdmin(
+    userId: string
+  ): Promise<AxiosResponse<IFullAdminUser>> {
+    return $api.get<IFullAdminUser>(`/admin/user/${userId}/`);
+  }
+
+  static async deleteUserFromAdmin(
+    userId: string
+  ): Promise<AxiosResponse<IUserDeleteRes>> {
+    return $api.delete(`/user/${userId}/delete`);
   }
 }

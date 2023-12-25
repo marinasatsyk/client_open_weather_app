@@ -1,6 +1,7 @@
 import { IManageInputProps } from "common/interfaces/auth";
 import { useState, ChangeEvent } from "react";
 import { clearError } from "store/slice/auth";
+import { clearError as clearErrorAdmin } from "store/slice/admin";
 import { UseAppDispatch, UseAppSelector } from "utils/hook";
 
 export const ManagedInput = (props: IManageInputProps) => {
@@ -13,6 +14,7 @@ export const ManagedInput = (props: IManageInputProps) => {
     errorMessage,
     validateField,
     secondValue,
+    clearErrorSetValue,
   } = props;
 
   const { error } = UseAppSelector((state) => state.auth);
@@ -27,6 +29,8 @@ export const ManagedInput = (props: IManageInputProps) => {
   };
   const onHandleFocus = () => {
     dispatch(clearError(clearErrorObject));
+    dispatch(clearErrorAdmin(clearErrorObject));
+    clearErrorSetValue && clearErrorSetValue(clearErrorObject);
   };
 
   return (

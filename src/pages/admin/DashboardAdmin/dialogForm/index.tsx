@@ -21,7 +21,7 @@ const DialogForm = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorAuth, setErrorAuth] = useState<any>({});
+  const [errorAuth, setErrorAuth] = useState<any>("");
 
   //**validation states front side */
   const [isEmailValidate, setIsEmailValidate] = useState(false);
@@ -62,7 +62,7 @@ const DialogForm = () => {
     setIsConfirmPasswordValidate(
       Validator.confirmPassword(password, confirmPassword)
     );
-    //select is valid?????
+
     setIsRoleValidate(Validator.roleValidate(role));
 
     isEmailValidate &&
@@ -106,71 +106,107 @@ const DialogForm = () => {
     try {
       const userRegisterData = { firstName, lastName, email, password, role };
 
-      await dispatch(createUser(userRegisterData));
+      const createdUser = await dispatch(createUser(userRegisterData));
 
-      setTimeout(() => {}, 300);
-
-      if (!error) {
+      if (createdUser.meta.requestStatus === "fulfilled") {
         navigate(`/admin/dashboard`);
+      } else if (createdUser.meta.requestStatus === "rejected") {
+        const error = (createdUser.payload as { error: string }).error;
+        //@ts-ignore
+        setErrorAuth(error.message);
       }
     } catch (e) {
       console.error("error", e);
-      // setErrorAuth(e);
       return e;
     }
   };
 
   return (
     <div className="form-add-user">
-      <ManagedInput
-        id="firstName"
-        type="text"
-        name="firstName"
-        value={firstName}
-        setValue={setFirstName}
-        errorMessage="Make sure to enter correct  name"
-        validateField={Validator.name}
-      />
-      <ManagedInput
-        id="lastName"
-        type="text"
-        name="lastName"
-        value={lastName}
-        setValue={setLastName}
-        errorMessage="Make sure to enter correct last name"
-        validateField={Validator.name}
-      />
-      <ManagedInput
-        id="email"
-        type="email"
-        name="email"
-        value={email}
-        setValue={setEmail}
-        errorMessage="Make sure to enter correct mail"
-        validateField={Validator.email}
-      />
-      <ManagedInput
-        id="password"
-        type="password"
-        name="password"
-        value={password}
-        setValue={setPassword}
-        errorMessage="Make sure to use at least 1 letter, 1 number, 6 characters"
-        validateField={Validator.password}
-      />
+      <div className="wrap-item-user-info">
+        <label htmlFor="firstName" className="description-user custom">
+          First Name:
+        </label>
+        <ManagedInput
+          id="firstName"
+          type="text"
+          name="firstName"
+          value={firstName}
+          setValue={setFirstName}
+          errorMessage="Make sure to enter correct  name"
+          validateField={Validator.name}
+          clearErrorSetValue={setErrorAuth}
+        />
+      </div>
 
-      <ManagedInput
-        id="confirmPassword"
-        type="password"
-        name="confirmPassword"
-        value={confirmPassword}
-        setValue={setConfirmPassword}
-        errorMessage="Passwords are not the same"
-        validateField={Validator.confirmPassword}
-        secondValue={password}
-      />
-      <div className="select-input">
-        <label htmlFor="userRole">Sélectionnez un rôle :</label>
+      <div className="wrap-item-user-info">
+        <label className="description-user custom" htmlFor="lastName">
+          Last Name:
+        </label>
+        <ManagedInput
+          id="lastName"
+          type="text"
+          name="lastName"
+          value={lastName}
+          setValue={setLastName}
+          errorMessage="Make sure to enter correct last name"
+          validateField={Validator.name}
+          clearErrorSetValue={setErrorAuth}
+        />
+      </div>
+
+      <div className="wrap-item-user-info">
+        <label className="description-user custom" htmlFor="email">
+          Email :
+        </label>
+        <ManagedInput
+          id="email"
+          type="email"
+          name="email"
+          value={email}
+          setValue={setEmail}
+          errorMessage="Make sure to enter correct mail"
+          validateField={Validator.email}
+          clearErrorSetValue={setErrorAuth}
+        />
+      </div>
+      <div className="wrap-item-user-info">
+        <label className="description-user custom" htmlFor="password">
+          Password :
+        </label>
+        <ManagedInput
+          id="password"
+          type="password"
+          name="password"
+          value={password}
+          setValue={setPassword}
+          errorMessage="Make sure to use at least 1 letter, 1 number, 6 characters"
+          validateField={Validator.password}
+          clearErrorSetValue={setErrorAuth}
+        />
+      </div>
+
+      <div className="wrap-item-user-info">
+        <label className="description-user custom" htmlFor="confirmPassword">
+          Confirm password :
+        </label>
+        <ManagedInput
+          id="confirmPassword"
+          type="password"
+          name="confirmPassword"
+          value={confirmPassword}
+          setValue={setConfirmPassword}
+          errorMessage="Passwords are not the same"
+          validateField={Validator.confirmPassword}
+          secondValue={password}
+          clearErrorSetValue={setErrorAuth}
+        />
+      </div>
+
+      <div className="wrap-item-user-info">
+        <label className="description-user custom" htmlFor="role">
+          Role:
+        </label>
         <select name="role" id="role" onChange={(e) => handleOnChange(e)}>
           {userRoles.map((role) => (
             <option key={role} value={role}>
@@ -183,8 +219,14 @@ const DialogForm = () => {
             {errorMessageSelect}
           </div>
         )}
-        {error && (
-          <div style={{ color: "red", fontSize: "12px" }}>{error.message}</div>
+      </div>
+
+      <div className="error-wrap">
+        {errorAuth && (
+          <>
+            <span className="error-title">Error occured:</span>
+            <span className="error-body"> {errorAuth}</span>
+          </>
         )}
       </div>
 
@@ -192,6 +234,7 @@ const DialogForm = () => {
         type="submit"
         onClick={(e) => handldeSubmit(e)}
         disabled={isSubmitEnabled ? false : true}
+        className="save"
       >
         {/* {isLoading
                 ? <FontAwesomeIcon icon={faSpinner} spin className='spinner'/> 

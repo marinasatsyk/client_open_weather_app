@@ -104,6 +104,7 @@ export interface IManageInputProps {
   errorMessage: string;
   validateField: (value: string, confirmPassword?: string) => boolean;
   secondValue?: string;
+  clearErrorSetValue?: (value: string) => void;
 }
 
 export interface ILogin {
@@ -392,7 +393,7 @@ export interface IAdminUsersState {
   isLoading: boolean;
   error: any;
   adminUser: IFullAdminUser;
-  stateResponse: {
+  stateRes: {
     message: string;
     success: boolean;
   };

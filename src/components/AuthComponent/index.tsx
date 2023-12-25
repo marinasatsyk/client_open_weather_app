@@ -14,6 +14,7 @@ const AuthComponent: FC = () => {
   const [isLogin, setIsLogin] = useState<Boolean>(true);
   const [errorAuth, setErrorAuth] = useState<any>({});
   const [isAccountCreated, setIsAccountCreated] = useState(false);
+  const [isShowNotification, setIsShowNotification] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,7 +35,7 @@ const AuthComponent: FC = () => {
   //hooks
   const dispatch = UseAppDispatch();
 
-  const flag = useRef(false);
+  // const flag = useRef(false);
 
   function handleChangeForm(): void {
     setIsLogin(!isLogin);
@@ -45,9 +46,7 @@ const AuthComponent: FC = () => {
   }
 
   const handldeSubmit = async (e: { preventDefault: () => void }) => {
-    console.log("submit");
     e.preventDefault();
-    console.log("1");
 
     try {
       if (isLogin) {
@@ -55,11 +54,8 @@ const AuthComponent: FC = () => {
         await dispatch(loginUser(userData));
       } else {
         const userRegisterData = { firstName, lastName, email, password };
-        console.log(userRegisterData);
         await dispatch(registerUser(userRegisterData));
       }
-
-      console.log("user", user);
     } catch (e) {
       console.error("error", e);
       setErrorAuth(e);
@@ -83,12 +79,6 @@ const AuthComponent: FC = () => {
 
     if (isLogin) {
       isEmailValidate ? setIsSubmitEnabled(true) : setIsSubmitEnabled(false);
-      console.log(
-        "isEmailValidate",
-        isEmailValidate,
-        "isPasswordValidate",
-        isPasswordValidate
-      );
     } else {
       isEmailValidate &&
       isPasswordValidate &&
@@ -99,11 +89,11 @@ const AuthComponent: FC = () => {
         : setIsSubmitEnabled(false);
     }
 
-    setIsAccountCreated(isRegistred);
+    isRegistred && setIsAccountCreated(true);
     // Après 3 secondes, notification disparait
-    // setTimeout(function() {
-    //   setIsAccountCreated(false);
-    // }, 3000);
+    setTimeout(function () {
+      setIsAccountCreated(false);
+    }, 5000);
 
     if (isRegistred) {
       setIsLogin(true);
@@ -125,9 +115,6 @@ const AuthComponent: FC = () => {
     user,
     isRegistred,
   ]);
-
-  console.log("errorAuth", errorAuth);
-  console.log("setIsSubmitEnabled", isSubmitEnabled);
 
   return (
     <section>

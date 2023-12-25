@@ -79,11 +79,12 @@ const DashboardAdmin = () => {
     dispatch(getUser());
     //@ts-ignore
     dispatch(getAllUsers());
-    setTimeout(() => {}, 500);
+    // setTimeout(() => {}, 500);
     if (!admin.isLoading && !admin.error.length && admin.users.length) {
+      console.log("admin.users", admin.users);
       setTableData(admin.users);
     }
-  }, []);
+  }, [dispatch]);
 
   const onGridReady = (params: GridReadyEvent) => {
     //@ts-ignore

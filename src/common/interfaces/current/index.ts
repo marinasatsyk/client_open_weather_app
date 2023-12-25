@@ -16,3 +16,7 @@ export interface iModalProps {
   isModalShow: boolean;
   children?: React.ReactNode;
 }
+
+export interface IUserId {
+  userId: string;
+}

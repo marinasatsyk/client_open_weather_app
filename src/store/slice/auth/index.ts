@@ -136,7 +136,7 @@ export const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(deleteBookmark.fulfilled, (state, action) => {
-      console.log("from builder deleteBookmark", action.payload);
+      console.log("from builder delete deleteBookmark AUTH", action.payload);
       const user = action.payload;
       state.isLoading = false;
       state.user = user;
@@ -170,7 +170,7 @@ export const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(deleteUser.fulfilled, (state, action) => {
-      console.log("from builder deleteBookmark", action.payload);
+      console.log("from builder delete user fullfield auth", action.payload);
       const response = action.payload;
       state.isLoading = false;
       //@TODO

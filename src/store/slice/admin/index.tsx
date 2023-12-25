@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IAdminUsersState } from "common/interfaces/auth";
 import {
   createUser,
+  deleteUserAdmin,
   getAllUsers,
+  getUserAdmin,
   updateUserFromAdmin,
 } from "store/thunks/admin";
 import { deleteUser } from "store/thunks/user";
@@ -26,7 +28,7 @@ const initialState = {
     },
     bookmarks: [],
   },
-  stateResponse: {
+  stateRes: {
     message: "",
     success: false,
   },
@@ -91,28 +93,46 @@ export const adminSlice = createSlice({
       state.error = "";
     });
     builder.addCase(updateUserFromAdmin.rejected, (state, action) => {
+      const error = (action.payload as { error: string }).error;
+      state.error += (state.error ? ", " : "") + error;
+      // state.error = "";
+      // state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+
+    //get user from admin
+    builder.addCase(getUserAdmin.pending, (state, action) => {
+      state.error = "";
+      state.isLoading = true;
+    });
+    builder.addCase(getUserAdmin.fulfilled, (state, action) => {
+      const user = action.payload;
+      state.isLoading = false;
+      state.adminUser = user;
+      state.error = "";
+    });
+    builder.addCase(getUserAdmin.rejected, (state, action) => {
       state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;
     });
 
     //delete user from admin
-    //delete User
-    builder.addCase(deleteUser.pending, (state, action) => {
+    builder.addCase(deleteUserAdmin.pending, (state, action) => {
       state.error = "";
       state.isLoading = true;
     });
-    builder.addCase(deleteUser.fulfilled, (state, action) => {
-      console.log("from builder deleteBookmark", action.payload);
+    builder.addCase(deleteUserAdmin.fulfilled, (state, action) => {
+      console.log("from builder delete user admin", action.payload);
       const response = action.payload;
       state.isLoading = false;
       //@TODO
       const { message, success } = response;
-      state.stateResponse.message = message;
-      state.stateResponse.success = success;
+      state.stateRes.message = message;
+      state.stateRes.success = success;
       state.error = "";
     });
-    builder.addCase(deleteUser.rejected, (state, action) => {
+    builder.addCase(deleteUserAdmin.rejected, (state, action) => {
       state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;
