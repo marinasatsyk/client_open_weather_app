@@ -50,7 +50,7 @@ const UserAmdinEdit = () => {
   const [errorMessageSelect, setErrorMessageSelect] = useState("");
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
   const [errorAuth, setErrorAuth] = useState<any>("");
-
+  const [isSavedSuccessfully, setIsSavedSuccessfully] = useState(false);
   const userRoles = Object.values(UserRoleDataKeys);
 
   useEffect(() => {
@@ -120,7 +120,15 @@ const UserAmdinEdit = () => {
         );
         if (updateUserFromAdmin.fulfilled.match(actionResult)) {
           console.log("avant");
-          navigate(`/admin/user/${currentUser._id}`); // Naviguer si la mise à jour réussit
+          setIsSavedSuccessfully(true);
+
+          setTimeout(function () {
+            setIsSavedSuccessfully(false);
+          }, 2000);
+          setTimeout(function () {
+            navigate(`/admin/user/${currentUser._id}`); // navigate if updated
+          }, 2000);
+
           console.log("apres");
         } else if (updateUserFromAdmin.rejected.match(actionResult)) {
           const error = (actionResult.payload as { error: string }).error;
@@ -141,6 +149,13 @@ const UserAmdinEdit = () => {
       <h1>User Information</h1>
 
       <section className="user-section">
+        {errorAuth && <div className="error">{errorAuth}</div>}
+        <div
+          className={`success ${isSavedSuccessfully ? "visible" : "hidden"}`}
+        >
+          Account updated successfully
+        </div>
+
         <div className="wrap-item-user-info">
           <label htmlFor="firstName" className="description-user custom">
             First Name:
@@ -185,9 +200,6 @@ const UserAmdinEdit = () => {
             validateField={Validator.email}
             clearErrorSetValue={setErrorAuth}
           />
-          {errorAuth && (
-            <div style={{ color: "red", fontSize: "20px" }}>{errorAuth}</div>
-          )}
         </div>
 
         <div className="wrap-item-user-info">

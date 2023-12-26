@@ -3,6 +3,11 @@
   flex-direction: column;
   gap: 30px;
   width: 50%;
+
+  .hidden {
+    display: none;
+  }
+
   label.manage-input {
     display: none;
   }

@@ -31,7 +31,7 @@ const DialogForm = () => {
   const [isFirstNameValidate, setIsFirstNameIsValidate] = useState(false);
   const [isLastNameValidate, setIsLastNameIsValidate] = useState(false);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState(false);
-  const [isRegistred, setIsAccountCreated] = useState(false);
+  const [isCreated, setIsAccountCreated] = useState(false);
   const [role, setRoleKey] = useState<UserRoleDataKeys>(UserRoleDataKeys.USER);
   const [isRoleValidate, setIsRoleValidate] = useState(false);
   const [errorMessageSelect, setErrorMessageSelect] = useState("");
@@ -54,6 +54,14 @@ const DialogForm = () => {
 
   const userRoles = Object.values(UserRoleDataKeys);
 
+  // useEffect(() => {
+  //   isRegistred && setIsAccountCreated(true);
+  //   // Après 3 secondes, notification disparait
+  //   setTimeout(function () {
+  //     setIsAccountCreated(false);
+  //   }, 3000);
+  // }, [isRegistred]);
+
   useEffect(() => {
     setIsEmailValidate(Validator.email(email));
     setIsFirstNameIsValidate(Validator.name(firstName));
@@ -73,7 +81,6 @@ const DialogForm = () => {
     isConfirmPasswordValidate
       ? setIsSubmitEnabled(true)
       : setIsSubmitEnabled(false);
-    setIsAccountCreated(isRegistred);
 
     // Après 3 secondes, notification disparait
     // setTimeout(function() {
@@ -94,7 +101,6 @@ const DialogForm = () => {
     errorAuth,
     role,
     isSubmitEnabled,
-    isRegistred,
     adminUser,
   ]);
 
@@ -108,9 +114,16 @@ const DialogForm = () => {
 
       const createdUser = await dispatch(createUser(userRegisterData));
 
-      if (createdUser.meta.requestStatus === "fulfilled") {
-        navigate(`/admin/dashboard`);
-      } else if (createdUser.meta.requestStatus === "rejected") {
+      if (createUser.fulfilled.match(createdUser)) {
+        setIsAccountCreated(true);
+
+        setTimeout(function () {
+          setIsAccountCreated(false);
+        }, 3000);
+        setTimeout(function () {
+          navigate(`/admin/dashboard`);
+        }, 2000);
+      } else if (createUser.rejected.match(createdUser)) {
         const error = (createdUser.payload as { error: string }).error;
         //@ts-ignore
         setErrorAuth(error.message);
@@ -123,6 +136,9 @@ const DialogForm = () => {
 
   return (
     <div className="form-add-user">
+      <div className={`success ${isCreated ? "visible" : "hidden"}`}>
+        Account was created successfully
+      </div>
       <div className="wrap-item-user-info">
         <label htmlFor="firstName" className="description-user custom">
           First Name:

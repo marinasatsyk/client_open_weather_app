@@ -1,5 +1,5 @@
 import { Bookmark } from "common/interfaces/auth";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   useNavigate,
@@ -17,7 +17,8 @@ import { IUserId } from "common/interfaces/current";
 
 const UserAdmin = () => {
   const { adminUser, error, stateRes } = UseAppSelector((state) => state.admin);
-
+  const [isAccountDeleted, setIsAccountDeleted] = useState(false);
+  const [actionError, setActionError] = useState("");
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -39,17 +40,34 @@ const UserAdmin = () => {
     navigate(`edit`);
   };
 
-  const onHandleDelete = (e: { preventDefault: () => void }) => {
+  const onHandleDelete = async (e: { preventDefault: () => void }) => {
     if (params.uid && params.uid !== "") {
       const data = {
         userId: params.uid,
       };
-      dispatch<any>(deleteUserAdmin(data));
-
-      if (!error.message && stateRes.success) {
-        console.log("user deleted");
-        // navigate(`/admin/dashboard`);
+      try {
+        const deletedStatus = await dispatch<any>(deleteUserAdmin(data));
+        if (deleteUserAdmin.fulfilled.match(deletedStatus)) {
+          setIsAccountDeleted(true);
+          setTimeout(() => {
+            setIsAccountDeleted(false);
+          }, 3000);
+          setTimeout(() => {
+            navigate(`/admin/dashboard`);
+          }, 2000);
+        } else if (deleteUserAdmin.rejected.match(deletedStatus)) {
+          const error = (deletedStatus.payload as { error: string }).error;
+          console.error("Erreur lors de la mise à jour", error);
+          //@ts-ignore
+          setActionError(error.message);
+        }
+      } catch (err) {
+        console.error(err);
       }
+      // if (!error.message && stateRes.success) {
+      //   console.log("user deleted");
+
+      // }
     }
   };
 
@@ -57,6 +75,14 @@ const UserAdmin = () => {
     <div className="wrap-user-admin-container">
       <h1>User Information</h1>
       <section className="user-section">
+        <div
+          className={`success delete ${
+            isAccountDeleted ? "visible" : "hidden"
+          }`}
+        >
+          Account deleted successfully
+        </div>
+        {actionError && <div className="error">{actionError}</div>}
         <h3 className="wrap-item-user-info">
           <span className="description-user">First Name:</span>
 

@@ -9,7 +9,6 @@ const $api = axios.create({
   withCredentials: true,
   baseURL: API_URL,
 });
-console.log(API_URL);
 
 //interceptor request
 $api.interceptors.request.use((config) => {
@@ -39,10 +38,13 @@ $api.interceptors.response.use(
     if (err?.response?.status === 401 && err.config && !err.config._isRetry) {
       originalRequest._isRetry = true;
       try {
+        console.clear();
         console.log("we refresh token");
         const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {
           withCredentials: true,
         });
+
+        console.log("after REFRESH", response);
         //we replace token exists???
         const sessionClientToken = sessionStorage.getItem("token");
 
@@ -58,9 +60,9 @@ $api.interceptors.response.use(
       } catch (err) {
         console.log("not authorized we clear all storages");
         //if not authorized we must re-login!
-        sessionStorage.clear();
-        localStorage.clear();
-        window.location.href = "/";
+        // sessionStorage.clear();
+        // localStorage.clear();
+        // window.location.href = "/";
       }
     }
     throw err;

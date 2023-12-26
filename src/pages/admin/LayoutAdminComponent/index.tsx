@@ -10,6 +10,7 @@ import SettingsComponent from "components/SettingsComponent";
 import { Outlet } from "react-router-dom";
 import SideBarAdmin from "components/admin/SideBarAdmin";
 import HeaderAdmin from "components/admin/HeaderAdmin";
+
 import "./index.scss";
 
 interface ICoordinates {
@@ -51,21 +52,6 @@ const LayoutAdminComponent = () => {
     } catch (err) {
       console.error(err);
     }
-
-    //if no bookmarks active or  permission for geo browser => Paris information
-    // navigator.geolocation.getCurrentPosition(function (position) {
-    //   console.log("Latitude is :", position.coords.latitude);
-    //   console.log("Longitude is :", position.coords.longitude);
-    //   const { latitude, longitude } = position.coords;
-
-    //   console.log("Longitude is :", position);
-    //   if (latitude && longitude) {
-    //     setIsCurrentCoordinates({
-    //       lon: longitude,
-    //       lat: latitude,
-    //     });
-    //   }
-    // });
   }, []);
 
   const isDesktop = useMediaQuery({ minWidth: 768 });

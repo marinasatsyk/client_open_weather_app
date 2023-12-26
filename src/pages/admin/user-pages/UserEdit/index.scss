@@ -2,6 +2,9 @@
   h1 {
     margin-bottom: 20px;
   }
+  .hidden {
+    display: none;
+  }
   label {
     display: none;
   }
@@ -53,5 +56,14 @@
       background: #f2f4f26b;
       color: white;
     }
+  }
+
+  .error {
+    color: red;
+    font-size: 18px;
+  }
+  .success {
+    color: #34d905;
+    font-size: 18px;
   }
 }

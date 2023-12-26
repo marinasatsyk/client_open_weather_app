@@ -14,7 +14,6 @@ const AuthComponent: FC = () => {
   const [isLogin, setIsLogin] = useState<Boolean>(true);
   const [errorAuth, setErrorAuth] = useState<any>({});
   const [isAccountCreated, setIsAccountCreated] = useState(false);
-  const [isShowNotification, setIsShowNotification] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -54,7 +53,19 @@ const AuthComponent: FC = () => {
         await dispatch(loginUser(userData));
       } else {
         const userRegisterData = { firstName, lastName, email, password };
-        await dispatch(registerUser(userRegisterData));
+        const result = await dispatch(registerUser(userRegisterData));
+        if (result.meta.requestStatus === "fulfilled") {
+          console.log("fullfield???");
+          setIsAccountCreated(true);
+
+          setTimeout(function () {
+            setIsAccountCreated(false);
+          }, 3000);
+
+          setTimeout(function () {
+            setIsLogin(true);
+          }, 2000);
+        }
       }
     } catch (e) {
       console.error("error", e);
@@ -88,16 +99,6 @@ const AuthComponent: FC = () => {
         ? setIsSubmitEnabled(true)
         : setIsSubmitEnabled(false);
     }
-
-    isRegistred && setIsAccountCreated(true);
-    // Après 3 secondes, notification disparait
-    setTimeout(function () {
-      setIsAccountCreated(false);
-    }, 5000);
-
-    if (isRegistred) {
-      setIsLogin(true);
-    }
   }, [
     isFirstNameValidate,
     isLastNameValidate,
@@ -114,6 +115,7 @@ const AuthComponent: FC = () => {
     errorAuth,
     user,
     isRegistred,
+    isLogin,
   ]);
 
   return (
