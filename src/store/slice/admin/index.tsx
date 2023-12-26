@@ -44,6 +44,30 @@ export const adminSlice = createSlice({
     clearCreatedUser(state, action) {
       state.adminUser = action.payload;
     },
+    logoutAdmin(state) {
+      state.users = [];
+      state.error = "";
+      state.isLoading = false;
+      state.adminUser = {
+        _id: "",
+        email: "",
+        isActivated: false,
+        activationLink: "",
+        firstName: "",
+        lastName: "",
+        createdDateTime: "",
+        role: "",
+        preferences: {
+          theme: "",
+          language: "",
+        },
+        bookmarks: [],
+      };
+      state.stateRes = {
+        message: "",
+        success: false,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllUsers.pending, (state, action) => {
@@ -140,5 +164,5 @@ export const adminSlice = createSlice({
   },
 });
 
-export const { clearError } = adminSlice.actions;
+export const { clearError, logoutAdmin } = adminSlice.actions;
 export default adminSlice.reducer;

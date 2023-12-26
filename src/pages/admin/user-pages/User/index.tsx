@@ -123,7 +123,7 @@ const UserAdmin = () => {
         </section>
 
         <div className="btn-wrap-user">
-          <button className="modify" onClick={() => getUser()}>
+          <button className="modify">
             <Link to={"edit"}>Edit User</Link>
           </button>
           {/* <button

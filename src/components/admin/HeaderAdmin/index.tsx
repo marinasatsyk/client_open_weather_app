@@ -3,6 +3,7 @@ import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 // import "./index.scss";
 import { Link, useNavigate } from "react-router-dom";
+import { UseLogoutAdmin } from "utils/hook";
 
 interface iHeaderScrin {
   isShowSideMenu: boolean;
@@ -11,11 +12,13 @@ interface iHeaderScrin {
 
 function HeaderAdmin({ isShowSideMenu, toggleSideMenu }: iHeaderScrin) {
   const navigate = useNavigate();
+  const logout = UseLogoutAdmin();
 
   const handleLogout = () => {
     console.log("logout");
     sessionStorage.clear();
     localStorage.clear();
+    logout();
     navigate("/connection");
   };
   return (

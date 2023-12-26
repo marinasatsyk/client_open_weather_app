@@ -1,0 +1,12 @@
+.main-profil-component {
+  .hidden {
+    display: none;
+  }
+  .content {
+    font-weight: bold;
+    font-size: 16px;
+    &.transform {
+      text-transform: capitalize;
+    }
+  }
+}

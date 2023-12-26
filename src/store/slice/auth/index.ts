@@ -34,6 +34,25 @@ export const authSlice = createSlice({
     rememberMe(state, action) {
       state.isRememberMe_r = action.payload;
     },
+    logoutUser(state) {
+      state.isAuth = false;
+      state.user = {
+        id: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        isActivated: false,
+        bookmarks: [],
+        role: "",
+      };
+      state.isLoading = false;
+      state.isRegistred = false;
+      state.isRememberMe_r = false;
+      state.stateResponse = {
+        message: "",
+        success: false,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state, action) => {
@@ -187,5 +206,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { clearError, rememberMe } = authSlice.actions;
+export const { clearError, rememberMe, logoutUser } = authSlice.actions;
 export default authSlice.reducer;
