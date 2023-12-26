@@ -162,7 +162,9 @@ const BookmarksComponent: React.FC<BookmarksComponentProps> = (props) => {
       {bookmarks.length > 0 &&
         bookmarks.map((bookmark, index) => (
           <article key={index} className="wrap-bookmark">
-            <div className="bookmark-city">ID City: {`${bookmark.city}`}</div>
+            <div className="bookmark-city">
+              ID City: {`${bookmark.city._id}`}
+            </div>
             {bookmark.isFollowHistory && (
               <span className="history-mark" title="user follow history data">
                 <FontAwesomeIcon

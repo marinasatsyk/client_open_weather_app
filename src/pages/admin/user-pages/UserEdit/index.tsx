@@ -243,8 +243,8 @@ const UserAmdinEdit = () => {
         </div>
         <section className="user-bookmarks">
           <h3>Bookmarks</h3>
-          {user.bookmarks.length ? (
-            <BookmarksComponent bookmarks={user.bookmarks} />
+          {currentUser.bookmarks.length ? (
+            <BookmarksComponent bookmarks={currentUser.bookmarks} />
           ) : (
             <div>No bookmarks</div>
           )}
@@ -281,7 +281,9 @@ const BookmarksComponent: React.FC<BookmarksComponentProps> = (props) => {
       {bookmarks.length > 0 &&
         bookmarks.map((bookmark, index) => (
           <article key={index} className="wrap-bookmark">
-            <div className="bookmark-city">ID City: {`${bookmark.city}`}</div>
+            <div className="bookmark-city">
+              ID City: {`${bookmark.city._id}`}
+            </div>
             {bookmark.isFollowHistory && (
               <span className="history-mark" title="user follow history data">
                 <FontAwesomeIcon

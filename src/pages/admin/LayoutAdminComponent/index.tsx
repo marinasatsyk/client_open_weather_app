@@ -54,51 +54,51 @@ const LayoutAdminComponent = () => {
     }
   }, []);
 
-  const isDesktop = useMediaQuery({ minWidth: 768 });
+  // const isDesktop = useMediaQuery({ minWidth: 768 });
 
-  if (isDesktop) {
-    return (
-      <div
-        className={`main-wrapper-current ${
-          isShowSideMenu ? "side-menu-opened" : ""
-        }`}
-      >
-        <SideBarAdmin isShowSideMenu={isShowSideMenu} />
-        <div className={`wrap-main-content`}>
-          <HeaderAdmin isShowSideMenu toggleSideMenu={toggleSideMenu} />
-          <main className="admin-main">
-            <Outlet />
-          </main>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div className="main-wrapper-current">
-        <HeaderMobile
-          showSearchModal={setModalOpened}
-          showSettingsModal={setModalSettingsOpened}
-        />
-        <main>
+  // if (isDesktop) {
+  return (
+    <div
+      className={`main-wrapper-current ${
+        isShowSideMenu ? "side-menu-opened" : ""
+      }`}
+    >
+      <SideBarAdmin isShowSideMenu={isShowSideMenu} />
+      <div className={`wrap-main-content`}>
+        <HeaderAdmin isShowSideMenu toggleSideMenu={toggleSideMenu} />
+        <main className="admin-main">
           <Outlet />
         </main>
-
-        <CommonModalComponent
-          isModalOpened={isModalSearchOpened}
-          hide={setModalOpened}
-        >
-          <SearchCityComponent />
-        </CommonModalComponent>
-
-        <CommonModalComponent
-          isModalOpened={isModalSettingsOpened}
-          hide={setModalSettingsOpened}
-        >
-          <SettingsComponent />
-        </CommonModalComponent>
       </div>
-    );
-  }
+    </div>
+  );
+  // } else {
+  //   return (
+  //     <div className="main-wrapper-current">
+  //       <HeaderMobile
+  //         showSearchModal={setModalOpened}
+  //         showSettingsModal={setModalSettingsOpened}
+  //       />
+  //       <main>
+  //         <Outlet />
+  //       </main>
+
+  //       <CommonModalComponent
+  //         isModalOpened={isModalSearchOpened}
+  //         hide={setModalOpened}
+  //       >
+  //         <SearchCityComponent />
+  //       </CommonModalComponent>
+
+  //       <CommonModalComponent
+  //         isModalOpened={isModalSettingsOpened}
+  //         hide={setModalSettingsOpened}
+  //       >
+  //         <SettingsComponent />
+  //       </CommonModalComponent>
+  //     </div>
+  //   );
+  // }
 };
 
 export default LayoutAdminComponent;
