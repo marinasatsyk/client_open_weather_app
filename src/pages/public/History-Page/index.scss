@@ -1,0 +1,33 @@
+.wrap-change-track.history {
+  border-radius: 3px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: baseline;
+  gap: 35px;
+  background: #ffffff30;
+
+  .title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .wrap-toggle {
+    display: flex;
+    gap: 20px;
+  }
+
+  .save-history {
+    border-radius: 3px;
+    height: 35px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.42);
+  }
+}

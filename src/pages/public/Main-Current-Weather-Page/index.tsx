@@ -47,7 +47,7 @@ const CurrentWeatherComponent = () => {
   const isDesktop = useMediaQuery({ minWidth: 768 });
 
   const getUserDashboard = async () => {
-    console.log("we start get user");
+    console.log("we start get user from dashboard");
     await dispatch(getUser());
   };
 
@@ -78,9 +78,10 @@ const CurrentWeatherComponent = () => {
       console.log("🍩", isInitialMount);
 
       getUserDashboard();
-      setTimeout(() => {}, 500);
 
-      getCoordinates();
+      setTimeout(() => {
+        getCoordinates();
+      }, 500);
     } else {
       console.log("update?");
     }

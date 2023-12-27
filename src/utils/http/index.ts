@@ -38,7 +38,6 @@ $api.interceptors.response.use(
     if (err?.response?.status === 401 && err.config && !err.config._isRetry) {
       originalRequest._isRetry = true;
       try {
-        console.clear();
         console.log("we refresh token");
         const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {
           withCredentials: true,
