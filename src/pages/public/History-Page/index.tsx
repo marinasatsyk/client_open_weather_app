@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { getUser } from "store/thunks/auth";
 import { Bookmark, IFullUser } from "common/interfaces/auth";
 import Toggle from "components/ToggleComponent";
-import "./index.scss";
 import { updateActiveBookmark } from "store/thunks/user";
 import DateRangePickerComponent from "components/DateRangePickerComponent";
 import { getHourlyHistoricalWeather } from "store/thunks/historyweather";
+import HistoryChartsComponent from "components/charts/HistoryChartsComponent";
+import { format } from "date-fns";
+import "./index.scss";
 
 const HistoryWeatherComponent = () => {
   const { user, isLoading } = UseAppSelector((state) => state.auth);
@@ -124,8 +126,9 @@ const HistoryWeatherComponent = () => {
         console.log("sucess");
         const transformedStartDate = new Date(startDate * 1000);
         const transformedEndDate = new Date(endDate * 1000);
-        setCurrentStartDate(`${transformedStartDate}`);
-        setCurrentEndDate(`${transformedEndDate}`);
+
+        setCurrentStartDate(`${format(transformedStartDate, "dd/MM/yyyy")}`);
+        setCurrentEndDate(`${format(transformedEndDate, "dd/MM/yyyy")}`);
         setIsDisplayGraphs(true);
       } else if (getHourlyHistoricalWeather.rejected.match(historicalDataReq)) {
         setIsDisplayGraphs(false);
@@ -165,13 +168,13 @@ const HistoryWeatherComponent = () => {
                     />
                   )}
                   {isDisplayGraphs && (
-                    <div>
+                    <section className="chart-wrap-all">
                       <div>
                         Your range is from {currentStartDate} to{" "}
-                        {currentEndDate}.
+                        {currentEndDate}.<button>reset</button>
                       </div>
-                      <div>There is {historicalData.length} records</div>
-                    </div>
+                      <HistoryChartsComponent />
+                    </section>
                   )}
                 </div>
               );

@@ -22,6 +22,7 @@ import {
   getDateFromUnixTime,
   getHoursFromUnixTime,
   options,
+  WeatherDataSources,
 } from "./chartHelpers";
 import "./index.scss";
 import moment from "moment";
@@ -46,19 +47,45 @@ type ChartObject = {
   };
 };
 
-export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
+export function ChartComponentHouryly(props: {
+  activeKey: WeatherDataKeys;
+  dataSource: string;
+}) {
   const {
     error,
     isLoading,
-    data: dataR,
+    data: dataSourceForecast,
   } = UseAppSelector((state) => state.hourlyForecast);
+
+  const {
+    error: historyError,
+    isLoading: historyIsLoading,
+    data: dataSourceHistorical,
+  } = UseAppSelector((state) => state.hourlyHistoricalWeather);
 
   const [isDisabledPrevBtn, setIsDisabledPrevBtn] = useState(false);
   const [isDisabledNextBtn, setIsDisabledNextBtn] = useState(false);
   const [currentIndexData, setCurrentIndexData] = useState(0);
 
-  const { activeKey: currentKey } = props;
+  const { activeKey: currentKey, dataSource: currentDataSource } = props;
   console.log("currentkey", currentKey);
+
+  //we define data source for show chart
+  let dataSourceForDisplay: any; //to change
+
+  switch (currentDataSource) {
+    case WeatherDataSources.FORECAST:
+      dataSourceForDisplay = dataSourceForecast;
+      break;
+    case WeatherDataSources.HISTORICAL:
+      dataSourceForDisplay = dataSourceHistorical;
+      break;
+    default:
+      dataSourceForDisplay = dataSourceForecast;
+      break;
+  }
+
+  console.log("dataSourceForDisplay===>", dataSourceForDisplay.list);
 
   const [chartData, setChartData] = useState<ChartData>({
     data: [],
@@ -88,7 +115,7 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
     lat: number,
     lon: number
   ) => {
-    if (!data || !dataR?.list) {
+    if (!data || !dataSourceForDisplay?.list) {
       return {
         data: [],
         labels: [],
@@ -96,7 +123,7 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
         max: undefined,
       };
     }
-    if (index < 0 || index >= dataR?.list.length) {
+    if (index < 0 || index >= dataSourceForDisplay?.list.length) {
       console.error("Index out of range");
       return {
         data: [],
@@ -152,14 +179,6 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
       .unix(sortedTimestamps[sortedTimestamps.length - 1].timestamp)
       .format("D MMM YYYY");
 
-    //refacto?
-    // const filteredDataT = data.slice(index, index + 24).map((item) => ({
-    //   timestamp: getHoursFromUnixTime(item.dt, lat, lon),
-    //   value: item.main[key] as number,
-    //   date: getDateFromUnixTime(item.dt, lat, lon),
-    // }));
-    // console.log("data for display", filteredDataT);
-
     return {
       data: filteredData,
       labels: labels,
@@ -183,11 +202,6 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
       value:
         key !== "wind" ? (item[key] as number) : (item[key].speed as number),
     }));
-
-    // const chartObj: ChartObject = {
-    //   labels: [],
-    //   values: [],
-    // };
 
     const values =
       key !== "wind"
@@ -232,7 +246,7 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
   };
 
   const handleNext = () => {
-    if (currentIndexData + 24 < dataR.list.length) {
+    if (currentIndexData + 24 < dataSourceForDisplay.list.length) {
       console.log("*************click next");
       setCurrentIndexData(currentIndexData + 24);
       updateChartData();
@@ -241,8 +255,8 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
 
   const updateChartData = () => {
     //we disable btn when no data for display in nex/prev range
-    if (Object.keys(dataR).length) {
-      if (currentIndexData + 24 >= dataR.list.length) {
+    if (Object.keys(dataSourceForDisplay).length) {
+      if (currentIndexData + 24 >= dataSourceForDisplay.list.length) {
         setIsDisabledNextBtn(true);
       } else {
         setIsDisabledNextBtn(false);
@@ -257,10 +271,10 @@ export function ChartComponentHouryly(props: { activeKey: WeatherDataKeys }) {
       //@ts-ignore
       const { data, labels, min, max, startDate, endDate } = filterData(
         currentIndexData,
-        dataR.list,
+        dataSourceForDisplay.list,
         currentKey,
-        dataR.city.coord.lat,
-        dataR.city.coord.lon
+        dataSourceForDisplay.city.coord.lat,
+        dataSourceForDisplay.city.coord.lon
       );
       console.log("data from chart js", data, labels);
       const dataForChart = data.map((item) => item.value);

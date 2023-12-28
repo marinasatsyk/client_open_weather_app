@@ -85,6 +85,11 @@ export enum WeatherDataKeys {
   POP = "pop",
 }
 
+export enum WeatherDataSources {
+  HISTORICAL = "historical",
+  FORECAST = "forecast",
+}
+
 export type MainWeatherData = {
   temp: number;
   feels_like: number;

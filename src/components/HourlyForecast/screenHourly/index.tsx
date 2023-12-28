@@ -5,7 +5,10 @@ import { format } from "date-fns";
 import "./index.scss";
 import { useState } from "react";
 import ChartComponentHouryly from "components/charts/ChartHourly";
-import { WeatherDataKeys } from "components/charts/ChartHourly/chartHelpers";
+import {
+  WeatherDataKeys,
+  WeatherDataSources,
+} from "components/charts/ChartHourly/chartHelpers";
 
 function ScreenHourlyForecastComponent() {
   const { error, isLoading } = UseAppSelector((state) => state.hourlyForecast);
@@ -158,7 +161,10 @@ function ScreenHourlyForecastComponent() {
               className="spinner-current"
             />
           ) : (
-            <ChartComponentHouryly activeKey={activeKey} />
+            <ChartComponentHouryly
+              activeKey={activeKey}
+              dataSource={WeatherDataSources.FORECAST}
+            />
           )}
         </div>
       </div>

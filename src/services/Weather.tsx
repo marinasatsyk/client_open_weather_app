@@ -50,7 +50,7 @@ export default class WeatherService {
     cityId: string,
     startDate: number,
     endDate: number
-  ): Promise<AxiosResponse<Array<IHistoricalWeatherRes>>> {
+  ): Promise<AxiosResponse<IHistoricalWeatherRes>> {
     console.log(
       "WeatherService  getCurrentWheather",
       cityId,
@@ -58,7 +58,7 @@ export default class WeatherService {
       endDate
     );
 
-    return $api.post<IHistoricalWeatherRes[]>(`/weather/history`, {
+    return $api.post<IHistoricalWeatherRes>(`/weather/history`, {
       cityId,
       startDate,
       endDate,
