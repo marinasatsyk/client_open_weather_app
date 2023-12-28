@@ -10,6 +10,7 @@ interface IBookmarksUpdate {
 }
 interface IBookmark {
   cityId: string;
+  isHistory?: boolean;
 }
 
 interface IUserUpdate {
@@ -56,7 +57,7 @@ export const updateUser = createAsyncThunk(
 
 export const deleteUser = createAsyncThunk(
   "user/delete",
-  async (data: IUserId , { rejectWithValue }) => {
+  async (data: IUserId, { rejectWithValue }) => {
     try {
       const responseDeletedUser = await UserService.deleteUser(data.userId);
       return responseDeletedUser.data;
@@ -72,9 +73,6 @@ export const deleteUser = createAsyncThunk(
     }
   }
 );
-
-
-
 
 export const updateBookmarks = createAsyncThunk(
   "user/updateBookmarks",
@@ -103,7 +101,10 @@ export const updateActiveBookmark = createAsyncThunk(
   "user/updateActiveBookmark",
   async (data: IBookmark, { rejectWithValue }) => {
     try {
-      const updatedUser = await UserService.updateActiveBookmark(data.cityId);
+      const updatedUser = await UserService.updateActiveBookmark(
+        data.cityId,
+        data.isHistory
+      );
       return updatedUser.data;
     } catch (error: any) {
       console.log("activeBookmark", error);

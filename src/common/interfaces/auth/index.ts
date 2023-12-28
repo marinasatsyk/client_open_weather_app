@@ -416,3 +416,47 @@ export interface ICreateAdminUser {
 export interface CreateResponse {
   user: IFullAdminUser;
 }
+
+/**HISTORICAL WEATHER  */
+export interface IHistoricalWeatherReq {
+  cityId: string;
+  startDate: number;
+  endDate: number;
+}
+
+export interface IHistoricalWeatherRes {
+  _id: string;
+  dt: number;
+  main: {
+    temp: number;
+    feels_like: number;
+    pressure: number;
+    humidity: number;
+    temp_min: number;
+    temp_max: number;
+  };
+  wind: {
+    speed: number;
+    deg: number;
+  };
+  clouds: {
+    all: number;
+  };
+  weather: [
+    {
+      id: number;
+      main: string;
+      description: string;
+      icon: string;
+      _id: string;
+    }
+  ];
+  city: string;
+  __v: number;
+}
+
+export interface IWheatherHistoricalState {
+  data: IHistoricalWeatherRes[];
+  isLoading: boolean;
+  error: any;
+}

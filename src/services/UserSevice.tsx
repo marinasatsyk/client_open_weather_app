@@ -33,9 +33,10 @@ export default class UserService {
   }
 
   static async updateActiveBookmark(
-    cityId: string
+    cityId: string,
+    isHistory?: boolean
   ): Promise<AxiosResponse<IFullUser>> {
-    return $api.put<IFullUser>(`/user/bookmarks`, { cityId });
+    return $api.put<IFullUser>(`/user/bookmarks`, { cityId, isHistory });
   }
 
   static async deleteBookmark(
