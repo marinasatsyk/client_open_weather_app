@@ -5,6 +5,7 @@ import currentWeather from "./slice/weather";
 import dailyForecast from "./slice/dailyWeather";
 import hourlyForecast from "./slice/hourlyWeather";
 import hourlyHistoricalWeather from "./slice/historicalWeather";
+import availableHistoricalStart from "./slice/availableHistorical";
 // import pollutionWeather from './slice/pollutionWeather';
 import admin from "./slice/admin";
 
@@ -25,6 +26,7 @@ const store = configureStore({
     hourlyForecast,
     admin,
     hourlyHistoricalWeather,
+    availableHistoricalStart,
   },
   devTools: true,
   middleware: (getDefaultMiddleware) =>

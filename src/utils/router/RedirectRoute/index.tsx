@@ -3,7 +3,6 @@
 // import { useAuth } from 'utils/hook';
 // import {IRootProps} from 'common/interfaces/auth';
 
-
 // const RedirectRoute = ({path, children  }:IRootProps) => {
 //   const  auth = useAuth();
 //   console.log('isAuth from route', auth)
@@ -12,26 +11,23 @@
 
 // export default RedirectRoute;
 
-
-
-import { Outlet,  Navigate} from 'react-router-dom';
-import { useAdmin, useAuth, useUserId } from 'utils/hook';
+import { Outlet, Navigate } from "react-router-dom";
+import { useAdmin, useAuth, useUserId } from "utils/hook";
 
 const RedirectRoute = () => {
-    const  auth =  useAuth();
-//     const id = useUserId();
-    const admin = useAdmin();
-    console.log("❤️admin", admin)
-  
-    if(auth&&!admin){
-     console.log("coucou user")
-    return (<Navigate to={`/user/current`}  />)
-   }else if(auth&&admin){
-     console.log("coucou admin")
-     return (<Navigate to={`/admin/dashboard`}  />)
-    }else{
-      return (<Outlet /> )
-   }
+  const auth = useAuth();
+  const admin = useAdmin();
+  console.log("❤️admin", admin);
+
+  if (auth && !admin) {
+    console.log("coucou user");
+    return <Navigate to={`/user/current`} />;
+  } else if (auth && admin) {
+    console.log("coucou admin");
+    return <Navigate to={`/admin/dashboard`} />;
+  } else {
+    return <Outlet />;
+  }
 };
 
 export default RedirectRoute;

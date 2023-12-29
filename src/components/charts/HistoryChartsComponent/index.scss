@@ -1,6 +1,14 @@
+.main-hisotry-charts {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+
 @media screen and (min-width: 768px) {
   .main-hisotry-charts {
-    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
   }
 }

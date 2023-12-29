@@ -380,7 +380,6 @@ export function ChartComponentHouryly(props: {
               x: {
                 border: {
                   dash: [3],
-                  // color: "white",
                 },
                 grid: {
                   color: "rgba(255, 255, 255, 0.3)",
@@ -391,7 +390,6 @@ export function ChartComponentHouryly(props: {
                 display: true,
                 position: "right" as const,
                 grid: {
-                  // drawOnChartArea: false,
                   color: "rgba(255, 255, 255, 0.3)",
                 },
                 border: {

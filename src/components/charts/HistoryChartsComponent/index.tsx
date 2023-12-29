@@ -17,7 +17,7 @@ const HistoryChartsComponent = () => {
   return (
     <div className="main-hisotry-charts">
       <div className="main-container-screen-hourly">
-        <h2>Hourly Historical data</h2>
+        <h2>Temperature</h2>
         <div className="wrap-chart-container">
           {isLoading ? (
             <FontAwesomeIcon
@@ -35,7 +35,7 @@ const HistoryChartsComponent = () => {
       </div>
 
       <div className="main-container-screen-hourly">
-        <h2>Hourly Historical data</h2>
+        <h2>Feels like</h2>
         <div className="wrap-chart-container">
           {isLoading ? (
             <FontAwesomeIcon
@@ -53,7 +53,7 @@ const HistoryChartsComponent = () => {
       </div>
 
       <div className="main-container-screen-hourly">
-        <h2>Hourly Historical data</h2>
+        <h2>Humidity</h2>
         <div className="wrap-chart-container">
           {isLoading ? (
             <FontAwesomeIcon
@@ -71,7 +71,7 @@ const HistoryChartsComponent = () => {
       </div>
 
       <div className="main-container-screen-hourly">
-        <h2>Hourly Historical data</h2>
+        <h2>Pressure</h2>
         <div className="wrap-chart-container">
           {isLoading ? (
             <FontAwesomeIcon
@@ -88,7 +88,7 @@ const HistoryChartsComponent = () => {
         </div>
       </div>
       <div className="main-container-screen-hourly">
-        <h2>Hourly Historical data</h2>
+        <h2>Wind</h2>
         <div className="wrap-chart-container">
           {isLoading ? (
             <FontAwesomeIcon

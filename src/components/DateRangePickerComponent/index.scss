@@ -1,8 +1,17 @@
 //for screen
 .wrap-from-main-history {
   height: 100%;
+  .main-container-screen-hourly {
+    h2 {
+      text-align: center;
+    }
+  }
 }
 
+section .title-all-charts h3 {
+  font-size: 14px !important;
+  text-align: center;
+}
 .datapicker-wrap {
   width: 370px;
   display: flex;
@@ -56,7 +65,7 @@
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 950px) {
   .wrap-from-main-history {
     height: 100%;
     display: flex;

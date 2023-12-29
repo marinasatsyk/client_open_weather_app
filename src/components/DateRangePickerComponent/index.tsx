@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker, { registerLocale } from "react-datepicker";
 
 import {
@@ -15,12 +15,17 @@ import {
   setMinutes,
   setSeconds,
   setMilliseconds,
+  isValid,
 } from "date-fns";
 import fr from "date-fns/locale/fr";
-import { Bookmark } from "common/interfaces/auth";
+import { Bookmark, IreqAvailable } from "common/interfaces/auth";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./index.scss";
+import $api from "utils/http";
+import { useDispatch, useSelector } from "react-redux";
+import { getAvailableHistoryStartDate } from "store/thunks/availableDataHistory";
+import { UseAppSelector } from "utils/hook";
 
 registerLocale("fr", fr);
 
@@ -39,22 +44,59 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
   handleClickHistory,
   isLoading,
 }) => {
+  const {
+    data: availableDataStart,
+    isLoading: availableIsLoading,
+    error,
+  } = UseAppSelector((state) => state.availableHistoricalStart);
+
   const today = startOfDay(new Date());
-  const startDateLimit = subYears(addDays(today, 1), 1); // date min for start today - 1 year + 1 day
+  const startDateLimit_base = subYears(addDays(today, 1), 1); // date min for start today - 1 year + 1 day
+  console.log("startDateLimit????????????", startDateLimit_base);
+
   const defineHours = setHours(
     setMinutes(setSeconds(setMilliseconds(today, 0), 0), 0),
     23
   );
-  const endDateLimit = subDays(defineHours, 1); // today - 1 day
+  const endDateLimit_base = subDays(defineHours, 1); // today - 1 day
 
+  const [endDateLimit, setEndDateLimit] = useState(endDateLimit_base);
+  const [startDateLimit, setStartLimit] = useState(startDateLimit_base);
   const [startDate, setStartDate] = useState<Date>(startDateLimit);
   const [endDate, setEndDate] = useState<Date>(endDateLimit);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const dataForReqStart = {
+      cityId: bookmark.city._id,
+    };
+    getStartDate(dataForReqStart);
+  }, [bookmark]);
+
+  async function getStartDate(data: IreqAvailable) {
+    const res = await dispatch<any>(getAvailableHistoryStartDate(data));
+
+    if (getAvailableHistoryStartDate.fulfilled.match(res)) {
+      //@ts-ignore
+      const transformedDate = new Date(availableDataStart.dt * 1000);
+      const date = startOfDay(transformedDate);
+      if (isValid(date)) {
+        setStartLimit(date);
+        setStartDate(date);
+      }
+    } else if (getAvailableHistoryStartDate.rejected.match(res)) {
+    }
+  }
 
   const handleStartDateChange = (date: Date) => {
+    if (!isValid(date)) {
+      return;
+    }
+    console.log(date);
     if (
       isBefore(date, startDateLimit) ||
-      isAfter(date, today) ||
-      isAfter(date, endDate)
+      isAfter(date, endDate) ||
+      isAfter(date, endDateLimit)
     ) {
       return;
     }
@@ -63,9 +105,12 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
   };
 
   const handleEndDateChange = (date: Date) => {
+    if (!isValid(date)) {
+      return;
+    }
     if (
       isBefore(date, startDateLimit) ||
-      isAfter(date, addDays(today, -1)) ||
+      isAfter(date, endDateLimit) ||
       isBefore(date, startDate)
     ) {
       return;
@@ -95,6 +140,7 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
     );
   };
 
+  console.log("limits", startDateLimit, endDateLimit);
   return (
     <div className="datapicker-wrap">
       <div className="title-data-picker">{bookmark.city.name}</div>

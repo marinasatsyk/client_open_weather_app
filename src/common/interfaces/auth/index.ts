@@ -464,3 +464,7 @@ export interface IWheatherHistoricalState {
   isLoading: boolean;
   error: any;
 }
+
+export interface IreqAvailable {
+  cityId: string;
+}

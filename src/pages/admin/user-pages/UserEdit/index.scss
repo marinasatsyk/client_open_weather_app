@@ -67,3 +67,23 @@
     font-size: 18px;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .wrap-user-admin-container {
+    width: 100%;
+
+    .wrap-item-user-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      label {
+        text-align: center;
+      }
+    }
+  }
+  .wrap-user-admin-container.edit {
+    .btn-wrap {
+      justify-content: center;
+    }
+  }
+}

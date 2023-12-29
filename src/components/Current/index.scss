@@ -210,11 +210,15 @@ section.current-common-wrap {
 }
 //for screen
 @media screen and (min-width: 768px) {
+  // section {
+  //   max-width: 860px;
+  // }
   section.current-common-wrap {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+
     .container-current-data {
       width: 100%;
 

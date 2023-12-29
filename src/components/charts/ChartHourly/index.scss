@@ -36,3 +36,29 @@
   border-radius: 3px;
   padding: 5px;
 }
+
+@media screen and (max-width: 767px) {
+  .main-chart-container {
+    width: auto;
+    position: relative;
+    .wrap-left-btn {
+      position: absolute;
+      left: 0;
+      bottom: 10px;
+    }
+
+    .wrap-right-btn {
+      position: absolute;
+      right: 0;
+      bottom: 10px;
+    }
+
+    .chart-container {
+      width: 100%;
+      canvas {
+        height: 190px;
+        width: 360px;
+      }
+    }
+  }
+}

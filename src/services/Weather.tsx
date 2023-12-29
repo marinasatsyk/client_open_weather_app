@@ -64,4 +64,13 @@ export default class WeatherService {
       endDate,
     });
   }
+
+  //available historical data
+  static async getavailableHistoricalStartDate(
+    cityId: string
+  ): Promise<AxiosResponse> {
+    return $api.post(`/weather/history/available`, {
+      cityId,
+    });
+  }
 }

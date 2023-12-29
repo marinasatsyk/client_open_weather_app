@@ -12,6 +12,7 @@ import { getHourlyHistoricalWeather } from "store/thunks/historyweather";
 import HistoryChartsComponent from "components/charts/HistoryChartsComponent";
 import { format } from "date-fns";
 import "./index.scss";
+import $api from "utils/http";
 
 const HistoryWeatherComponent = () => {
   const { user, isLoading } = UseAppSelector((state) => state.auth);
@@ -169,10 +170,16 @@ const HistoryWeatherComponent = () => {
                   )}
                   {isDisplayGraphs && (
                     <section className="chart-wrap-all">
-                      <div>
-                        Your range is from {currentStartDate} to{" "}
-                        {currentEndDate}.<button>reset</button>
+                      <div className="title-all-charts">
+                        <h3>
+                          Your range is from {currentStartDate} to{" "}
+                          {currentEndDate}.
+                        </h3>
+                        <button onClick={() => setIsDisplayGraphs(false)}>
+                          Reset
+                        </button>
                       </div>
+
                       <HistoryChartsComponent />
                     </section>
                   )}
