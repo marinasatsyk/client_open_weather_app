@@ -1,10 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
 import { UseAppSelector } from "utils/hook";
-import { useNavigate } from "react-router-dom";
 import { getUser } from "store/thunks/auth";
-import { Bookmark, IFullUser } from "common/interfaces/auth";
+import { Bookmark } from "common/interfaces/auth";
 import Toggle from "components/ToggleComponent";
 import { updateActiveBookmark } from "store/thunks/user";
 import DateRangePickerComponent from "components/DateRangePickerComponent";
@@ -12,7 +10,6 @@ import { getHourlyHistoricalWeather } from "store/thunks/historyweather";
 import HistoryChartsComponent from "components/charts/HistoryChartsComponent";
 import { format } from "date-fns";
 import "./index.scss";
-import $api from "utils/http";
 
 const HistoryWeatherComponent = () => {
   const { user, isLoading } = UseAppSelector((state) => state.auth);
@@ -22,26 +19,14 @@ const HistoryWeatherComponent = () => {
     error: historicalError,
   } = UseAppSelector((state) => state.hourlyHistoricalWeather);
 
-  const [ishistory, setIsHistory] = useState(false);
   const [activeBookmark, setActiveBookmark] = useState({} as Bookmark);
-  const [actionError, setActionError] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
 
   const [isChecked, setIsChecked] = useState(false);
-
   const [currentStartDate, setCurrentStartDate] = useState("");
   const [currentEndDate, setCurrentEndDate] = useState("");
-
   const [isDisplayGraphs, setIsDisplayGraphs] = useState(false);
-  // /**
-  //  * GOAL=> get data weather by my server
-  //  * 1. verify if bookmarks
-  //  *  yes => get Active bookmark
-  //  *  no =>
-  //  * 2. Display notification
-  //  */
-
   const memoizedBookmarks = useMemo(() => user.bookmarks, [user.bookmarks]);
 
   useEffect(() => {
@@ -54,13 +39,11 @@ const HistoryWeatherComponent = () => {
         ? memoizedBookmarks.find((bookmark) => bookmark.isActive)
         : "";
     if (activeBookmark) {
+      console.log("😊😊😊😊active bookmark change");
       setActiveBookmark(activeBookmark);
+      setIsDisplayGraphs(false);
     }
   }, [memoizedBookmarks]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   function onToggleChange() {
     setIsChecked(!isChecked);
@@ -94,26 +77,6 @@ const HistoryWeatherComponent = () => {
       "cityLat"
     );
 
-    // Convertir le timestamp en millisecondes
-
-    //updateBookmarkState
-    // switch (index) {
-    //   case 1:
-    //     // Comportement pour Élément 1
-    //     console.log('Cliqué sur Élément 1');
-    //     break;
-    //   case 2:
-    //     // Comportement pour Élément 2
-    //     console.log('Cliqué sur Élément 2');
-    //     break;
-    //   case 3:
-    //     // Comportement pour Élément 3
-    //     console.log('Cliqué sur Élément 3');
-    //     break;
-    //   default:
-    //     break;
-    // }
-
     const reqHistoricalData = {
       cityId,
       startDate,
@@ -144,79 +107,100 @@ const HistoryWeatherComponent = () => {
     }
   };
 
+  const getDate = () => {
+    const date = new Date();
+    return format(date, "eeee, d MMMM yyyy");
+  };
   console.log("memoizedBookmarks", memoizedBookmarks);
-  if (
-    (memoizedBookmarks && !memoizedBookmarks.length) ||
-    !activeBookmark ||
-    !Object.keys(activeBookmark).length
-  ) {
-    return <div>No active location. Add one</div>;
-  }
 
-  return (
-    <>
-      {memoizedBookmarks.some((b) => b.isActive) &&
-        memoizedBookmarks.map((bookmark) => {
-          if (bookmark.isActive) {
-            if (bookmark.isFollowHistory) {
-              return (
-                <div className="wrap-from-main-history" key={bookmark.city._id}>
-                  {!isDisplayGraphs && (
-                    <DateRangePickerComponent
-                      bookmark={bookmark}
-                      handleClickHistory={handleClickHistory}
-                      isLoading={ishistoricalLoading}
-                    />
-                  )}
-                  {isDisplayGraphs && (
-                    <section className="chart-wrap-all">
-                      <div className="title-all-charts">
-                        <h3>
-                          Your range is from {currentStartDate} to{" "}
-                          {currentEndDate}.
-                        </h3>
-                        <button onClick={() => setIsDisplayGraphs(false)}>
-                          Reset
-                        </button>
-                      </div>
+  if (isLoading || ishistoricalLoading) {
+    return <div>Loading...</div>;
+  } else {
+    if (
+      (memoizedBookmarks && !memoizedBookmarks.length) ||
+      !activeBookmark ||
+      !Object.keys(activeBookmark).length
+    ) {
+      return <div>No active location. Add one</div>;
+    }
 
-                      <HistoryChartsComponent />
-                    </section>
-                  )}
-                </div>
-              );
-            } else {
-              return (
-                <div
-                  key={bookmark.city._id}
-                  className="wrap-change-track history"
-                >
-                  <div>
-                    You have chosen not to follow historical data for
-                    <span className="title">{bookmark.city.name}</span>
-                    Change the choice?
-                  </div>
-                  <Toggle
-                    isChecked={isChecked}
-                    onToggleChange={onToggleChange}
-                    label="track history data"
-                  />
-                  <button
-                    className="save-history"
-                    onClick={(e) =>
-                      onHandleSubmit(e, bookmark.city._id, isChecked)
-                    }
+    return (
+      <>
+        {memoizedBookmarks.some((b) => b.isActive) &&
+          memoizedBookmarks.map((bookmark) => {
+            if (bookmark.isActive) {
+              if (bookmark.isFollowHistory) {
+                return (
+                  <div
+                    className="wrap-from-main-history"
+                    key={bookmark.city._id}
                   >
-                    Save
-                  </button>
-                </div>
-              );
+                    {!isDisplayGraphs && (
+                      <DateRangePickerComponent
+                        bookmark={bookmark}
+                        handleClickHistory={handleClickHistory}
+                        isLoading={ishistoricalLoading}
+                      />
+                    )}
+                    {isDisplayGraphs && (
+                      <section className="chart-wrap-all">
+                        <div className="title-all-charts">
+                          <h3>
+                            {activeBookmark.city.name}
+                            {", "}
+                            {activeBookmark.city.country}{" "}
+                            <div className="date">{getDate()}</div>
+                          </h3>
+                          <h3>
+                            Your range is from {currentStartDate} to{" "}
+                            {currentEndDate}
+                          </h3>
+                          <button
+                            className="reset"
+                            onClick={() => setIsDisplayGraphs(false)}
+                          >
+                            Reset
+                          </button>
+                        </div>
+
+                        <HistoryChartsComponent />
+                      </section>
+                    )}
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    key={bookmark.city._id}
+                    className="wrap-change-track history"
+                  >
+                    <div>
+                      You have chosen not to follow historical data for
+                      <span className="title">{bookmark.city.name}</span>
+                      Change the choice?
+                    </div>
+                    <Toggle
+                      isChecked={isChecked}
+                      onToggleChange={onToggleChange}
+                      label="track history data"
+                    />
+                    <button
+                      className="save-history"
+                      onClick={(e) =>
+                        onHandleSubmit(e, bookmark.city._id, isChecked)
+                      }
+                    >
+                      Save
+                    </button>
+                  </div>
+                );
+              }
             }
-          }
-          return null;
-        })}
-    </>
-  );
+            return null;
+          })}
+      </>
+    );
+  }
 };
 
 export default HistoryWeatherComponent;

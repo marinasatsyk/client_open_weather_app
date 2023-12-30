@@ -68,7 +68,6 @@ export function ChartComponentHouryly(props: {
   const [currentIndexData, setCurrentIndexData] = useState(0);
 
   const { activeKey: currentKey, dataSource: currentDataSource } = props;
-  console.log("currentkey", currentKey);
 
   //we define data source for show chart
   let dataSourceForDisplay: any; //to change
@@ -84,8 +83,6 @@ export function ChartComponentHouryly(props: {
       dataSourceForDisplay = dataSourceForecast;
       break;
   }
-
-  console.log("dataSourceForDisplay===>", dataSourceForDisplay.list);
 
   const [chartData, setChartData] = useState<ChartData>({
     data: [],
@@ -124,7 +121,6 @@ export function ChartComponentHouryly(props: {
       };
     }
     if (index < 0 || index >= dataSourceForDisplay?.list.length) {
-      console.error("Index out of range");
       return {
         data: [],
         labels: [],
@@ -133,7 +129,6 @@ export function ChartComponentHouryly(props: {
       };
     }
 
-    console.log("in function=========== update>", key);
     if ("main" in data[0] && key in data[0].main) {
       return filterMainData(
         index,
@@ -154,8 +149,6 @@ export function ChartComponentHouryly(props: {
     lat: number,
     lon: number
   ) => {
-    console.log("❤️in main", index);
-
     const filteredData = data.slice(index, index + 24).map((item) => ({
       timestamp: item.dt,
       value: item.main[key] as number,
@@ -196,7 +189,6 @@ export function ChartComponentHouryly(props: {
     lat: number,
     lon: number
   ) => {
-    console.log("🎲in other", index);
     const filteredData = data.slice(index, index + 24).map((item) => ({
       timestamp: item.dt,
       value:
@@ -207,8 +199,6 @@ export function ChartComponentHouryly(props: {
       key !== "wind"
         ? filteredData.map((item) => item.value)
         : filteredData.map((item) => item.value);
-
-    // console.log(chartObj);
 
     const minValue = Math.min(...values);
     const maxValue = Math.max(...values);
@@ -239,7 +229,6 @@ export function ChartComponentHouryly(props: {
 
   const handlePrev = () => {
     if (currentIndexData >= 24) {
-      console.log("*************click prev");
       setCurrentIndexData(currentIndexData - 24);
       updateChartData();
     }
@@ -247,7 +236,6 @@ export function ChartComponentHouryly(props: {
 
   const handleNext = () => {
     if (currentIndexData + 24 < dataSourceForDisplay.list.length) {
-      console.log("*************click next");
       setCurrentIndexData(currentIndexData + 24);
       updateChartData();
     }
@@ -267,7 +255,6 @@ export function ChartComponentHouryly(props: {
       } else {
         setIsDisabledPrevBtn(false);
       }
-      console.log("we update filter data", currentIndexData);
       //@ts-ignore
       const { data, labels, min, max, startDate, endDate } = filterData(
         currentIndexData,
@@ -276,9 +263,7 @@ export function ChartComponentHouryly(props: {
         dataSourceForDisplay.city.coord.lat,
         dataSourceForDisplay.city.coord.lon
       );
-      console.log("data from chart js", data, labels);
       const dataForChart = data.map((item) => item.value);
-      console.log(dataForChart);
       setChartData({
         data: dataForChart,
         labels,

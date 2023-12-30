@@ -9,6 +9,7 @@ import { SunsetSVG } from "components/svg/Sunset";
 import { useMediaQuery } from "react-responsive";
 import DailyForecastComponent from "components/DailyForecast";
 import RadarWeatherComponent from "components/Radar";
+import MobileHourlyForecastComponent from "components/HourlyForecast/mobileHourly";
 
 interface ICurrent {
   lat: number;
@@ -422,6 +423,9 @@ const CurrentWeatherCommon = (props: ICurrent) => {
               </span>
             </div>
           </div>
+          <section>
+            <MobileHourlyForecastComponent />
+          </section>
           <section className="long-daily-forecast">
             <DailyForecastComponent />
           </section>

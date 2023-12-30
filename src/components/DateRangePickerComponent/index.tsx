@@ -180,7 +180,8 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
 
       <div className="notice">
         <span className="important">*</span>
-        The selected range should not exceed year N - 1
+        The start date is determinated by the availability of data in the
+        database, otherwise it should not exceed year N - 1 + 1 day
       </div>
       <button onClick={handleSubmit}> {isLoading ? "Loading" : "Save"}</button>
     </div>

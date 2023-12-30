@@ -43,10 +43,43 @@
   .title-all-charts {
     width: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    button {
-      align-self: flex-end;
+    justify-content: space-between;
+    button.reset {
+      height: 35px;
+      background: rgba(255, 255, 255, 0.622);
+      border-radius: 3px;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .wrap-change-track.history {
+    margin-left: 10px;
+    height: 60%;
+    margin-right: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+  }
+
+  .chart-wrap-all {
+    .title-all-charts {
+      flex-direction: column;
+      align-items: flex-start;
+
+      h3 {
+        text-align: unset;
+      }
+
+      button.reset {
+        align-self: flex-end;
+      }
     }
   }
 }

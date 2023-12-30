@@ -1,18 +1,11 @@
 // import { DashboardCurrentComponent } from 'components/Current'
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getUser } from "store/thunks/auth";
 import { getCurrentWeather } from "store/thunks/currentwheather";
-import {
-  UseAppDispatch,
-  UseBookmarks,
-  UseActiveBookmark,
-  useModal,
-  UseAppSelector,
-} from "utils/hook";
+import { UseAppDispatch, useModal, UseAppSelector } from "utils/hook";
 import "./index.scss";
 import CurrentWeatherCommon from "components/Current";
 import DailyForecastComponent from "components/DailyForecast";
-import ScreenHourlyForecastComponent from "components/HourlyForecast/screenHourly";
 import RadarWeatherComponent from "components/Radar";
 import { getDailyForecastWeather } from "store/thunks/dailyweather";
 import { getHourlyForecastWeather } from "store/thunks/hourlyweather";
@@ -74,8 +67,6 @@ const CurrentWeatherComponent = () => {
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-
-      console.log("🍩", isInitialMount);
 
       getUserDashboard();
 
@@ -200,23 +191,6 @@ const CurrentWeatherComponent = () => {
               />
             )}
           </section>
-
-          {/* <section className="current-short-hourly">
-            <HourlyCurrentForecastComponent /> 
-          </section>
-
-          <section className="long-daily-forecast">
-            <DailyForecastComponent />
-          </section>
-         
-          <section className="current-radar">
-            {currentCoordinates.lat && currentCoordinates.lon && (
-              <RadarWeatherComponent
-                lat={currentCoordinates.lat}
-                lon={currentCoordinates.lon}
-              />
-            )}
-          </section> */}
         </div>
       );
     }

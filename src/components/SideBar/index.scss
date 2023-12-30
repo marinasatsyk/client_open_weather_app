@@ -47,6 +47,9 @@ ul.side-bar-menu {
     &:hover {
       transform: scale(1.1);
     }
+    &.active {
+      background: rgb(255 255 255 / 70%);
+    }
     span {
       display: block;
     }
