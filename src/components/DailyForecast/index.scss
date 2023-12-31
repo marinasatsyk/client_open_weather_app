@@ -107,7 +107,7 @@ section.long-daily-forecast {
   font-weight: bold;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .long-daily-forecast {
     margin-top: 20px;
     display: flex;
@@ -119,5 +119,9 @@ section.long-daily-forecast {
     h2 {
       font-size: 14px;
     }
+  }
+
+  .daily-forecast-item .right-side {
+    font-size: 10px;
   }
 }

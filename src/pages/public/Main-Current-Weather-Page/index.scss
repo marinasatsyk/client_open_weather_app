@@ -11,25 +11,36 @@
     }
   }
 
-  .wrap-common-long-daily {
-    display: flex;
-    gap: 20px;
-    height: 45%;
-    @media screen and (max-width: 1800px) {
-      flex-direction: column;
-      height: auto;
-    }
-  }
-
+  .wrap-common-long-daily,
   .wrap-short-forecast-radar {
     display: flex;
     gap: 20px;
     height: 45%;
+    justify-content: center;
+    section {
+      width: 100%;
+    }
     @media screen and (max-width: 1800px) {
       flex-direction: column;
       height: auto;
+      align-items: center;
     }
   }
+
+  // .wrap-short-forecast-radar {
+  //   display: flex;
+  //   gap: 20px;
+  //   height: 45%;
+  //   // align-items: center;
+  //   section {
+  //     width: 100%;
+  //   }
+  //   @media screen and (max-width: 1800px) {
+  //     flex-direction: column;
+  //     height: auto;
+  //     align-items: center;
+  //   }
+  // }
 
   .current-common-wrap,
   .long-daily-forecast,
@@ -41,5 +52,6 @@
     min-width: 400px;
     background: #ffffff3f;
     border-radius: 3px;
+    max-width: 750px;
   }
 }

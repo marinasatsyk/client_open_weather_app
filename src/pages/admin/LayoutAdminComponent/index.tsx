@@ -54,9 +54,6 @@ const LayoutAdminComponent = () => {
     }
   }, []);
 
-  // const isDesktop = useMediaQuery({ minWidth: 768 });
-
-  // if (isDesktop) {
   return (
     <div
       className={`main-wrapper-current ${

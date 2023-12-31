@@ -64,7 +64,14 @@ const ProfileComponent = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <FontAwesomeIcon
+        icon={icon({ name: "spinner", style: "solid" })}
+        spin
+        className="spinner-current"
+        style={{ fontSize: "30px" }}
+      />
+    );
   }
 
   return (

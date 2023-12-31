@@ -9,6 +9,9 @@ import DateRangePickerComponent from "components/DateRangePickerComponent";
 import { getHourlyHistoricalWeather } from "store/thunks/historyweather";
 import HistoryChartsComponent from "components/charts/HistoryChartsComponent";
 import { format } from "date-fns";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
+
 import "./index.scss";
 
 const HistoryWeatherComponent = () => {
@@ -114,7 +117,14 @@ const HistoryWeatherComponent = () => {
   console.log("memoizedBookmarks", memoizedBookmarks);
 
   if (isLoading || ishistoricalLoading) {
-    return <div>Loading...</div>;
+    return (
+      <FontAwesomeIcon
+        icon={icon({ name: "spinner", style: "solid" })}
+        spin
+        className="spinner-current"
+        style={{ fontSize: "30px" }}
+      />
+    );
   } else {
     if (
       (memoizedBookmarks && !memoizedBookmarks.length) ||

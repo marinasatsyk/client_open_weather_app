@@ -59,9 +59,9 @@ $api.interceptors.response.use(
       } catch (err) {
         console.log("not authorized we clear all storages");
         //if not authorized we must re-login!
-        // sessionStorage.clear();
-        // localStorage.clear();
-        // window.location.href = "/";
+        sessionStorage.clear();
+        localStorage.clear();
+        window.location.href = "/";
       }
     }
     throw err;

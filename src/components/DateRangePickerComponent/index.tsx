@@ -7,10 +7,7 @@ import {
   subDays,
   isAfter,
   isBefore,
-  getYear,
-  endOfYear,
   subYears,
-  format,
   setHours,
   setMinutes,
   setSeconds,
@@ -19,13 +16,12 @@ import {
 } from "date-fns";
 import fr from "date-fns/locale/fr";
 import { Bookmark, IreqAvailable } from "common/interfaces/auth";
-
-import "react-datepicker/dist/react-datepicker.css";
-import "./index.scss";
-import $api from "utils/http";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getAvailableHistoryStartDate } from "store/thunks/availableDataHistory";
 import { UseAppSelector } from "utils/hook";
+import "react-datepicker/dist/react-datepicker.css";
+
+import "./index.scss";
 
 registerLocale("fr", fr);
 
@@ -70,6 +66,7 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
     const dataForReqStart = {
       cityId: bookmark.city._id,
     };
+
     getStartDate(dataForReqStart);
   }, [bookmark]);
 
@@ -77,9 +74,9 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
     const res = await dispatch<any>(getAvailableHistoryStartDate(data));
 
     if (getAvailableHistoryStartDate.fulfilled.match(res)) {
-      //@ts-ignore
-      const transformedDate = new Date(availableDataStart.dt * 1000);
+      const transformedDate = new Date(res.payload.dt * 1000);
       const date = startOfDay(transformedDate);
+
       if (isValid(date)) {
         setStartLimit(date);
         setStartDate(date);
