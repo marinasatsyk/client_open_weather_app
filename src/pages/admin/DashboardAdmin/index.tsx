@@ -7,14 +7,7 @@ import { UseAppSelector, useModal } from "utils/hook";
 import { AgGridReact } from "ag-grid-react"; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
-import {
-  AgGridEvent,
-  ICellRendererParams,
-  ModuleRegistry,
-  GridReadyEvent,
-  SelectionChangedEvent,
-  ValueGetterParams,
-} from "ag-grid-community";
+import { GridReadyEvent, SelectionChangedEvent } from "ag-grid-community";
 import { IFullAdminUser } from "common/interfaces/auth";
 import DialogForm from "./dialogForm";
 import { CommonModalComponent } from "components/CommonModal";
@@ -91,12 +84,6 @@ const DashboardAdmin = () => {
     setGridApi(params);
   };
 
-  // const onExportClick = () => {
-  //   if (gridApi !== null) {
-  //     gridApi.exportDataAsCsv();
-  //   }
-  // };
-
   const rowSelectionType = "single";
   //@ts-ignore
   const onSelectChanged = (event: SelectionChangedEvent<TData>) => {
@@ -118,14 +105,9 @@ const DashboardAdmin = () => {
 
   return (
     <div className="wrap-dashboard-admin">
-      {/* <div>
-        <button onClick={() => handleAddUser()}>Add User</button>
-      </div> */}
-
-      {/* <button onClick={() => onExportClick()}>Export</button> */}
       <section className="user-admin-section">
         <h1 className="title-grid">All Users</h1>
-        <div className="ag-theme-quartz" style={{ height: 600 }}>
+        <div id="ag-grid-container" className="ag-theme-quartz">
           <AgGridReact
             rowData={admin.users}
             //@ts-ignore

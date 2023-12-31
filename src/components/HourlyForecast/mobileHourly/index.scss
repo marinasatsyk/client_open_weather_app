@@ -1,0 +1,18 @@
+#mobile-current-forecast {
+  overflow-x: auto;
+  position: relative;
+  max-width: 380px;
+  margin: 0 auto;
+  .container-mobile-forecast {
+    display: flex;
+    width: 100%;
+    transition: transform 0.5s ease;
+
+    .item-wrap {
+      box-sizing: border-box;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}

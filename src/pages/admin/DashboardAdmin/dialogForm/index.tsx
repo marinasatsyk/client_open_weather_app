@@ -230,11 +230,7 @@ const DialogForm = () => {
             </option>
           ))}
         </select>
-        {!isRoleValidate && (
-          <div style={{ color: "red", fontSize: "12px" }}>
-            {errorMessageSelect}
-          </div>
-        )}
+        {!isRoleValidate && <div className="error">{errorMessageSelect}</div>}
       </div>
 
       <div className="error-wrap">

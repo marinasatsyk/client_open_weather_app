@@ -3,7 +3,7 @@ import { useState, ChangeEvent } from "react";
 import { clearError } from "store/slice/auth";
 import { clearError as clearErrorAdmin } from "store/slice/admin";
 import { UseAppDispatch, UseAppSelector } from "utils/hook";
-
+import "./index.scss";
 export const ManagedInput = (props: IManageInputProps) => {
   const {
     id,
@@ -48,11 +48,7 @@ export const ManagedInput = (props: IManageInputProps) => {
         className="text-control"
         onFocus={() => onHandleFocus()}
       />
-      {!isValid ? (
-        <div style={{ color: "red", fontSize: "12px" }}>{errorMessage}</div>
-      ) : (
-        ""
-      )}
+      {!isValid ? <div id="error-manage">{errorMessage}</div> : ""}
     </div>
   );
 };

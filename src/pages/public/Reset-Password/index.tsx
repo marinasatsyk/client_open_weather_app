@@ -1,9 +1,3 @@
-// const ResetPasswordComponent = () => {
-//   return <div>Reset</div>;
-// };
-
-// export default ResetPasswordComponent;
-
 import { useState, useEffect } from "react";
 import { UseAppDispatch, UseAppSelector } from "utils/hook";
 import { Validator } from "utils/helpers";
@@ -12,8 +6,8 @@ import { clearError } from "store/slice/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import "./index.scss";
 import { resetPassword } from "store/thunks/auth";
+import "./index.scss";
 
 const ResetPasswordComponent = () => {
   const { error, isLoading } = UseAppSelector((state) => state.auth);

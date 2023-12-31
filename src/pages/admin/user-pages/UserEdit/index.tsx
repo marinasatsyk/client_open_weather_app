@@ -236,9 +236,7 @@ const UserAmdinEdit = () => {
               ))}
             </select>
             {!isRoleValidate && (
-              <div style={{ color: "red", fontSize: "12px" }}>
-                {errorMessageSelect}
-              </div>
+              <div className="error">{errorMessageSelect}</div>
             )}
           </div>
         </div>
