@@ -14,6 +14,8 @@ import LayoutConnection from "pages/LayoutConnection";
 import AuthComponent from "components/AuthComponent";
 import AuthRouter from "utils/router/AuthRouter";
 import { useAdmin, useAuth } from "utils/hook";
+import ForgotPasswordComponent from "pages/public/Forgot-Password";
+import ResetPasswordComponent from "pages/public/Reset-Password";
 
 const App: FC = () => {
   document.title = "OpenWeahter App";
@@ -23,17 +25,17 @@ const App: FC = () => {
   return (
     <Router>
       <Routes>
-        {/**connection part */}
-        {/* <Route element = {<RedirectRoute />}>
-              <Route element={<LayoutConnection />}>
-                  <Route path="/connection"  
-                      element={<AuthComponent />} 
-                  /> 
-              </Route>
-        </Route> */}
         <Route path="/connection/*" element={<AuthRouter />} />
         <Route path="/user/*" element={<PublicRouter />} />
         <Route path="/admin/*" element={<AdminRouter />} />
+
+        <Route element={<LayoutConnection />}>
+          <Route path="/forgot/*" element={<ForgotPasswordComponent />} />
+          <Route
+            path="/reset/password/:passwordResetToken"
+            element={<ResetPasswordComponent />}
+          />
+        </Route>
 
         <Route
           path="/*"

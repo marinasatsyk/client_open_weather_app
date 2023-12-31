@@ -9,12 +9,9 @@ import {
 } from "../../../pages/admin";
 
 import Error from "components/Error";
-import ProtectedRoute from "../ProtectedPublicRoute";
 import ProtectedAdminRoute from "../ProtectedAdminRoute";
 
 function AdminRouter() {
-  const auth = useAuth();
-  const admin = useAdmin();
   return (
     <Routes>
       <Route element={<ProtectedAdminRoute />}>

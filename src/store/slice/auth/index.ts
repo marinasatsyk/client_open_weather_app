@@ -1,6 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IAuthState, IFullUser } from "common/interfaces/auth";
-import { getUser, loginUser, registerUser } from "store/thunks/auth";
+import {
+  forgotPassword,
+  getUser,
+  loginUser,
+  registerUser,
+  resetPassword,
+} from "store/thunks/auth";
 import {
   deleteBookmark,
   updateActiveBookmark,
@@ -21,6 +27,7 @@ const initialState = {
   stateResponse: {
     message: "",
     success: false,
+    status: "",
   },
 } as IAuthState;
 
@@ -51,6 +58,7 @@ export const authSlice = createSlice({
       state.stateResponse = {
         message: "",
         success: false,
+        status: "",
       };
     },
   },
@@ -199,6 +207,44 @@ export const authSlice = createSlice({
       state.error = "";
     });
     builder.addCase(deleteUser.rejected, (state, action) => {
+      state.error = "";
+      state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+
+    //FORGOT
+    builder.addCase(forgotPassword.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(forgotPassword.fulfilled, (state, action) => {
+      console.log("from builder FORGOT", action.payload);
+      const response = action.payload;
+      state.isLoading = false;
+      const { message, status } = response;
+      state.stateResponse.message = message;
+      state.stateResponse.status = status;
+      state.error = "";
+    });
+    builder.addCase(forgotPassword.rejected, (state, action) => {
+      state.error = "";
+      state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+
+    //RESET
+    builder.addCase(resetPassword.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(resetPassword.fulfilled, (state, action) => {
+      console.log("from builder FORGOT", action.payload);
+      const response = action.payload;
+      state.isLoading = false;
+      const { message, status } = response;
+      state.stateResponse.message = message;
+      state.stateResponse.status = status;
+      state.error = "";
+    });
+    builder.addCase(resetPassword.rejected, (state, action) => {
       state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;

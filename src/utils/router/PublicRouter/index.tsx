@@ -1,10 +1,6 @@
-import { Route, Routes, redirect, Navigate } from "react-router-dom";
-import { useAdmin, useAuth } from "utils/hook";
-
+import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "utils/router/ProtectedPublicRoute";
-import RedirectRoute from "utils/router/RedirectRoute";
 import { LayoutPublicComponent } from "../../../pages/public/LayoutPublicComponent";
-import LayoutConnection from "../../../pages/LayoutConnection";
 
 import {
   ForecastWeatherComponent,
@@ -14,13 +10,9 @@ import {
   ProfileComponent,
 } from "../../../pages/public";
 import Error from "components/Error";
-import AuthComponent from "../../../components/AuthComponent";
 import UserEditComponent from "pages/public/Profil-Edit";
 
 function PublicRouter() {
-  const auth = useAuth();
-  const isAdmin = useAdmin();
-
   return (
     <Routes>
       <Route element={<ProtectedRoute />}>

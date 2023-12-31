@@ -7,6 +7,7 @@ import { clearError, rememberMe } from "store/slice/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import "./index.scss";
+import { Link } from "react-router-dom";
 
 const AuthComponent: FC = () => {
   const { user, isRegistred, error, isLoading, isRememberMe_r } =
@@ -183,6 +184,13 @@ const AuthComponent: FC = () => {
               errorMessage="Make sure to use at least 1 letter, 1 number, 6 characters"
               validateField={isLogin ? () => true : Validator.password}
             />
+
+            {isLogin && (
+              <Link className="forgot" to={"/forgot"}>
+                Forgot password
+              </Link>
+            )}
+
             {!isLogin && (
               <ManagedInput
                 id="confirmPassword"

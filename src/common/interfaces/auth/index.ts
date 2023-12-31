@@ -49,6 +49,7 @@ export interface IAuthState {
   stateResponse: {
     message: string;
     success: boolean;
+    status: string;
   };
 }
 

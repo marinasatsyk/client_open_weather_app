@@ -25,13 +25,24 @@ export default class AuthService {
     });
   }
 
-  // static async userVerify(): Promise<AxiosResponse<IUser>> {
-  //   console.log("===================>>>>userVerify");
-  //   return $api.get(`/validateAuth`);
-  // }
-
   static async getUser(): Promise<AxiosResponse<IFullUser>> {
+    console.log("service forgot");
+    return $api.get(`/user`, { responseType: "json" });
+  }
+
+  static async forgotPassword(email: string): Promise<AxiosResponse> {
     console.log("we call get user");
-    return $api.get<IFullUser>(`/user`, { responseType: "json" });
+    return $api.post(`forgot/password`, { email });
+  }
+  static async resetPassword(
+    password: string,
+    confirmPassword: string,
+    passwordResetToken: string
+  ): Promise<AxiosResponse> {
+    console.log("we call get user");
+    return $api.patch(`/reset/password/${passwordResetToken}`, {
+      password,
+      confirmPassword,
+    });
   }
 }
