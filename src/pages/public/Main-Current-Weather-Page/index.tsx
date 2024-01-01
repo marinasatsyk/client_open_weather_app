@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { getUser } from "store/thunks/auth";
 import { getCurrentWeather } from "store/thunks/currentwheather";
 import { UseAppDispatch, UseAppSelector } from "utils/hook";
@@ -38,7 +38,9 @@ const CurrentWeatherComponent = () => {
 
   const [localError, setLocalError] = useState("");
   const [isDisplayComponents, setIsDisplayComponents] = useState(false);
+  const [activeBookmarkM, setActiveBookmarkM] = useState({} as Bookmark);
   const isDesktop = useMediaQuery({ minWidth: 768 });
+  const memoizedBookmarks = useMemo(() => user.bookmarks, [user.bookmarks]);
 
   useEffect(() => {
     getUserDashboard();
@@ -47,6 +49,28 @@ const CurrentWeatherComponent = () => {
     }, 2000);
     console.log("render dashboard");
   }, []);
+
+  useEffect(() => {
+    const activeBookmark =
+      memoizedBookmarks && memoizedBookmarks.length
+        ? memoizedBookmarks.find((bookmark: Bookmark) => bookmark.isActive)
+        : undefined;
+
+    console.log("😊active bookmark ", activeBookmark);
+    if (activeBookmark) {
+      if (
+        (Object.keys(activeBookmarkM).length &&
+          activeBookmarkM.city._id !== activeBookmark.city._id) ||
+        !Object.keys(activeBookmarkM).length
+      ) {
+        console.log("😊😊😊😊active bookmark change", activeBookmark);
+        getCoordinates(activeBookmark);
+        setActiveBookmarkM(activeBookmark);
+      }
+    } else {
+      getCoordinates();
+    }
+  }, [memoizedBookmarks]);
 
   const getUserDashboard = async () => {
     console.log("we start get user from dashboard");

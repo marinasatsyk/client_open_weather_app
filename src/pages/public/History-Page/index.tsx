@@ -30,6 +30,7 @@ const HistoryWeatherComponent = () => {
   const [currentStartDate, setCurrentStartDate] = useState("");
   const [currentEndDate, setCurrentEndDate] = useState("");
   const [isDisplayGraphs, setIsDisplayGraphs] = useState(false);
+  const [isLocalLoader, setIsLocalLoader] = useState(false);
   const memoizedBookmarks = useMemo(() => user.bookmarks, [user.bookmarks]);
 
   useEffect(() => {
@@ -60,7 +61,15 @@ const HistoryWeatherComponent = () => {
     console.log("save clicked", cityId, isHistory);
 
     try {
-      await dispatch<any>(updateActiveBookmark({ cityId, isHistory }));
+      const updated = await dispatch<any>(
+        updateActiveBookmark({ cityId, isHistory })
+      );
+      if (updateActiveBookmark.fulfilled.match(updated)) {
+        setIsLocalLoader(true);
+        setTimeout(() => {
+          setIsLocalLoader(false);
+        }, 3000);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -70,16 +79,6 @@ const HistoryWeatherComponent = () => {
     endDate: number, //utc
     cityId: string
   ) => {
-    console.log(
-      "startDate",
-      startDate,
-      "endDate",
-      endDate,
-      "cityId",
-      cityId,
-      "cityLat"
-    );
-
     const reqHistoricalData = {
       cityId,
       startDate,
@@ -116,7 +115,7 @@ const HistoryWeatherComponent = () => {
   };
   console.log("memoizedBookmarks", memoizedBookmarks);
 
-  if (isLoading || ishistoricalLoading) {
+  if (isLocalLoader || ishistoricalLoading) {
     return (
       <FontAwesomeIcon
         icon={icon({ name: "spinner", style: "solid" })}

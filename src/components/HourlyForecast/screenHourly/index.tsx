@@ -130,15 +130,6 @@ function ScreenHourlyForecastComponent() {
         >
           <FontAwesomeIcon icon={icon({ name: "eye", style: "solid" })} />
         </div>
-        {/* <div
-          className={`quality icon-container ${
-            elementActif === 7 ? "active-icon" : ""
-          }`}
-          title="quality"
-          onClick={() => handleClickMenuActive(7)}
-        >
-          <p>AQI</p>
-        </div> */}
         <div
           className={`felt icon-container ${
             elementActif === 8 ? "active-icon" : ""

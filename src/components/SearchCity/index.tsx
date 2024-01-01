@@ -1,5 +1,4 @@
 import axios from "axios";
-import "./index.scss";
 import { useState, ChangeEvent, useEffect } from "react";
 import { geoOptionType } from "common/types/geo";
 import { UseAppDispatch, UseAppSelector, UseBookmarks } from "utils/hook";
@@ -12,12 +11,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import Toggle from "components/ToggleComponent";
-import { iModalProps } from "common/interfaces/current";
 import { getCurrentWeather } from "store/thunks/currentwheather";
 import { getDailyForecastWeather } from "store/thunks/dailyweather";
 import { getHourlyForecastWeather } from "store/thunks/hourlyweather";
+import "./index.scss";
 
-const { REACT_APP_URI_OPEN_GEO_WEATHER, REACT_APP_STUDENT_API_key } =
+const { REACT_APP_URI_OPEN_GEO_WEATHER, REACT_APP_STUDENT_API_FREE_key } =
   process.env;
 
 const LIMIT = 5;
@@ -40,7 +39,7 @@ export const SearchCityComponent = (): JSX.Element => {
   const getSearchOptions = async (value: string) => {
     try {
       const result = await axios.get(
-        `${REACT_APP_URI_OPEN_GEO_WEATHER}?q=${value}&limit=${LIMIT}&appid=${REACT_APP_STUDENT_API_key}`
+        `${REACT_APP_URI_OPEN_GEO_WEATHER}?q=${value}&limit=${LIMIT}&appid=${REACT_APP_STUDENT_API_FREE_key}`
       );
       const citiesData = result.data;
       setOptions(citiesData);
@@ -50,7 +49,7 @@ export const SearchCityComponent = (): JSX.Element => {
   };
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim().toLocaleLowerCase();
+    const value = e.target.value.toLocaleLowerCase();
     setIsShowHistoryBlock(false);
     setIsTrackHistory(false);
     setInputValue(value);
@@ -62,10 +61,7 @@ export const SearchCityComponent = (): JSX.Element => {
   };
 
   const getWeatherData = async (city: geoOptionType) => {
-    // const endpoints = endpointsArr(city);
     try {
-      // const globalDataWeahter = await Promise.all(endpoints.map((endpoint) => axios.get(endpoint)));
-
       const updateBookmarksPayload = {
         city,
         isHistory: isTrackHistory,
@@ -76,10 +72,6 @@ export const SearchCityComponent = (): JSX.Element => {
       setSity(null);
       setIsShowHistoryBlock(false);
       setIsTrackHistory(false);
-      // const [{data: currentWeather}, {data:hourly16DaysForecast}, {data:climate30Days}] = globalDataWeahter;
-      // console.log({currentWeather, hourly16DaysForecast, climate30Days})
-
-      // return {currentWeather, hourly16DaysForecast, climate30Days}
     } catch (err) {
       console.error(err);
     }
@@ -114,23 +106,6 @@ export const SearchCityComponent = (): JSX.Element => {
     } catch (err) {
       console.error(err);
     }
-
-    // switch (index) {
-    //   case 1:
-    //     // Comportement pour Élément 1
-    //     console.log('Cliqué sur Élément 1');
-    //     break;
-    //   case 2:
-    //     // Comportement pour Élément 2
-    //     console.log('Cliqué sur Élément 2');
-    //     break;
-    //   case 3:
-    //     // Comportement pour Élément 3
-    //     console.log('Cliqué sur Élément 3');
-    //     break;
-    //   default:
-    //     break;
-    // }
   };
 
   const handleDeleteCityBookmark = async (cityId: string) => {

@@ -1,31 +1,21 @@
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMapEvent,
-  useMap,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { Icon, divIcon, point } from "leaflet";
+import { Icon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { UseAppSelector, UseBookmarks } from "utils/hook";
+import { UseAppSelector } from "utils/hook";
 import "./index.scss";
-import { createRef, useEffect, useState } from "react";
 
-const { REACT_APP_STUDENT_API_key } = process.env;
-
-const attributionMap = `http://maps.openweathermap.org/maps/2.0/weather/TA2/{z}/{x}/{y}?&opacity=0.6&fill_bound=true&appid=${REACT_APP_STUDENT_API_key}`;
-
+const { REACT_APP_STUDENT_API_FREE_key } = process.env;
+//the payd version:
+//const attributionMap = `http://maps.openweathermap.org/maps/2.0/weather/TA2/{z}/{x}/{y}?&opacity=0.6&fill_bound=true&appid=${REACT_APP_STUDENT_API_key}`;
+//the free version:
+const attributionMap = `https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${REACT_APP_STUDENT_API_FREE_key}`;
 interface IRadar {
   lat: number;
   lon: number;
 }
 const LeafletMapComponent = (props: IRadar) => {
   const { bookmarks } = UseAppSelector((state) => state.auth.user);
-  const [activeBookmarkLocalState, setIsActiveBookmarkLocalState] = useState(
-    {}
-  );
 
   const getActiveBookmark = () => {
     console.log("useBookmarks", bookmarks);
