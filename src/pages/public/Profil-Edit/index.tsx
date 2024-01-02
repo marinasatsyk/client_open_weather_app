@@ -67,11 +67,9 @@ const UserEditComponent = () => {
           email,
         },
       };
-      console.log("userRegisterData", userRegisterData);
       try {
         const actionResult = await dispatch<any>(updateUser(userRegisterData));
         if (updateUser.fulfilled.match(actionResult)) {
-          console.log("avant");
           setIsSavedSuccessfully(true);
 
           setTimeout(function () {
@@ -80,8 +78,6 @@ const UserEditComponent = () => {
           setTimeout(function () {
             navigate(`/user/profile/show`); // navigate if updated
           }, 2000);
-
-          console.log("apres");
         } else if (updateUser.rejected.match(actionResult)) {
           const error = (actionResult.payload as { error: string }).error;
           console.error("✅✅✅✅😊Erreur lors de la mise à jour", error);

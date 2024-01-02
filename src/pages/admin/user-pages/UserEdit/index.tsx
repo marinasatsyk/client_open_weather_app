@@ -85,7 +85,6 @@ const UserAmdinEdit = () => {
 
   const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedRole = e.target.value as UserRoleDataKeys;
-    console.log("selectedRole", selectedRole);
     if (Object.values(UserRoleDataKeys).includes(selectedRole)) {
       setIsRoleValidate(true);
       setRoleKey(selectedRole);
@@ -114,13 +113,11 @@ const UserAmdinEdit = () => {
           isActivated: activationStatus,
         },
       };
-      console.log("userRegisterData", userRegisterData);
       try {
         const actionResult = await dispatch<any>(
           updateUserFromAdmin(userRegisterData)
         );
         if (updateUserFromAdmin.fulfilled.match(actionResult)) {
-          console.log("avant");
           setIsSavedSuccessfully(true);
 
           setTimeout(function () {
@@ -129,8 +126,6 @@ const UserAmdinEdit = () => {
           setTimeout(function () {
             navigate(`/admin/user/${currentUser._id}`); // navigate if updated
           }, 2000);
-
-          console.log("apres");
         } else if (updateUserFromAdmin.rejected.match(actionResult)) {
           const error = (actionResult.payload as { error: string }).error;
           console.error("✅✅✅✅😊Erreur lors de la mise à jour", error);

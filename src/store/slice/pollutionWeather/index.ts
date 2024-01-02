@@ -18,21 +18,15 @@ export const pollutionWeatherSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getPollutionWeather.pending, (state, action) => {
-      console.log("getPollutionWeather 1");
       state.isLoading = true;
     });
     builder.addCase(getPollutionWeather.fulfilled, (state, action) => {
-      console.log(
-        "getPollutionWeather fullfiled==============>",
-        action.payload
-      );
       const pollutionWeather = action.payload;
       state.data = pollutionWeather;
       state.isLoading = false;
       state.error = "";
     });
     builder.addCase(getPollutionWeather.rejected, (state, action) => {
-      console.log("rejected wheather");
       state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;

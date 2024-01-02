@@ -45,7 +45,6 @@ export const useUserId = () => {
 
 export const UseBookmarks = () => {
   const { bookmarks } = UseAppSelector((state) => state.auth.user);
-  console.log("useBookmarks", bookmarks);
   if (bookmarks?.length > 0) {
     return bookmarks;
   } else {
@@ -55,8 +54,6 @@ export const UseBookmarks = () => {
 
 export const UseActiveBookmark = () => {
   const { bookmarks } = UseAppSelector((state) => state.auth.user);
-
-  console.log("useBookmarks", bookmarks);
   if (
     bookmarks?.length > 0 &&
     bookmarks.some((bookmark) => bookmark.isActive)

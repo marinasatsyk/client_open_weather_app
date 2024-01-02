@@ -56,7 +56,6 @@ const AuthComponent: FC = () => {
         const userRegisterData = { firstName, lastName, email, password };
         const result = await dispatch(registerUser(userRegisterData));
         if (result.meta.requestStatus === "fulfilled") {
-          console.log("fullfield???");
           setIsAccountCreated(true);
 
           setTimeout(function () {

@@ -23,11 +23,9 @@ export const availableHistoryStartDateSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getAvailableHistoryStartDate.pending, (state, action) => {
-      console.log("Historical Weather 1");
       state.isLoading = true;
     });
     builder.addCase(getAvailableHistoryStartDate.fulfilled, (state, action) => {
-      console.log("get Historical  fullfiled==============>", action.payload);
       const availableDate = action.payload;
 
       state.data = availableDate;
@@ -35,7 +33,6 @@ export const availableHistoryStartDateSlice = createSlice({
       state.error = "";
     });
     builder.addCase(getAvailableHistoryStartDate.rejected, (state, action) => {
-      console.log("rejected availableDate");
       state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;

@@ -18,7 +18,6 @@ const LeafletMapComponent = (props: IRadar) => {
   const { bookmarks } = UseAppSelector((state) => state.auth.user);
 
   const getActiveBookmark = () => {
-    console.log("useBookmarks", bookmarks);
     if (
       bookmarks?.length > 0 &&
       bookmarks.some((bookmark) => bookmark.isActive)

@@ -49,7 +49,6 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
 
   const today = startOfDay(new Date());
   const startDateLimit_base = subYears(addDays(today, 1), 1); // date min for start today - 1 year + 1 day
-  console.log("startDateLimit????????????", startDateLimit_base);
 
   const defineHours = setHours(
     setMinutes(setSeconds(setMilliseconds(today, 0), 0), 0),
@@ -90,7 +89,6 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
     if (!isValid(date)) {
       return;
     }
-    console.log(date);
     if (
       isBefore(date, startDateLimit) ||
       isAfter(date, endDate) ||
@@ -124,21 +122,8 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
     const startDateUnix = Math.floor(startDate.getTime() / 1000);
     const endDateUnix = Math.floor(endDate.getTime() / 1000);
 
-    console.log("Start Date (Unix):", startDate, startDateUnix);
-    console.log("End Date (Unix):", endDate, endDateUnix);
-
-    // Ajoutez ici le code pour soumettre les dates
-
-    handleClickHistory(
-      startDateUnix,
-      endDateUnix,
-      bookmark.city._id
-      // bookmark.city.lat,
-      // bookmark.city.lon
-    );
+    handleClickHistory(startDateUnix, endDateUnix, bookmark.city._id);
   };
-
-  console.log("limits", startDateLimit, endDateLimit);
 
   if (availableIsLoading)
     return (

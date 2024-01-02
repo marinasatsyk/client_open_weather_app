@@ -22,43 +22,27 @@ function ScreenHourlyForecastComponent() {
 
     switch (index) {
       case 1:
-        // Comportement pour Élément 1
-        console.log("Cliqué sur Élément 1");
         setActiveKey(WeatherDataKeys.TEMP);
         break;
       case 2:
-        // Comportement pour Élément 2
-        console.log("Cliqué sur Élément 2");
         setActiveKey(WeatherDataKeys.POP);
         break;
       case 3:
-        // Comportement pour Élément 3
-        console.log("Cliqué sur Élément 3");
         setActiveKey(WeatherDataKeys.WIND);
         break;
       case 4:
-        // Comportement pour Élément 3
-        console.log("Cliqué sur Élément 3");
         setActiveKey(WeatherDataKeys.PRESSURE);
         break;
       case 5:
-        // Comportement pour Élément 3
-        console.log("Cliqué sur Élément 3");
         setActiveKey(WeatherDataKeys.HUMIDITY);
         break;
       case 6:
-        // Comportement pour Élément 3
-        console.log("Cliqué sur Élément 3");
         setActiveKey(WeatherDataKeys.VISIBILITY);
         break;
       case 7:
-        // Comportement pour Élément 3
-        console.log("Cliqué sur Élément 3");
-
+        console.log("element");
         break;
       case 8:
-        // Comportement pour Élément 3
-        console.log("Cliqué sur Élément 3");
         setActiveKey(WeatherDataKeys.FEELS_LIKE);
         break;
       default:

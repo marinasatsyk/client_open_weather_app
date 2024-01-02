@@ -47,7 +47,6 @@ const CurrentWeatherComponent = () => {
     setTimeout(() => {
       setIsDisplayComponents(true);
     }, 2000);
-    console.log("render dashboard");
   }, []);
 
   useEffect(() => {
@@ -56,14 +55,12 @@ const CurrentWeatherComponent = () => {
         ? memoizedBookmarks.find((bookmark: Bookmark) => bookmark.isActive)
         : undefined;
 
-    console.log("😊active bookmark ", activeBookmark);
     if (activeBookmark) {
       if (
         (Object.keys(activeBookmarkM).length &&
           activeBookmarkM.city._id !== activeBookmark.city._id) ||
         !Object.keys(activeBookmarkM).length
       ) {
-        console.log("😊😊😊😊active bookmark change", activeBookmark);
         getCoordinates(activeBookmark);
         setActiveBookmarkM(activeBookmark);
       }
@@ -73,7 +70,6 @@ const CurrentWeatherComponent = () => {
   }, [memoizedBookmarks]);
 
   const getUserDashboard = async () => {
-    console.log("we start get user from dashboard");
     try {
       const userR = await dispatch(getUser());
       if (getUser.fulfilled.match(userR)) {

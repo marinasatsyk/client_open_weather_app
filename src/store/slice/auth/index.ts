@@ -83,25 +83,19 @@ export const authSlice = createSlice({
 
     //user
     builder.addCase(getUser.pending, (state, action) => {
-      console.log("is here??1");
-
       state.isAuth = false;
       state.isLoading = true;
     });
 
     builder.addCase(getUser.fulfilled, (state, action) => {
-      console.log("FULLFILLED");
       const user = action.payload;
 
-      console.log("is here??====>", `${user} an type ${typeof user}`);
       state.user = user;
       state.isAuth = true;
       state.isLoading = false;
       state.error = "";
     });
     builder.addCase(getUser.rejected, (state, action) => {
-      console.log("is here??2");
-
       state.error = "";
       state.isAuth = false;
       state.error = (action.payload as { error: string }).error;
@@ -129,7 +123,6 @@ export const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(updateBookmarks.fulfilled, (state, action) => {
-      console.log("from builder updateBookmarks.fulfilled", action.payload);
       const user = action.payload;
       state.isLoading = false;
       state.user = user;
@@ -146,7 +139,6 @@ export const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(updateActiveBookmark.fulfilled, (state, action) => {
-      console.log("from builder updateBookmark", action.payload);
       const user = action.payload;
       state.isLoading = false;
       state.user = user;
@@ -163,7 +155,6 @@ export const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(deleteBookmark.fulfilled, (state, action) => {
-      console.log("from builder delete deleteBookmark AUTH", action.payload);
       const user = action.payload;
       state.isLoading = false;
       state.user = user;
@@ -180,7 +171,6 @@ export const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(updateUser.fulfilled, (state, action) => {
-      console.log("from builder updateUser", action.payload);
       const user = action.payload;
       state.isLoading = false;
       state.user = user;
@@ -197,7 +187,6 @@ export const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(deleteUser.fulfilled, (state, action) => {
-      console.log("from builder delete user fullfield auth", action.payload);
       const response = action.payload;
       state.isLoading = false;
       //@TODO
@@ -217,7 +206,6 @@ export const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(forgotPassword.fulfilled, (state, action) => {
-      console.log("from builder FORGOT", action.payload);
       const response = action.payload;
       state.isLoading = false;
       const { message, status } = response;
@@ -236,7 +224,6 @@ export const authSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(resetPassword.fulfilled, (state, action) => {
-      console.log("from builder FORGOT", action.payload);
       const response = action.payload;
       state.isLoading = false;
       const { message, status } = response;

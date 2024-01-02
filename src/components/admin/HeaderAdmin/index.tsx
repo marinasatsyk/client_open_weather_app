@@ -15,7 +15,6 @@ function HeaderAdmin({ isShowSideMenu, toggleSideMenu }: iHeaderScrin) {
   const logout = UseLogoutAdmin();
 
   const handleLogout = () => {
-    console.log("logout");
     sessionStorage.clear();
     localStorage.clear();
     logout();

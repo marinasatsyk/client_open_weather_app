@@ -27,7 +27,6 @@ const ProfileComponent = () => {
   };
 
   const getUserDashboard = async () => {
-    console.log("we start get user");
     try {
       await dispatch<any>(getUser());
     } catch (err: any) {

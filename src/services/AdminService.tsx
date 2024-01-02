@@ -21,7 +21,6 @@ interface IUserDeleteRes {
 }
 export default class AdminService {
   static async getAllUsers(): Promise<AxiosResponse<Array<IFullAdminUser>>> {
-    console.log("we call get user");
     return $api.get<Array<IFullAdminUser>>(`admin/users`, {
       responseType: "json",
     });
@@ -33,7 +32,6 @@ export default class AdminService {
     password: string,
     role: UserRoleDataKeys
   ): Promise<AxiosResponse<CreateResponse>> {
-    console.log("coucou ====> ", firstName, lastName, email, password);
     return $api.post<CreateResponse>("admin/user/create", {
       firstName,
       lastName,

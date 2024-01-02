@@ -8,7 +8,6 @@ interface BookmarksComponentProps {
 
 const BookmarksComponent: React.FC<BookmarksComponentProps> = (props) => {
   const { bookmarks } = props;
-  console.log(bookmarks);
   return (
     <>
       {bookmarks.length > 0 &&

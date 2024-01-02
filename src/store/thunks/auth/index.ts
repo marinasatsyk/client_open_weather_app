@@ -11,13 +11,9 @@ export const loginUser = createAsyncThunk(
       // manageToken(isRememberMe_r, user.data.accessToken);
       return user.data;
     } catch (error: any) {
-      console.log("4", error);
       if (error.response && error.response.data) {
-        console.log("axios", error);
-
         return rejectWithValue({ error: error.response.data });
       } else {
-        console.log("pas axios");
         return rejectWithValue({ error: error });
       }
     }
@@ -36,12 +32,9 @@ export const registerUser = createAsyncThunk(
       );
       return user.data;
     } catch (error: any) {
-      console.log("4", error);
       if (error.response && error.response.data) {
-        console.log("axios", error);
         return rejectWithValue({ error: error.response.data });
       } else {
-        console.log("pas axios");
         return rejectWithValue({ error: error });
       }
     }
@@ -52,17 +45,12 @@ export const getUser = createAsyncThunk(
   "auth/user",
   async (data, { rejectWithValue }) => {
     try {
-      console.log("🔎🔎🔎🔎🔎, in search user");
       let user = await AuthService.getUser();
-      console.log("ASYNC THUNK USER", user.data);
       return user.data;
     } catch (error: any) {
-      console.log("4 get user", error);
       if (error.response && error.response.data) {
-        console.log("axios", error);
         return rejectWithValue({ error: error.response.data });
       } else {
-        console.log("pas axios");
         return rejectWithValue({ error: error });
       }
     }
@@ -77,18 +65,13 @@ export const forgotPassword = createAsyncThunk(
   "forgot",
   async (data: IForgot, { rejectWithValue }) => {
     try {
-      console.log("FORGOT");
       const { email } = data;
       let result = await AuthService.forgotPassword(email);
-      console.log("ASYNC THUNK FORGOT", result.data);
       return result.data;
     } catch (error: any) {
-      console.log("4 get user", error);
       if (error.response && error.response.data) {
-        console.log("axios", error);
         return rejectWithValue({ error: error.response.data });
       } else {
-        console.log("pas axios");
         return rejectWithValue({ error: error });
       }
     }
@@ -105,22 +88,17 @@ export const resetPassword = createAsyncThunk(
   "resetPassword",
   async (data: IReset, { rejectWithValue }) => {
     try {
-      console.log("resetPassword start tunk");
       const { password, confirmPassword, passwordResetToken } = data;
       let result = await AuthService.resetPassword(
         password,
         confirmPassword,
         passwordResetToken
       );
-      console.log("ASYNC THUNK resetPassword", result.data);
       return result.data;
     } catch (error: any) {
-      console.log("4 get user", error);
       if (error.response && error.response.data) {
-        console.log("axios", error);
         return rejectWithValue({ error: error.response.data });
       } else {
-        console.log("pas axios");
         return rejectWithValue({ error: error });
       }
     }

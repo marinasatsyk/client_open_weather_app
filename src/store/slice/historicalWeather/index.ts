@@ -81,18 +81,15 @@ export const hourlyHistoricalSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getHourlyHistoricalWeather.pending, (state, action) => {
-      console.log("Historical Weather 1");
       state.isLoading = true;
     });
     builder.addCase(getHourlyHistoricalWeather.fulfilled, (state, action) => {
-      console.log("get Historical  fullfiled==============>", action.payload);
       const hourlyHisotricalWeather = action.payload;
       state.data = hourlyHisotricalWeather;
       state.isLoading = false;
       state.error = "";
     });
     builder.addCase(getHourlyHistoricalWeather.rejected, (state, action) => {
-      console.log("rejected wheather");
       state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;

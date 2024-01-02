@@ -80,18 +80,15 @@ export const weatherSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getCurrentWeather.pending, (state, action) => {
-      console.log("getCurrentWeather 1");
       state.isLoading = true;
     });
     builder.addCase(getCurrentWeather.fulfilled, (state, action) => {
-      console.log("getCurrentWeather fullfiled==============>", action.payload);
       const currentWeather = action.payload;
       state.data = currentWeather;
       state.isLoading = false;
       state.error = "";
     });
     builder.addCase(getCurrentWeather.rejected, (state, action) => {
-      console.log("rejected wheather");
       state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;

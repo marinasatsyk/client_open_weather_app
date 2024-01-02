@@ -24,7 +24,6 @@ export default function HeaderScreen({
   const logout = UseLogout();
 
   const handleLogout = () => {
-    console.log("logout");
     logout();
     sessionStorage.clear();
     localStorage.clear();

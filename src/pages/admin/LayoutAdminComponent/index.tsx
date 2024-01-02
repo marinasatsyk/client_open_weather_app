@@ -35,17 +35,13 @@ const LayoutAdminComponent = () => {
   );
   const dispatch = UseAppDispatch();
   const toggleSideMenu = () => {
-    console.log("click togle");
     setShowSideMenu(!isShowSideMenu);
   };
-  console.log("isShowSideMenu", isShowSideMenu);
   const getUserDashboard = async () => {
-    console.log("we start get user");
     await dispatch(getUser());
   };
 
   useEffect(() => {
-    console.log("render dashboard");
     //getUserInformation
     try {
       getUserDashboard();

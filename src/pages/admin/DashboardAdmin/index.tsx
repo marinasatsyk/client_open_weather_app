@@ -74,7 +74,6 @@ const DashboardAdmin = () => {
     dispatch(getAllUsers());
     // setTimeout(() => {}, 500);
     if (!admin.isLoading && !admin.error.length && admin.users.length) {
-      console.log("admin.users", admin.users);
       setTableData(admin.users);
     }
   }, [dispatch]);
@@ -87,7 +86,6 @@ const DashboardAdmin = () => {
   const rowSelectionType = "single";
   //@ts-ignore
   const onSelectChanged = (event: SelectionChangedEvent<TData>) => {
-    console.log(event.api.getSelectedRows());
     const selectedData = event.api.getSelectedRows()[0]._id;
     navigate(`/admin/user/${selectedData}`);
   };

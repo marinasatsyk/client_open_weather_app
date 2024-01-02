@@ -8,18 +8,6 @@ const getHour = (unixTimestamp: number) => {
   return format(inputDate, "HH[h]");
 };
 
-// moment.tz.add("CustomTimeZone|28800|0|");
-
-// export function getHoursFromUnixTime(
-//   unixTime: number,
-//   timeZone: string = "CustomTimeZone"
-// ): string {
-//   console.log("timeZone", timeZone);
-
-//   const date = moment.unix(unixTime).tz(timeZone);
-//   return date.format("HH[h]");
-// }
-
 function offsetToTimezoneByCoord(lat: number, lon: number): string {
   const timeZone: string = moment.tz.guess(true); // Get the default timezone
   const countryFinded = tz_lookup(lat, lon);

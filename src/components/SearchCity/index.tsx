@@ -112,15 +112,9 @@ export const SearchCityComponent = (): JSX.Element => {
           await Promise.all(
             promises.map((promiseFunction) => promiseFunction())
           );
-
-          // await dispatch(getCurrentWeather(data));
-          // await dispatch(getDailyForecastWeather(data));
-          // await dispatch(getHourlyForecastWeather(data));
         } else if (location.pathname.includes("history")) {
-          console.log("historical page");
+          //for historical page
         }
-
-        console.log("we chanched active city", data);
       }
     } catch (err) {
       console.error(err);
@@ -131,7 +125,7 @@ export const SearchCityComponent = (): JSX.Element => {
     try {
       await dispatch(deleteBookmark({ cityId }));
     } catch (err) {
-      console.log("error deleting bookmark");
+      console.error("error deleting bookmark");
     }
   };
 

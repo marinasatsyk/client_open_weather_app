@@ -21,12 +21,9 @@ export const getAllUsers = createAsyncThunk(
   "admin/users",
   async (data, { rejectWithValue }) => {
     try {
-      console.log("🔎🔎🔎🔎🔎, in thunk all users");
       let users = await AdminService.getAllUsers();
-      console.log("ASYNC THUNK users", users.data);
       return users.data;
     } catch (error: any) {
-      console.log("get all users", error);
       if (error.response && error.response.data) {
         return rejectWithValue({ error: error.response.data });
       } else {
@@ -49,12 +46,9 @@ export const createUser = createAsyncThunk(
       );
       return user.data;
     } catch (error: any) {
-      console.log("4", error);
       if (error.response && error.response.data) {
-        console.log("axios", error);
         return rejectWithValue({ error: error.response.data });
       } else {
-        console.log("pas axios");
         return rejectWithValue({ error: error });
       }
     }
@@ -71,12 +65,9 @@ export const updateUserFromAdmin = createAsyncThunk(
       );
       return updatedUser.data;
     } catch (error: any) {
-      console.log("4", error);
       if (error.response && error.response.data) {
-        console.log("axios", error);
         return rejectWithValue({ error: error.response.data });
       } else {
-        console.log("pas axios");
         return rejectWithValue({ error: error });
       }
     }
@@ -87,12 +78,9 @@ export const getUserAdmin = createAsyncThunk(
   "admin/user/get",
   async (data: IUserId, { rejectWithValue }) => {
     try {
-      console.log("🔎, in thunk get  user");
       let user = await AdminService.getUserFromAdmin(data.userId);
-      console.log("ASYNC THUNK user", user.data);
       return user.data;
     } catch (error: any) {
-      console.log("get all users", error);
       if (error.response && error.response.data) {
         return rejectWithValue({ error: error.response.data });
       } else {
@@ -111,12 +99,9 @@ export const deleteUserAdmin = createAsyncThunk(
       );
       return responseDeletedUser.data;
     } catch (error: any) {
-      console.log("delete Bookmark", error);
       if (error.response && error.response.data) {
-        console.log("axios", error);
         return rejectWithValue({ error: error.response.data });
       } else {
-        console.log("pas axios");
         return rejectWithValue({ error: error });
       }
     }

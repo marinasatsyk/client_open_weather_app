@@ -105,9 +105,7 @@ const DialogForm = () => {
   ]);
 
   const handldeSubmit = async (e: { preventDefault: () => void }) => {
-    console.log("submit");
     e.preventDefault();
-    console.log("1");
 
     try {
       const userRegisterData = { firstName, lastName, email, password, role };

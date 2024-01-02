@@ -23,7 +23,6 @@ const UserAdmin = () => {
   const params = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(params);
 
   const getCurrentUser = async (userId: IUserId) => {
     await dispatch<any>(getUserAdmin(userId));

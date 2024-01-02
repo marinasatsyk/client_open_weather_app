@@ -43,7 +43,6 @@ const HistoryWeatherComponent = () => {
         ? memoizedBookmarks.find((bookmark) => bookmark.isActive)
         : "";
     if (activeBookmark) {
-      console.log("😊😊😊😊active bookmark change");
       setActiveBookmark(activeBookmark);
       setIsDisplayGraphs(false);
     }
@@ -58,8 +57,6 @@ const HistoryWeatherComponent = () => {
     cityId: string,
     isHistory: boolean
   ) {
-    console.log("save clicked", cityId, isHistory);
-
     try {
       const updated = await dispatch<any>(
         updateActiveBookmark({ cityId, isHistory })
@@ -89,7 +86,6 @@ const HistoryWeatherComponent = () => {
         getHourlyHistoricalWeather(reqHistoricalData)
       );
       if (getHourlyHistoricalWeather.fulfilled.match(historicalDataReq)) {
-        console.log("sucess");
         const transformedStartDate = new Date(startDate * 1000);
         const transformedEndDate = new Date(endDate * 1000);
 
@@ -98,7 +94,6 @@ const HistoryWeatherComponent = () => {
         setIsDisplayGraphs(true);
       } else if (getHourlyHistoricalWeather.rejected.match(historicalDataReq)) {
         setIsDisplayGraphs(false);
-        console.log("error rejected");
         const error = (historicalDataReq.payload as { error: string }).error;
         console.error("Erreur lors de la mise à jour", error);
         // @ts-ignore
@@ -113,7 +108,6 @@ const HistoryWeatherComponent = () => {
     const date = new Date();
     return format(date, "eeee, d MMMM yyyy");
   };
-  console.log("memoizedBookmarks", memoizedBookmarks);
 
   if (isLocalLoader || ishistoricalLoading) {
     return (

@@ -74,7 +74,6 @@ export const adminSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getAllUsers.fulfilled, (state, action) => {
-      console.log("from builder getAllUsers", action.payload);
       const users = action.payload;
       state.isLoading = false;
       state.users = users;
@@ -92,7 +91,6 @@ export const adminSlice = createSlice({
     });
 
     builder.addCase(createUser.fulfilled, (state, action) => {
-      console.log("from builder createUser", action.payload);
       const user = action.payload.user;
       state.isLoading = false;
       state.adminUser = user;
@@ -110,7 +108,6 @@ export const adminSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(updateUserFromAdmin.fulfilled, (state, action) => {
-      console.log("from builder updateUserFromAdmin", action.payload);
       const user = action.payload;
       state.isLoading = false;
       state.adminUser = user;
@@ -147,7 +144,6 @@ export const adminSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(deleteUserAdmin.fulfilled, (state, action) => {
-      console.log("from builder delete user admin", action.payload);
       const response = action.payload;
       state.isLoading = false;
       //@TODO

@@ -33,7 +33,6 @@ const CurrentWeatherCommon = (props: ICurrent) => {
     unixTime: number,
     timeZone: string = moment.tz.guess()
   ): string {
-    console.log("timeZone", timeZone);
     const date = moment.unix(unixTime).tz(timeZone);
     return date.format("HH:mm");
   }

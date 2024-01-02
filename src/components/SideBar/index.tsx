@@ -14,7 +14,6 @@ export default function SideBarComponent({ isShowSideMenu }: iSideMenu) {
   const [isShowSideSubMenu, setIsShowSideSubMenu] = useState(false);
 
   const toggleSubMenu = () => {
-    console.log("click");
     setIsShowSideSubMenu(!isShowSideSubMenu);
   };
 

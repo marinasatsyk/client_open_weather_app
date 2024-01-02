@@ -14,7 +14,6 @@ export default class WeatherService {
     lat: string,
     lon: string
   ): Promise<AxiosResponse<IWeatherDataRes>> {
-    console.log("WeatherService  getCurrentWheather", lat, lon);
     return $api.post<IWeatherDataRes>(`/weather/current`, { lat, lon });
   }
 
@@ -23,7 +22,6 @@ export default class WeatherService {
     lat: string,
     lon: string
   ): Promise<AxiosResponse<WeatherDataFD>> {
-    console.log("WeatherService   forecast Wheather", lat, lon);
     return $api.post<WeatherDataFD>(`/weather/forecast/daily`, { lat, lon });
   }
 
@@ -32,7 +30,6 @@ export default class WeatherService {
     lat: string,
     lon: string
   ): Promise<AxiosResponse<WeatherDataFH>> {
-    console.log("WeatherService  forecast hourly", lat, lon);
     return $api.post<WeatherDataFH>(`/weather/forecast/hourly`, { lat, lon });
   }
 
@@ -41,7 +38,6 @@ export default class WeatherService {
     lat: string,
     lon: string
   ): Promise<AxiosResponse<WeatherDataPollution>> {
-    console.log("WeatherService  pollution ", lat, lon);
     return $api.post<WeatherDataPollution>(`/weather/pollution`, { lat, lon });
   }
 
@@ -51,13 +47,6 @@ export default class WeatherService {
     startDate: number,
     endDate: number
   ): Promise<AxiosResponse<IHistoricalWeatherRes>> {
-    console.log(
-      "WeatherService  getCurrentWheather",
-      cityId,
-      startDate,
-      endDate
-    );
-
     return $api.post<IHistoricalWeatherRes>(`/weather/history`, {
       cityId,
       startDate,

@@ -16,7 +16,6 @@ export default class AuthService {
     email: string,
     password: string
   ): Promise<AxiosResponse<AuthResponse>> {
-    console.log("coucou ====> ", firstName, lastName, email, password);
     return $api.post<AuthResponse>("/registration", {
       firstName,
       lastName,
@@ -26,12 +25,10 @@ export default class AuthService {
   }
 
   static async getUser(): Promise<AxiosResponse<IFullUser>> {
-    console.log("service forgot");
     return $api.get(`/user`, { responseType: "json" });
   }
 
   static async forgotPassword(email: string): Promise<AxiosResponse> {
-    console.log("we call get user");
     return $api.post(`forgot/password`, { email });
   }
   static async resetPassword(
@@ -39,7 +36,6 @@ export default class AuthService {
     confirmPassword: string,
     passwordResetToken: string
   ): Promise<AxiosResponse> {
-    console.log("we call get user");
     return $api.patch(`/reset/password/${passwordResetToken}`, {
       password,
       confirmPassword,

@@ -20,10 +20,8 @@ export const LayoutPublicComponent = () => {
   const [isShowSideMenu, setShowSideMenu] = useState(false);
 
   const toggleSideMenu = () => {
-    console.log("click togle");
     setShowSideMenu(!isShowSideMenu);
   };
-  console.log("isShowSideMenu", isShowSideMenu);
 
   const isDesktop = useMediaQuery({ minWidth: 768 });
 

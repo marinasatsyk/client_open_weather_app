@@ -9,7 +9,6 @@ export default function SettingsComponent() {
   const logout = UseLogout();
 
   const handleLogout = () => {
-    console.log("click");
     sessionStorage.clear();
     localStorage.clear();
     logout();
