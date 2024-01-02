@@ -20,7 +20,8 @@ import { useDispatch } from "react-redux";
 import { getAvailableHistoryStartDate } from "store/thunks/availableDataHistory";
 import { UseAppSelector } from "utils/hook";
 import "react-datepicker/dist/react-datepicker.css";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import "./index.scss";
 
 registerLocale("fr", fr);
@@ -138,6 +139,17 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
   };
 
   console.log("limits", startDateLimit, endDateLimit);
+
+  if (availableIsLoading)
+    return (
+      <FontAwesomeIcon
+        icon={icon({ name: "spinner", style: "solid" })}
+        spin
+        className="spinner-current"
+        style={{ fontSize: "30px" }}
+      />
+    );
+
   return (
     <div className="datapicker-wrap">
       <div className="title-data-picker">{bookmark.city.name}</div>

@@ -15,6 +15,7 @@ import { getCurrentWeather } from "store/thunks/currentwheather";
 import { getDailyForecastWeather } from "store/thunks/dailyweather";
 import { getHourlyForecastWeather } from "store/thunks/hourlyweather";
 import "./index.scss";
+import { useLocation } from "react-router-dom";
 
 const { REACT_APP_URI_OPEN_GEO_WEATHER, REACT_APP_STUDENT_API_FREE_key } =
   process.env;
@@ -31,6 +32,7 @@ export const SearchCityComponent = (): JSX.Element => {
 
   const dispatch = UseAppDispatch();
   const bookmarks = UseBookmarks();
+  const location = useLocation();
 
   const handleToggleIsTrackHistory = () => {
     setIsTrackHistory(!isTrackHistory);
@@ -93,15 +95,32 @@ export const SearchCityComponent = (): JSX.Element => {
     //updateBookmarkState
     try {
       await dispatch(updateActiveBookmark({ cityId }));
+
       if (cityLat && cityLon) {
         const data = {
           lat: String(cityLat),
           lon: String(cityLon),
         };
+
+        const promises = [
+          () => dispatch(getCurrentWeather(data)),
+          () => dispatch(getDailyForecastWeather(data)),
+          () => dispatch(getHourlyForecastWeather(data)),
+        ];
+
+        if (location.pathname.includes("current")) {
+          await Promise.all(
+            promises.map((promiseFunction) => promiseFunction())
+          );
+
+          // await dispatch(getCurrentWeather(data));
+          // await dispatch(getDailyForecastWeather(data));
+          // await dispatch(getHourlyForecastWeather(data));
+        } else if (location.pathname.includes("history")) {
+          console.log("historical page");
+        }
+
         console.log("we chanched active city", data);
-        await dispatch(getCurrentWeather(data));
-        await dispatch(getDailyForecastWeather(data));
-        await dispatch(getHourlyForecastWeather(data));
       }
     } catch (err) {
       console.error(err);
@@ -129,7 +148,7 @@ export const SearchCityComponent = (): JSX.Element => {
   }, [city]);
 
   return (
-    <div className="main">
+    <div className="main-search-city">
       <section className="search-city-wrapper">
         <div className="wrap-input">
           <div className="container-search-block">

@@ -20,7 +20,6 @@ export default function SideBarComponent({ isShowSideMenu }: iSideMenu) {
 
   const location = useLocation();
 
-  console.log("location", location.pathname);
   return (
     <>
       {!isShowSideSubMenu && (

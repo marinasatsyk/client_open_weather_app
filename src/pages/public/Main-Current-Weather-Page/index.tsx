@@ -122,24 +122,22 @@ const CurrentWeatherComponent = () => {
    */
 
   async function getCoordinates(activeBookmark: Bookmark | null = null) {
-    //case#1 we have active bookmark
     let currentActiveBookmark = {
       lat: "",
       lon: "",
     };
 
     if (activeBookmark && Object.keys(activeBookmark).length) {
+      //case#1 we have active bookmark
       const { lat, lon } = activeBookmark.city;
       currentActiveBookmark.lat = String(lat);
       currentActiveBookmark.lon = String(lon);
-    }
-    //TODO geolocation navigator functionality
-    else {
+    } else {
       //case#2 we use default coordinates
       currentActiveBookmark.lat = String(DEFAUT_COORDINATES.lat);
       currentActiveBookmark.lon = String(DEFAUT_COORDINATES.lon);
     }
-
+    //TODO geolocation navigator functionality
     if (Object.keys(currentActiveBookmark).length) {
       await getFuncDashboardWeather(
         String(currentActiveBookmark?.lat),
