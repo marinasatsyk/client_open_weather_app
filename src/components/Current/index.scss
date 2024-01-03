@@ -8,9 +8,9 @@
   align-items: center;
   color: #ffffff;
   overflow: hidden;
+
   &.side-menu-opened .wrap-main-content {
     transition: width 300ms ease-in-out;
-    overflow-y: auto;
   }
 
   .wrap-main-content {
@@ -26,6 +26,7 @@
   .wrap-main-content {
     height: 100dvh;
     overflow: hidden;
+    overflow-y: auto;
   }
   .wrap-main-content {
     flex: 1;
@@ -299,24 +300,6 @@ section.current-common-wrap {
       display: flex;
       justify-content: space-evenly;
     }
-
-    // .vertical-items {
-    //   display: flex;
-    //   flex-direction: column;
-    //   justify-content: space-between;
-    //   flex: 1;
-    // }
-
-    // .vertical-items-with-pollution {
-    //   display: flex;
-    //   flex-direction: column;
-    //   justify-content: space-between;
-    //   flex: 2;
-    // }
-
-    // .pollution {
-    //   width: 100%;
-    // }
   }
 }
 

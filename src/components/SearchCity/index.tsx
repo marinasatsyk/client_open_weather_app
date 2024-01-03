@@ -14,8 +14,8 @@ import Toggle from "components/ToggleComponent";
 import { getCurrentWeather } from "store/thunks/currentwheather";
 import { getDailyForecastWeather } from "store/thunks/dailyweather";
 import { getHourlyForecastWeather } from "store/thunks/hourlyweather";
-import "./index.scss";
 import { useLocation } from "react-router-dom";
+import "./index.scss";
 
 const { REACT_APP_URI_OPEN_GEO_WEATHER, REACT_APP_STUDENT_API_FREE_key } =
   process.env;
