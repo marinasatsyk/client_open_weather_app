@@ -6,6 +6,7 @@ main.mobile {
   flex-direction: column;
   align-items: center;
   justify-content: baseline;
+  overflow-y: auto;
 }
 
 @media screen and (min-width: 768px) {
