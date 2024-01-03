@@ -1,5 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import { useAdmin, useAuth } from "utils/hook";
+import { Route, Routes } from "react-router-dom";
 import {
   LayoutAdmin,
   DashboardAdmin,

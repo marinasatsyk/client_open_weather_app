@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ICity, UserRoleDataKeys } from "common/interfaces/auth";
+import { UserRoleDataKeys } from "common/interfaces/auth";
 import { geoOptionType } from "common/types/geo";
 import UserService from "services/UserSevice";
 
@@ -22,11 +22,6 @@ interface IUserUpdate {
     role?: UserRoleDataKeys;
     isActivated?: boolean;
   };
-}
-
-interface IUserDeleteRes {
-  success: boolean;
-  message: string;
 }
 
 interface IUserId {

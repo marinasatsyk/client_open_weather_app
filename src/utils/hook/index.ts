@@ -1,8 +1,6 @@
-import axios from "axios";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "store";
-import { useEffect, useState } from "react";
-import { error } from "console";
+import { useState } from "react";
 import { logoutUser } from "store/slice/auth";
 import { logoutDailyForecast } from "store/slice/dailyWeather";
 import { logoutHourlyForecast } from "store/slice/hourlyWeather";

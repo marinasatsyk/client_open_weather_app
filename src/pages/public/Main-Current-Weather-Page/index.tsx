@@ -30,11 +30,9 @@ const CurrentWeatherComponent = () => {
     lat: undefined,
     lon: undefined,
   });
-  const {
-    isLoading: isLoadingUser,
-    user,
-    error,
-  } = UseAppSelector((state) => state.auth);
+  const { isLoading: isLoadingUser, user } = UseAppSelector(
+    (state) => state.auth
+  );
 
   const [localError, setLocalError] = useState("");
   const [isDisplayComponents, setIsDisplayComponents] = useState(false);

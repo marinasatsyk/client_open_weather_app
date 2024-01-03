@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ICreateAdminUser, UserRoleDataKeys } from "common/interfaces/auth";
 import AdminService from "services/AdminService";
-import UserService from "services/UserSevice";
 
 interface IUserUpdate {
   userId: string;

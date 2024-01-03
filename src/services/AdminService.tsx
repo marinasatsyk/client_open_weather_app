@@ -1,6 +1,5 @@
 import $api from "../utils/http";
 import {
-  AuthResponse,
   CreateResponse,
   IFullAdminUser,
   UserRoleDataKeys,

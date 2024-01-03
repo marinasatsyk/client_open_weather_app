@@ -1,15 +1,11 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-// import auth from './slice/UserSlice';
+import { configureStore } from "@reduxjs/toolkit";
 import auth from "./slice/auth";
 import currentWeather from "./slice/weather";
 import dailyForecast from "./slice/dailyWeather";
 import hourlyForecast from "./slice/hourlyWeather";
 import hourlyHistoricalWeather from "./slice/historicalWeather";
 import availableHistoricalStart from "./slice/availableHistorical";
-// import pollutionWeather from './slice/pollutionWeather';
 import admin from "./slice/admin";
-
-import { composeWithDevTools } from "@reduxjs/toolkit/dist/devtoolsExtension";
 
 // import storage from 'redux-persist/lib/storage';
 

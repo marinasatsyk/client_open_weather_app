@@ -1,11 +1,7 @@
 import axios from "axios";
 import { AuthResponse } from "common/interfaces/auth";
-const {
-  REACT_APP_HOST,
-  REACT_APP_PORT,
-  REACT_APP_MAIN_API_ROUTE,
-  REACT_APP_PROTOCOL,
-} = process.env;
+const { REACT_APP_HOST, REACT_APP_MAIN_API_ROUTE, REACT_APP_PROTOCOL } =
+  process.env;
 
 // const API_URL = `${REACT_APP_PROTOCOL}://${REACT_APP_HOST}:${REACT_APP_PORT}${REACT_APP_MAIN_API_ROUTE}`;
 const API_URL = `${REACT_APP_PROTOCOL}://${REACT_APP_HOST}${REACT_APP_MAIN_API_ROUTE}`;

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IHistoricalWeatherReq, IWeatherReq } from "common/interfaces/auth";
+import { IHistoricalWeatherReq } from "common/interfaces/auth";
 import WeatherService from "services/Weather";
 
 export const getHourlyHistoricalWeather = createAsyncThunk(

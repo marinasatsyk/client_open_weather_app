@@ -1,5 +1,5 @@
 import { Outlet, Navigate, useLocation } from "react-router-dom";
-import { useAdmin, useAuth, useUserId } from "utils/hook";
+import { useAdmin, useAuth } from "utils/hook";
 
 const ProtectedRoute = () => {
   const auth = useAuth();

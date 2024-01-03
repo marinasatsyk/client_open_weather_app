@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IWeatherStateFD, IWheatherState } from "common/interfaces/auth";
+import { IWeatherStateFD } from "common/interfaces/auth";
 import { getDailyForecastWeather } from "store/thunks/dailyweather";
 // import  {IWeatherDataRes}
 

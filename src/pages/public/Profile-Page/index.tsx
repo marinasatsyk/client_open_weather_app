@@ -1,14 +1,11 @@
-import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UseAppSelector } from "utils/hook";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getUser } from "store/thunks/auth";
 import { deleteUser } from "store/thunks/user";
-import auth from "store/slice/auth";
-import BookmarksComponent from "pages/admin/BookmarksComponent";
 
 import "./index.scss";
 const ProfileComponent = () => {

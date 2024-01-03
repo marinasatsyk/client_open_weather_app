@@ -1,9 +1,7 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UseAppSelector } from "utils/hook";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useDispatch } from "react-redux";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Validator } from "utils/helpers";
 import { ManagedInput } from "components/ManageInput";
 

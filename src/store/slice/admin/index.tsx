@@ -7,7 +7,6 @@ import {
   getUserAdmin,
   updateUserFromAdmin,
 } from "store/thunks/admin";
-import { deleteUser } from "store/thunks/user";
 
 const initialState = {
   users: [],

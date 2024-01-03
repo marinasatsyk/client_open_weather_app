@@ -1,10 +1,5 @@
 import $api from "../utils/http";
-import {
-  ICity,
-  IFullAdminUser,
-  IFullUser,
-  UserRoleDataKeys,
-} from "common/interfaces/auth";
+import { IFullUser } from "common/interfaces/auth";
 import { AxiosResponse } from "axios";
 import { geoOptionType } from "common/types/geo";
 

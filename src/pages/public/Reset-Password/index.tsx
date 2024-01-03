@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { UseAppDispatch, UseAppSelector } from "utils/hook";
 import { Validator } from "utils/helpers";
 import { ManagedInput } from "components/ManageInput";
-import { clearError } from "store/slice/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate, useParams } from "react-router-dom";
