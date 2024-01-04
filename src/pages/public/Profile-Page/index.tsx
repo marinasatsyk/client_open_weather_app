@@ -8,6 +8,7 @@ import { getUser } from "store/thunks/auth";
 import { deleteUser } from "store/thunks/user";
 
 import "./index.scss";
+import { Helmet } from "react-helmet";
 const ProfileComponent = () => {
   const { user, isLoading } = UseAppSelector((state) => state.auth);
   const [isAccountDeleted, setIsAccountDeleted] = useState(false);
@@ -73,6 +74,12 @@ const ProfileComponent = () => {
   return (
     <div className="main-profil-component">
       <h1>User Information</h1>
+      <Helmet>
+        <title>User profile</title>
+
+        <meta name="description" content={`profile user`} />
+        <meta name="keywords" content="profile data user show" />
+      </Helmet>
       <section className="user-section">
         <div
           className={`success delete ${

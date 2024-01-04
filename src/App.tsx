@@ -9,16 +9,13 @@ import PublicRouter from "utils/router/PublicRouter";
 
 import AdminRouter from "utils/router/AdminRouter";
 import Error from "components/Error";
-import RedirectRoute from "utils/router/RedirectRoute";
 import LayoutConnection from "pages/LayoutConnection";
-import AuthComponent from "components/AuthComponent";
 import AuthRouter from "utils/router/AuthRouter";
 import { useAdmin, useAuth } from "utils/hook";
 import ForgotPasswordComponent from "pages/public/Forgot-Password";
 import ResetPasswordComponent from "pages/public/Reset-Password";
 
 const App: FC = () => {
-  document.title = "OpenWeahter App";
   const auth = useAuth();
   const isAdmin = useAdmin();
 

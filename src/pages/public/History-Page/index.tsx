@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 import "./index.scss";
+import { Helmet } from "react-helmet";
 
 const HistoryWeatherComponent = () => {
   const { user, isLoading } = UseAppSelector((state) => state.auth);
@@ -138,6 +139,17 @@ const HistoryWeatherComponent = () => {
                     className="wrap-from-main-history"
                     key={bookmark.city._id}
                   >
+                    <Helmet>
+                      <title>Historical weather data</title>
+                      <meta
+                        name="description"
+                        content={`historical weather  data`}
+                      />
+                      <meta
+                        name="keywords"
+                        content="weather data history graphs hourly one year"
+                      />
+                    </Helmet>
                     {!isDisplayGraphs && (
                       <DateRangePickerComponent
                         bookmark={bookmark}
@@ -177,6 +189,17 @@ const HistoryWeatherComponent = () => {
                     key={bookmark.city._id}
                     className="wrap-change-track history"
                   >
+                    <Helmet>
+                      <title>Historical weather data</title>
+                      <meta
+                        name="description"
+                        content={`historical weather  data`}
+                      />
+                      <meta
+                        name="keywords"
+                        content="weather data history graphs hourly one year"
+                      />
+                    </Helmet>
                     <div>
                       You have chosen not to follow historical data for
                       <span className="title">{bookmark.city.name}</span>

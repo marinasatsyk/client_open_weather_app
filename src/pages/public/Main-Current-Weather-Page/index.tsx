@@ -13,6 +13,7 @@ import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useMediaQuery } from "react-responsive";
 import { Bookmark } from "common/interfaces/auth";
 import "./index.scss";
+import { Helmet } from "react-helmet";
 
 interface ICoordinates {
   lat: number | undefined;
@@ -108,7 +109,7 @@ const CurrentWeatherComponent = () => {
   };
 
   /**
-   * GOAL=> get data weather by my server
+   * GOAL=> get data weather by server
    * 1. verify if bookmarks
    *  yes => get Active bookmark
    *  no =>
@@ -152,8 +153,59 @@ const CurrentWeatherComponent = () => {
   } else {
     if (isDesktop) {
       return (
-        <div className="wrap-main-current-weather">
-          <div className="wrap-common-long-daily">
+        <>
+          <Helmet>
+            <title>Current weather and forecast data</title>
+
+            <meta
+              name="description"
+              content={`current data for ${activeBookmarkM.city.name}, daily forecast, hourly forecast`}
+            />
+            <meta name="keywords" />
+          </Helmet>
+          <div className="wrap-main-current-weather">
+            <div className="wrap-common-long-daily">
+              <section className="current-common-wrap">
+                {currentCoordinates.lat && currentCoordinates.lon && (
+                  <CurrentWeatherCommon
+                    lat={currentCoordinates.lat}
+                    lon={currentCoordinates.lon}
+                  />
+                )}
+              </section>
+              <section className="long-daily-forecast">
+                <DailyForecastComponent />
+              </section>
+            </div>
+            <div className="wrap-short-forecast-radar">
+              <section className="current-short-hourly">
+                <HourlyCurrentForecastComponent />
+              </section>
+              <section className="current-radar">
+                {currentCoordinates.lat && currentCoordinates.lon && (
+                  <RadarWeatherComponent
+                    lat={currentCoordinates.lat}
+                    lon={currentCoordinates.lon}
+                  />
+                )}
+              </section>
+            </div>
+          </div>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Helmet>
+            <title>Current weather and forecast data</title>
+
+            <meta
+              name="description"
+              content={`current data for ${activeBookmarkM.city.name}, daily forecast, hourly forecast`}
+            />
+            <meta name="keywords" />
+          </Helmet>
+          <div className="wrap-main-current-weather">
             <section className="current-common-wrap">
               {currentCoordinates.lat && currentCoordinates.lon && (
                 <CurrentWeatherCommon
@@ -162,37 +214,8 @@ const CurrentWeatherComponent = () => {
                 />
               )}
             </section>
-            <section className="long-daily-forecast">
-              <DailyForecastComponent />
-            </section>
           </div>
-          <div className="wrap-short-forecast-radar">
-            <section className="current-short-hourly">
-              <HourlyCurrentForecastComponent />
-            </section>
-            <section className="current-radar">
-              {currentCoordinates.lat && currentCoordinates.lon && (
-                <RadarWeatherComponent
-                  lat={currentCoordinates.lat}
-                  lon={currentCoordinates.lon}
-                />
-              )}
-            </section>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="wrap-main-current-weather">
-          <section className="current-common-wrap">
-            {currentCoordinates.lat && currentCoordinates.lon && (
-              <CurrentWeatherCommon
-                lat={currentCoordinates.lat}
-                lon={currentCoordinates.lon}
-              />
-            )}
-          </section>
-        </div>
+        </>
       );
     }
   }

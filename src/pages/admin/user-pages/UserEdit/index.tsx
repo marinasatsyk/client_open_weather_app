@@ -128,12 +128,11 @@ const UserAmdinEdit = () => {
           }, 2000);
         } else if (updateUserFromAdmin.rejected.match(actionResult)) {
           const error = (actionResult.payload as { error: string }).error;
-          console.error("✅✅✅✅😊Erreur lors de la mise à jour", error);
           //@ts-ignore
           setErrorAuth(error.message);
         }
       } catch (e) {
-        console.error("!!!!!!!!!!!!!!!!!!!error", e);
+        console.error("error", e);
         setErrorAuth(e);
         return;
       }

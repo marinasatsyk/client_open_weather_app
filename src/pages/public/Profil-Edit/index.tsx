@@ -7,6 +7,7 @@ import { ManagedInput } from "components/ManageInput";
 
 import "./index.scss";
 import { updateUser } from "store/thunks/user";
+import { Helmet } from "react-helmet";
 
 const UserEditComponent = () => {
   //hooks
@@ -78,12 +79,11 @@ const UserEditComponent = () => {
           }, 2000);
         } else if (updateUser.rejected.match(actionResult)) {
           const error = (actionResult.payload as { error: string }).error;
-          console.error("✅✅✅✅😊Erreur lors de la mise à jour", error);
           //@ts-ignore
           setErrorAuth(error.message);
         }
       } catch (e) {
-        console.error("!!!!!!!!!!!!!!!!!!!error", e);
+        console.error("error", e);
         setErrorAuth(e);
         return;
       }
@@ -93,6 +93,12 @@ const UserEditComponent = () => {
   return (
     <div className="wrap-user-admin-container edit">
       <h1>User Information</h1>
+      <Helmet>
+        <title>User profil edit</title>
+
+        <meta name="description" content={`profile user`} />
+        <meta name="keywords" content="profile data user edit" />
+      </Helmet>
 
       <section className="user-section">
         {errorAuth && <div className="error">{errorAuth}</div>}

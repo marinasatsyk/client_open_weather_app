@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import "./index.scss";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const AuthComponent: FC = () => {
   const { user, isRegistred, error, isLoading, isRememberMe_r } =
@@ -120,6 +121,17 @@ const AuthComponent: FC = () => {
 
   return (
     <section>
+      <Helmet>
+        <title>Open Weather Application</title>
+        <meta
+          name="description"
+          content="check the weather anywhere in the world and get hisotrical  weather data"
+        />
+        <meta
+          name="keywords"
+          content="weather world hourly forecast daily statisctics graphs hisotrical application timezone geolocation map"
+        />
+      </Helmet>
       <div className="auth-container">
         <div className="wrap-form-auth">
           <div className="title-wrap">
