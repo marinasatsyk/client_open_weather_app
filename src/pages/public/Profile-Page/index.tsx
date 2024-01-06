@@ -110,9 +110,9 @@ const ProfileComponent = () => {
           <span className="content"> {user.email}</span>
         </div>
         <div className="btn-wrap-user">
-          <button className="modify">
+          <div className="modify button">
             <Link to={"/user/profile/edit"}>Edit User</Link>
-          </button>
+          </div>
 
           <button className="delete" onClick={(e) => onHandleDelete(e)}>
             Delete User

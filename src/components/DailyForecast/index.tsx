@@ -36,13 +36,15 @@ function DailyForecastComponent() {
     return (
       <>
         <h2>Forecast For 16 Days</h2>
-        <div className="wrap-daily-forecast">
+        <div className="wrap-daily-forecast" tabIndex={0}>
           {data && data?.list?.length ? (
             data?.list.map((forecastElement, index) => (
               <div key={index} className="wrap-section">
                 <section
                   className="daily-forecast-item"
                   onClick={() => handleToggle(index)}
+                  onKeyDown={(e) => handleToggle(index)}
+                  tabIndex={0}
                 >
                   <div className="left-side">
                     <div className="wrap-chevron">

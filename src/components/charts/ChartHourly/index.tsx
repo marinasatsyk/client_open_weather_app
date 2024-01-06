@@ -338,6 +338,8 @@ export function ChartComponentHouryly(props: {
       <div
         className={`wrap-left-btn ${isDisabledPrevBtn && "hidden"}`}
         onClick={() => handlePrev()}
+        tabIndex={0}
+        onKeyDown={() => handleNext()}
       >
         <FontAwesomeIcon
           icon={icon({ name: "circle-chevron-left", style: "solid" })}
@@ -384,12 +386,15 @@ export function ChartComponentHouryly(props: {
               },
             },
           }}
+          aria-label="Graph showing temperature changes over time"
           data={dataChart}
         />
       </div>
       <div
         className={`wrap-right-btn ${isDisabledNextBtn && "hidden"}`}
         onClick={() => handleNext()}
+        tabIndex={0}
+        onKeyDown={() => handleNext()}
       >
         <FontAwesomeIcon
           icon={icon({ name: "circle-chevron-right", style: "solid" })}

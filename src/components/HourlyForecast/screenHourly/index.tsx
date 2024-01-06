@@ -60,6 +60,7 @@ function ScreenHourlyForecastComponent() {
           }`}
           title="temp"
           onClick={() => handleClickMenuActive(1)}
+          onKeyDown={() => handleClickMenuActive(1)}
         >
           <FontAwesomeIcon
             icon={icon({ name: "temperature-high", style: "solid" })}
@@ -71,6 +72,7 @@ function ScreenHourlyForecastComponent() {
           }`}
           title="precipitation"
           onClick={() => handleClickMenuActive(2)}
+          onKeyDown={() => handleClickMenuActive(2)}
         >
           <FontAwesomeIcon
             icon={icon({ name: "cloud-showers-heavy", style: "solid" })}
@@ -82,6 +84,7 @@ function ScreenHourlyForecastComponent() {
           }`}
           title="wind"
           onClick={() => handleClickMenuActive(3)}
+          onKeyDown={() => handleClickMenuActive(3)}
         >
           <FontAwesomeIcon icon={icon({ name: "wind", style: "solid" })} />
         </div>
@@ -91,6 +94,7 @@ function ScreenHourlyForecastComponent() {
           }`}
           title="pressure"
           onClick={() => handleClickMenuActive(4)}
+          onKeyDown={() => handleClickMenuActive(4)}
         >
           <FontAwesomeIcon
             icon={icon({ name: "arrows-down-to-line", style: "solid" })}
@@ -102,6 +106,7 @@ function ScreenHourlyForecastComponent() {
           }`}
           title="humidity"
           onClick={() => handleClickMenuActive(5)}
+          onKeyDown={() => handleClickMenuActive(5)}
         >
           <FontAwesomeIcon icon={icon({ name: "droplet", style: "solid" })} />
         </div>
@@ -111,6 +116,7 @@ function ScreenHourlyForecastComponent() {
           }`}
           title="visibility"
           onClick={() => handleClickMenuActive(6)}
+          onKeyDown={() => handleClickMenuActive(6)}
         >
           <FontAwesomeIcon icon={icon({ name: "eye", style: "solid" })} />
         </div>
@@ -123,6 +129,7 @@ function ScreenHourlyForecastComponent() {
           <FontAwesomeIcon
             icon={icon({ name: "user-pen", style: "solid" })}
             onClick={() => handleClickMenuActive(8)}
+            onKeyDown={() => handleClickMenuActive(8)}
           />
         </div>
       </div>

@@ -43,9 +43,6 @@ const CurrentWeatherComponent = () => {
 
   useEffect(() => {
     getUserDashboard();
-    setTimeout(() => {
-      setIsDisplayComponents(true);
-    }, 2000);
   }, []);
 
   useEffect(() => {
@@ -103,6 +100,9 @@ const CurrentWeatherComponent = () => {
       await Promise.all(promises.map((promiseFunction) => promiseFunction()));
       //forecast houryly here
       setCurrentCoordinates({ lat: Number(lat), lon: Number(lon) });
+      setTimeout(() => {
+        setIsDisplayComponents(true);
+      }, 2000);
     } catch (err) {
       console.error(err);
     }

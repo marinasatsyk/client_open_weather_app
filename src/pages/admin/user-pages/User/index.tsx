@@ -122,9 +122,9 @@ const UserAdmin = () => {
         </section>
 
         <div className="btn-wrap-user">
-          <button className="modify">
+          <div className="modify button">
             <Link to={"edit"}>Edit User</Link>
-          </button>
+          </div>
           {/* <button
                     className="disconnect"
                      onClick={(e) => onDisconnect(e)}
