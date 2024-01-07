@@ -109,3 +109,9 @@ main.connection-wrap {
     color: #34d905;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .wrap-form-auth {
+    height: max-content;
+  }
+}
