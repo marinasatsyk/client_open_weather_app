@@ -159,7 +159,11 @@ const CurrentWeatherComponent = () => {
 
             <meta
               name="description"
-              content={`current data for ${activeBookmarkM.city.name}, daily forecast, hourly forecast`}
+              content={`${
+                activeBookmarkM
+                  ? `current data for ${activeBookmarkM?.city?.name}, daily forecast, hourly forecast`
+                  : `current weather, daily forecast, hourly forecast`
+              }`}
             />
             <meta name="keywords" />
           </Helmet>
