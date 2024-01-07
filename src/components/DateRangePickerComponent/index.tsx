@@ -127,12 +127,25 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
 
   if (availableIsLoading)
     return (
-      <FontAwesomeIcon
-        icon={icon({ name: "spinner", style: "solid" })}
-        spin
-        className="spinner-current"
-        style={{ fontSize: "30px" }}
-      />
+      // <FontAwesomeIcon
+      //   icon={icon({ name: "spinner", style: "solid" })}
+      //   spin
+      //   className="spinner-current"
+      //   style={{ fontSize: "30px" }}
+      // />
+      <>
+        <div className="wrap-loader-history">
+          <FontAwesomeIcon
+            icon={icon({ name: "spinner", style: "solid" })}
+            spin
+            className="spinner-current"
+            style={{ fontSize: "30px" }}
+          />
+          <p>
+            Requestion historical data may take a few minuts, be patient please
+          </p>
+        </div>
+      </>
     );
 
   return (
