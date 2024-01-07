@@ -160,9 +160,9 @@ const CurrentWeatherComponent = () => {
             <meta
               name="description"
               content={`${
-                activeBookmarkM
-                  ? `current data for ${activeBookmarkM?.city?.name}, daily forecast, hourly forecast`
-                  : `current weather, daily forecast, hourly forecast`
+                Object.keys(activeBookmarkM).length
+                  ? `current data for ${activeBookmarkM?.city?.name}, daily forecast, hourly forecast, temperature map`
+                  : `current weather for Paris, daily forecast, hourly forecast, temperature map`
               }`}
             />
             <meta name="keywords" />
