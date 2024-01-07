@@ -85,7 +85,7 @@ const CurrentWeatherComponent = () => {
         setLocalError(error);
       }
     } catch (err) {
-      console.error(err);
+      // console.error(err);
     }
   };
 
@@ -104,7 +104,7 @@ const CurrentWeatherComponent = () => {
         setIsDisplayComponents(true);
       }, 2000);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
     }
   };
 

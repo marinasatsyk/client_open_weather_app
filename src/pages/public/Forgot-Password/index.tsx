@@ -37,7 +37,7 @@ const ForgotPasswordComponent = () => {
         setErrorAuth(error.message);
       }
     } catch (e) {
-      console.error("error", e);
+      // console.error("error", e);
       setErrorAuth(e);
       return e;
     }

@@ -91,7 +91,7 @@ const UserAmdinEdit = () => {
     } else {
       setIsRoleValidate(false);
       setErrorMessageSelect("Valeur de rôle invalide");
-      console.error("Valeur de rôle invalide");
+      // console.error("Valeur de rôle invalide");
     }
   };
 
@@ -132,7 +132,7 @@ const UserAmdinEdit = () => {
           setErrorAuth(error.message);
         }
       } catch (e) {
-        console.error("error", e);
+        // console.error("error", e);
         setErrorAuth(e);
         return;
       }

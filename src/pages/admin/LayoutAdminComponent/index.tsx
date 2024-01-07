@@ -46,7 +46,7 @@ const LayoutAdminComponent = () => {
     try {
       getUserDashboard();
     } catch (err) {
-      console.error(err);
+      // console.error(err);
     }
   }, []);
 

@@ -44,7 +44,7 @@ const DialogForm = () => {
     } else {
       setIsRoleValidate(false);
       setErrorMessageSelect("Valeur de rôle invalide");
-      console.error("Valeur de rôle invalide");
+      // console.error("Valeur de rôle invalide");
     }
   };
   //hooks
@@ -127,7 +127,7 @@ const DialogForm = () => {
         setErrorAuth(error.message);
       }
     } catch (e) {
-      console.error("error", e);
+      // console.error("error", e);
       return e;
     }
   };

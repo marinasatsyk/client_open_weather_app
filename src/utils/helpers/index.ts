@@ -79,7 +79,7 @@ export const getTokenFromStorage = (storageKey: string): Token | null => {
   try {
     return tokenRaw !== null ? JSON.parse(tokenRaw) : null;
   } catch (err) {
-    console.error("Erreur de parsing :", err);
+    // console.error("Erreur de parsing :", err);
     return null;
   }
 };

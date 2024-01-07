@@ -69,7 +69,7 @@ const HistoryWeatherComponent = () => {
         }, 3000);
       }
     } catch (err) {
-      console.error(err);
+      // console.error(err);
     }
   }
   const handleClickHistory = async (
@@ -96,12 +96,12 @@ const HistoryWeatherComponent = () => {
       } else if (getHourlyHistoricalWeather.rejected.match(historicalDataReq)) {
         setIsDisplayGraphs(false);
         const error = (historicalDataReq.payload as { error: string }).error;
-        console.error("Erreur lors de la mise à jour", error);
+        // console.error("Erreur lors de la mise à jour", error);
         // @ts-ignore
         setError(error.message);
       }
     } catch (error) {
-      console.error("historical try catch", error);
+      // console.error("historical try catch", error);
     }
   };
 

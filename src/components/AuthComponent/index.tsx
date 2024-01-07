@@ -69,7 +69,6 @@ const AuthComponent: FC = () => {
         }
       }
     } catch (e) {
-      console.error("error", e);
       setErrorAuth(e);
       return e;
     }

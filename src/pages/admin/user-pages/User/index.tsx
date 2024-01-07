@@ -57,12 +57,12 @@ const UserAdmin = () => {
           }, 2000);
         } else if (deleteUserAdmin.rejected.match(deletedStatus)) {
           const error = (deletedStatus.payload as { error: string }).error;
-          console.error("Erreur lors de la mise à jour", error);
+          // console.error("Erreur lors de la mise à jour", error);
           //@ts-ignore
           setActionError(error.message);
         }
       } catch (err) {
-        console.error(err);
+        // console.error(err);
       }
     }
   };

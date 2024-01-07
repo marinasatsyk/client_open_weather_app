@@ -75,7 +75,7 @@ export const SearchCityComponent = (): JSX.Element => {
       setIsShowHistoryBlock(false);
       setIsTrackHistory(false);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
     }
   };
 
@@ -117,7 +117,7 @@ export const SearchCityComponent = (): JSX.Element => {
         }
       }
     } catch (err) {
-      console.error(err);
+      // console.error(err);
     }
   };
 
@@ -125,7 +125,7 @@ export const SearchCityComponent = (): JSX.Element => {
     try {
       await dispatch(deleteBookmark({ cityId }));
     } catch (err) {
-      console.error("error deleting bookmark");
+      // console.error("error deleting bookmark");
     }
   };
 
