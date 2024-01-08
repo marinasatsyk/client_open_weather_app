@@ -36,7 +36,8 @@
     align-items: center;
   }
 
-  button {
+  button,
+  div.button {
     border-radius: 3px;
     cursor: pointer;
     height: 35px;

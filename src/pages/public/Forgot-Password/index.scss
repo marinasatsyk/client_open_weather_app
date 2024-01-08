@@ -3,8 +3,11 @@ section.forgot-container {
     display: none;
   }
 
+  .login-link {
+    text-decoration: underline;
+  }
   .wrap-form-auth {
-    height: 40vh;
+    height: max-content;
     max-height: 650px;
     width: 80vw;
     max-width: 300px;
@@ -17,14 +20,6 @@ section.forgot-container {
     padding: 10px;
     gap: 20px;
     color: white;
-  }
-  .login-link {
-    text-decoration: underline;
-  }
-  .wrap-form-auth {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 
     .form {
       display: flex;

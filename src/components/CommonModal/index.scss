@@ -6,6 +6,10 @@
   bottom: 0;
   z-index: 100;
   background: #000000b3;
+  .main {
+    display: flex;
+    flex-direction: column;
+  }
   .close-modal-icon {
     color: white;
     font-weight: bold;

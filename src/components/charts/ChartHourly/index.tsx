@@ -339,7 +339,12 @@ export function ChartComponentHouryly(props: {
         className={`wrap-left-btn ${isDisabledPrevBtn && "hidden"}`}
         onClick={() => handlePrev()}
         tabIndex={0}
-        onKeyDown={() => handleNext()}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowLeft") {
+            handlePrev();
+          }
+        }}
+        role="button"
       >
         <FontAwesomeIcon
           icon={icon({ name: "circle-chevron-left", style: "solid" })}
@@ -394,7 +399,12 @@ export function ChartComponentHouryly(props: {
         className={`wrap-right-btn ${isDisabledNextBtn && "hidden"}`}
         onClick={() => handleNext()}
         tabIndex={0}
-        onKeyDown={() => handleNext()}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowRight") {
+            handleNext();
+          }
+        }}
+        role="button"
       >
         <FontAwesomeIcon
           icon={icon({ name: "circle-chevron-right", style: "solid" })}

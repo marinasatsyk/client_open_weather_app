@@ -59,8 +59,13 @@ function ScreenHourlyForecastComponent() {
             elementActif === 1 ? "active-icon" : ""
           }`}
           title="temp"
+          tabIndex={0}
           onClick={() => handleClickMenuActive(1)}
-          onKeyDown={() => handleClickMenuActive(1)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleClickMenuActive(1);
+            }
+          }}
         >
           <FontAwesomeIcon
             icon={icon({ name: "temperature-high", style: "solid" })}
@@ -72,7 +77,12 @@ function ScreenHourlyForecastComponent() {
           }`}
           title="precipitation"
           onClick={() => handleClickMenuActive(2)}
-          onKeyDown={() => handleClickMenuActive(2)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleClickMenuActive(2);
+            }
+          }}
+          tabIndex={0}
         >
           <FontAwesomeIcon
             icon={icon({ name: "cloud-showers-heavy", style: "solid" })}
@@ -84,7 +94,12 @@ function ScreenHourlyForecastComponent() {
           }`}
           title="wind"
           onClick={() => handleClickMenuActive(3)}
-          onKeyDown={() => handleClickMenuActive(3)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleClickMenuActive(3);
+            }
+          }}
+          tabIndex={0}
         >
           <FontAwesomeIcon icon={icon({ name: "wind", style: "solid" })} />
         </div>
@@ -94,7 +109,12 @@ function ScreenHourlyForecastComponent() {
           }`}
           title="pressure"
           onClick={() => handleClickMenuActive(4)}
-          onKeyDown={() => handleClickMenuActive(4)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleClickMenuActive(4);
+            }
+          }}
+          tabIndex={0}
         >
           <FontAwesomeIcon
             icon={icon({ name: "arrows-down-to-line", style: "solid" })}
@@ -106,7 +126,12 @@ function ScreenHourlyForecastComponent() {
           }`}
           title="humidity"
           onClick={() => handleClickMenuActive(5)}
-          onKeyDown={() => handleClickMenuActive(5)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleClickMenuActive(5);
+            }
+          }}
+          tabIndex={0}
         >
           <FontAwesomeIcon icon={icon({ name: "droplet", style: "solid" })} />
         </div>
@@ -116,7 +141,12 @@ function ScreenHourlyForecastComponent() {
           }`}
           title="visibility"
           onClick={() => handleClickMenuActive(6)}
-          onKeyDown={() => handleClickMenuActive(6)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleClickMenuActive(6);
+            }
+          }}
+          tabIndex={0}
         >
           <FontAwesomeIcon icon={icon({ name: "eye", style: "solid" })} />
         </div>
@@ -129,7 +159,12 @@ function ScreenHourlyForecastComponent() {
           <FontAwesomeIcon
             icon={icon({ name: "user-pen", style: "solid" })}
             onClick={() => handleClickMenuActive(8)}
-            onKeyDown={() => handleClickMenuActive(8)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleClickMenuActive(8);
+              }
+            }}
+            tabIndex={0}
           />
         </div>
       </div>

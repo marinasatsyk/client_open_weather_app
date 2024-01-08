@@ -169,7 +169,7 @@ const CurrentWeatherComponent = () => {
           </Helmet>
           <div className="wrap-main-current-weather">
             <div className="wrap-common-long-daily">
-              <section className="current-common-wrap">
+              <section className="current-common-wrap" tabIndex={0}>
                 {currentCoordinates.lat && currentCoordinates.lon && (
                   <CurrentWeatherCommon
                     lat={currentCoordinates.lat}
@@ -182,7 +182,7 @@ const CurrentWeatherComponent = () => {
               </section>
             </div>
             <div className="wrap-short-forecast-radar">
-              <section className="current-short-hourly">
+              <section className="current-short-hourly" tabIndex={0}>
                 <HourlyCurrentForecastComponent />
               </section>
               <section className="current-radar">
@@ -210,7 +210,7 @@ const CurrentWeatherComponent = () => {
             <meta name="keywords" />
           </Helmet>
           <div className="wrap-main-current-weather">
-            <section className="current-common-wrap">
+            <section className="current-common-wrap" tabIndex={0}>
               {currentCoordinates.lat && currentCoordinates.lon && (
                 <CurrentWeatherCommon
                   lat={currentCoordinates.lat}

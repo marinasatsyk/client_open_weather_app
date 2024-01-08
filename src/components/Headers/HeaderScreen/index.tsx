@@ -32,11 +32,17 @@ export default function HeaderScreen({
 
   return (
     <header className="header-screen">
-      <div className="wrap-icons-screen-header">
+      <div className="wrap-icons-screen-header" tabIndex={1}>
         <FontAwesomeIcon
           icon={icon({ name: "bars", style: "solid" })}
           className="icon"
           onClick={toggleSideMenu}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              toggleSideMenu();
+            }
+          }}
+          tabIndex={0}
           title="sidebar"
         />
 
@@ -45,6 +51,7 @@ export default function HeaderScreen({
             icon={icon({ name: "house", style: "solid" })}
             className="icon"
             title="home"
+            tabIndex={0}
           />
         </Link>
       </div>
@@ -70,6 +77,12 @@ export default function HeaderScreen({
 
         <FontAwesomeIcon
           onClick={() => handleLogout()}
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleLogout();
+            }
+          }}
           icon={icon({ name: "person-walking-arrow-right", style: "solid" })}
           className="icon"
           title="logout"

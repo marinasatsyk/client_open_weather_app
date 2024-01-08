@@ -248,14 +248,15 @@ const UserAmdinEdit = () => {
             type="submit"
             className="save"
             onClick={(e) => onHandleSave(e)}
+            onKeyDown={(e) => e.key === "Enter" && onHandleSave(e)}
             disabled={!isSubmitEnabled}
           >
             Save
           </button>
 
-          <button className="cancel">
+          <div className="cancel" tabIndex={0}>
             <Link to={`/admin/user/${currentUser._id}`}>Cancel</Link>
-          </button>
+          </div>
         </div>
       </section>
     </div>

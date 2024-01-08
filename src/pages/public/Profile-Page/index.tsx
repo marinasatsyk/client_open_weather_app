@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getUser } from "store/thunks/auth";
 import { deleteUser } from "store/thunks/user";
-
-import "./index.scss";
 import { Helmet } from "react-helmet";
+import "./index.scss";
+
 const ProfileComponent = () => {
   const { user, isLoading } = UseAppSelector((state) => state.auth);
   const [isAccountDeleted, setIsAccountDeleted] = useState(false);

@@ -22,7 +22,7 @@ export default function SideBarComponent({ isShowSideMenu }: iSideMenu) {
   return (
     <>
       {!isShowSideSubMenu && (
-        <div
+        <aside
           className={`wrap-side-menu ${
             isShowSideMenu
               ? "side-menu-enter side-menu-enter-active"
@@ -31,7 +31,15 @@ export default function SideBarComponent({ isShowSideMenu }: iSideMenu) {
         >
           <nav>
             <ul className="side-bar-menu">
-              <li onClick={() => toggleSubMenu()}>
+              <li
+                onClick={() => toggleSubMenu()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    toggleSubMenu();
+                  }
+                }}
+                tabIndex={0}
+              >
                 <span>Locations</span>
                 <FontAwesomeIcon
                   icon={icon({ name: "sort-up", style: "solid" })}
@@ -43,6 +51,7 @@ export default function SideBarComponent({ isShowSideMenu }: iSideMenu) {
                 className={
                   location.pathname.includes("current") ? "active" : ""
                 }
+                tabIndex={0}
               >
                 <Link to={"current"}>Today</Link>
               </li>
@@ -50,15 +59,16 @@ export default function SideBarComponent({ isShowSideMenu }: iSideMenu) {
                 className={
                   location.pathname.includes("history") ? "active" : ""
                 }
+                tabIndex={0}
               >
                 <Link to={"history"}>History</Link>
               </li>
             </ul>
           </nav>
-        </div>
+        </aside>
       )}
       {isShowSideSubMenu && (
-        <div
+        <aside
           className={`wrap-side-menu ${
             isShowSideMenu
               ? "side-menu-enter side-menu-enter-active"
@@ -78,7 +88,7 @@ export default function SideBarComponent({ isShowSideMenu }: iSideMenu) {
             />
           </div>
           <SearchCityComponent />
-        </div>
+        </aside>
       )}
     </>
   );

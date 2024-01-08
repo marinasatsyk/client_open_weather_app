@@ -43,7 +43,11 @@ function DailyForecastComponent() {
                 <section
                   className="daily-forecast-item"
                   onClick={() => handleToggle(index)}
-                  onKeyDown={(e) => handleToggle(index)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleToggle(index);
+                    }
+                  }}
                   tabIndex={0}
                 >
                   <div className="left-side">
@@ -94,7 +98,7 @@ function DailyForecastComponent() {
                     </div>
                   </div>
                 </section>
-                <div
+                <article
                   className={`additional-component  ${
                     expandedSections[index] ? "expand" : "collapse"
                   }`}
@@ -178,7 +182,7 @@ function DailyForecastComponent() {
                       </div>
                     )}
                   </div>
-                </div>
+                </article>
               </div>
             ))
           ) : (
