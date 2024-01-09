@@ -1,11 +1,10 @@
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLocationDot,
   faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation } from "react-router-dom";
-import { UseBookmarks, UseLogout } from "utils/hook";
+import { UseBookmarks } from "utils/hook";
 import "./index.scss";
 
 interface IHeaderMobile {

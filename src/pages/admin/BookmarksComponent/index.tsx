@@ -13,9 +13,7 @@ const BookmarksComponent: React.FC<BookmarksComponentProps> = (props) => {
       {bookmarks.length > 0 &&
         bookmarks.map((bookmark, index) => (
           <article key={index} className="wrap-bookmark">
-            <div className="bookmark-city">
-              ID City: {`${bookmark.city._id}`}
-            </div>
+            <div className="bookmark-city"> {`${bookmark.city.name}`}</div>
             {bookmark.isFollowHistory && (
               <span className="history-mark" title="user follow history data">
                 <FontAwesomeIcon
@@ -28,6 +26,7 @@ const BookmarksComponent: React.FC<BookmarksComponentProps> = (props) => {
                 <FontAwesomeIcon icon={icon({ name: "a", style: "solid" })} />
               </span>
             )}
+            <div className="bookmark-city">id: {`${bookmark.city._id}`}</div>
           </article>
         ))}
     </>

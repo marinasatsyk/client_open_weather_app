@@ -121,7 +121,7 @@ const AuthComponent: FC = () => {
   return (
     <section>
       <Helmet>
-        <title>Open Weather Application</title>
+        <title>Weather, foreast and history</title>
         <meta
           name="description"
           content="check the weather anywhere in the world and get hisotrical  weather data"

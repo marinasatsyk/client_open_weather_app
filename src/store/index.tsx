@@ -38,8 +38,6 @@ const store = configureStore({
     }),
 });
 
-// export type AppDispatch = typeof store.dispatch
-
 //useStoreDispatch is for async call
 export type AppDispatch = typeof store.dispatch;
 // export const useStoreDispatch = () => useDispatch<typeof store.dispatch>

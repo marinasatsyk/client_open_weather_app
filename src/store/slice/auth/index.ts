@@ -6,6 +6,7 @@ import {
   loginUser,
   registerUser,
   resetPassword,
+  logout,
 } from "store/thunks/auth";
 import {
   deleteBookmark,
@@ -15,7 +16,7 @@ import {
   deleteUser,
 } from "store/thunks/user";
 
-import { manageToken } from "utils/helpers";
+import { manageToken, removeTokens } from "utils/helpers";
 
 const initialState = {
   user: {},
@@ -63,6 +64,7 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    //login
     builder.addCase(loginUser.pending, (state, action) => {
       state.isAuth = false;
       state.isLoading = true;
@@ -77,6 +79,39 @@ export const authSlice = createSlice({
     builder.addCase(loginUser.rejected, (state, action) => {
       state.error = "";
       state.isAuth = false;
+      state.error = (action.payload as { error: string }).error;
+      state.isLoading = false;
+    });
+
+    //logout
+    builder.addCase(logout.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(logout.fulfilled, (state, action) => {
+      const res = action.payload;
+      state.isAuth = false;
+      state.user = {
+        id: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        isActivated: false,
+        bookmarks: [],
+        role: "",
+      };
+      state.isLoading = false;
+      state.isRegistred = false;
+      state.isRememberMe_r = false;
+      state.stateResponse = {
+        message: res.message,
+        success: false,
+        status: "",
+      };
+      sessionStorage.clear();
+      localStorage.clear();
+    });
+    builder.addCase(logout.rejected, (state, action) => {
+      state.error = "";
       state.error = (action.payload as { error: string }).error;
       state.isLoading = false;
     });

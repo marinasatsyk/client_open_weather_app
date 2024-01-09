@@ -2,12 +2,19 @@ import { AuthResponse, IFullUser } from "common/interfaces/auth";
 import $api from "../utils/http";
 import { AxiosResponse } from "axios";
 
+interface logoutRespose {
+  message: string;
+}
 export default class AuthService {
   static async login(
     email: string,
     password: string
   ): Promise<AxiosResponse<AuthResponse>> {
     return $api.post<AuthResponse>("/login", { email, password });
+  }
+
+  static async logout(): Promise<AxiosResponse<logoutRespose>> {
+    return $api.post<logoutRespose>("/logout");
   }
 
   static async registration(

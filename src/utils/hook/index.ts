@@ -1,7 +1,7 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "store";
 import { useState } from "react";
-import { logoutUser } from "store/slice/auth";
+import { logout } from "store/thunks/auth";
 import { logoutDailyForecast } from "store/slice/dailyWeather";
 import { logoutHourlyForecast } from "store/slice/hourlyWeather";
 import { logoutWeather } from "store/slice/weather";
@@ -83,26 +83,29 @@ export const useModal = (): ModalHook => {
 export function UseLogout() {
   const dispatch = useDispatch();
 
-  const logOut = () => {
-    dispatch(logoutUser());
-    dispatch(logoutDailyForecast());
-    dispatch(logoutHourlyForecast());
-    dispatch(logoutWeather());
+  const logOut = async () => {
+    const loggedOut = await dispatch<any>(logout());
+    if (logout.fulfilled.match(loggedOut)) {
+      dispatch(logoutDailyForecast());
+      dispatch(logoutHourlyForecast());
+      dispatch(logoutWeather());
+    }
   };
-
   return logOut;
 }
 
 export function UseLogoutAdmin() {
   const dispatch = useDispatch();
 
-  const logOut = () => {
-    dispatch(logoutUser());
-    dispatch(logoutDailyForecast());
-    dispatch(logoutHourlyForecast());
-    dispatch(logoutWeather());
-    dispatch(logoutAdmin());
-  };
+  const logOut = async () => {
+    const loggedOUt = await dispatch<any>(logout());
 
+    if (logout.fulfilled.match(loggedOUt)) {
+      dispatch(logoutDailyForecast());
+      dispatch(logoutHourlyForecast());
+      dispatch(logoutWeather());
+      dispatch(logoutAdmin());
+    }
+  };
   return logOut;
 }

@@ -36,8 +36,8 @@ main.connection-wrap {
     }
   }
   .wrap-form-auth {
+    min-height: max-content;
     height: 70vh;
-    max-height: 650px;
     width: 80vw;
     max-width: 300px;
     background: rgb(0 0 0 / 25%);
@@ -110,8 +110,10 @@ main.connection-wrap {
   }
 }
 
-@media screen and (max-width: 768px) {
-  .wrap-form-auth {
-    height: max-content;
+@media screen and (min-width: 768px) {
+  main.connection-wrap {
+    .wrap-form-auth {
+      height: 650px;
+    }
   }
 }

@@ -3,11 +3,7 @@ import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 import "./index.scss";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { logoutUser } from "store/slice/auth";
-import { logoutDailyForecast } from "store/slice/dailyWeather";
-import { logoutHourlyForecast } from "store/slice/hourlyWeather";
-import { logoutWeather } from "store/slice/weather";
+
 import { UseLogout } from "utils/hook";
 
 interface iHeaderScrin {
@@ -20,14 +16,19 @@ export default function HeaderScreen({
   toggleSideMenu,
 }: iHeaderScrin) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const logout = UseLogout();
+  // const dispatch = useDispatch();
+  const logoutFull = UseLogout();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    // sessionStorage.clear();
+    // localStorage.clear();
+    // const res = await dispatch<any>(logout());
+    // if (logout.fulfilled.match(res)) {
     sessionStorage.clear();
     localStorage.clear();
+    logoutFull();
     navigate("/connection");
+    // }
   };
 
   return (

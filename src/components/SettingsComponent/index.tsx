@@ -6,12 +6,12 @@ import { UseLogout } from "utils/hook";
 
 export default function SettingsComponent() {
   const navigate = useNavigate();
-  const logout = UseLogout();
+  const logoutFull = UseLogout();
 
   const handleLogout = () => {
     sessionStorage.clear();
     localStorage.clear();
-    logout();
+    logoutFull();
     navigate("/connection");
   };
 

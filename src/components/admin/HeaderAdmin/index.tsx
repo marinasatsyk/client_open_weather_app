@@ -12,12 +12,12 @@ interface iHeaderScrin {
 
 function HeaderAdmin({ isShowSideMenu, toggleSideMenu }: iHeaderScrin) {
   const navigate = useNavigate();
-  const logout = UseLogoutAdmin();
+  const logoutFull = UseLogoutAdmin();
 
   const handleLogout = () => {
     sessionStorage.clear();
     localStorage.clear();
-    logout();
+    logoutFull();
     navigate("/connection");
   };
   return (

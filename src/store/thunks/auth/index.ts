@@ -20,6 +20,22 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk(
+  "/logout",
+  async (data, { rejectWithValue }) => {
+    try {
+      const logout = await AuthService.logout();
+      return logout.data;
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        return rejectWithValue({ error: error.response.data });
+      } else {
+        return rejectWithValue({ error: error });
+      }
+    }
+  }
+);
+
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (data: IRegister, { rejectWithValue }) => {
