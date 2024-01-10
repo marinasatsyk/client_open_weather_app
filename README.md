@@ -4,7 +4,7 @@
 [![forthebadge](https://forthebadge.com/images/badges/uses-git.svg)](https://forthebadge.com)
 
 # Student project Open weather App: Client part
-This is a a meteo application that allows you to see the current weather, the hourly forecast for 4 dys and weather forecast for 16 days. In addition, the application allows  you to receive  historical data in a given location. The application provides2 user prfiles: a user and administator whith differet access levels. Th env file is required to run the application.
+This is a a meteo application that allows you to see the current weather, the hourly forecast for 4 dys and weather forecast for 16 days. In addition, the application allows  you to receive  historical data in a given location. The application provides2 user prfiles: a user and administator whith differet access levels. Th env files are required to run the application.
 This repo contains all the source code to run the application.
 
 ## 1. General information
