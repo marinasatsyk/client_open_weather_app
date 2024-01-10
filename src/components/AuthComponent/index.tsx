@@ -121,7 +121,7 @@ const AuthComponent: FC = () => {
   return (
     <section>
       <Helmet>
-        <title>Weather, foreast and history</title>
+        <title>Open Weather App</title>
         <meta
           name="description"
           content="check the weather anywhere in the world and get hisotrical  weather data"
@@ -191,7 +191,7 @@ const AuthComponent: FC = () => {
               name="password"
               value={password}
               setValue={setPassword}
-              errorMessage="Make sure to use at least 1 letter, 1 number, 6 characters"
+              errorMessage="Make sure to use at least 1 letter uppercase,1 lettre lowercase, 1 number, 1 special characters, total 12  characters"
               validateField={isLogin ? () => true : Validator.password}
             />
 

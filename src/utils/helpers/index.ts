@@ -40,7 +40,9 @@ export const Validator = {
   },
   password: (p: string | undefined) => {
     if (p) {
-      return /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]{6,}$/.test(p);
+      return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[{}()[\]#:;^,?!|_~@$%=\-+*])[a-zA-Z0-9{}()[\]#:;^,?!|_~@$%=\-+*]{12,}$/.test(
+        p
+      );
     } else {
       return false;
     }
@@ -49,7 +51,8 @@ export const Validator = {
     let isPValidate = false;
     let isSameP = false;
     if (p && confirmP) {
-      if (unifyString(p) === unifyString(confirmP)) {
+      console.log("test mdp", p, confirmP);
+      if (String(p).trim() === String(confirmP).trim()) {
         isSameP = true;
       }
       if (Validator.password(p)) {

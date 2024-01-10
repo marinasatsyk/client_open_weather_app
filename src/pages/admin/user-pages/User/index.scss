@@ -35,9 +35,11 @@
   }
   .success {
     color: #34d905;
+    text-align: center;
   }
   .error {
     color: red;
+    text-align: center;
   }
 }
 
@@ -87,4 +89,7 @@
       background: rgba(247, 70, 70, 0.622);
     }
   }
+}
+
+@media screen and (max-width: 768px) {
 }

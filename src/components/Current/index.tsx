@@ -4,12 +4,12 @@ import { format } from "date-fns";
 import { CommonModalComponent } from "components/CommonModal";
 import { UseAppSelector, useModal } from "utils/hook";
 import * as moment from "moment-timezone";
-import "./index.scss";
 import { SunsetSVG } from "components/svg/Sunset";
 import { useMediaQuery } from "react-responsive";
 import DailyForecastComponent from "components/DailyForecast";
 import RadarWeatherComponent from "components/Radar";
 import MobileHourlyForecastComponent from "components/HourlyForecast/mobileHourly";
+import "./index.scss";
 
 interface ICurrent {
   lat: number;
