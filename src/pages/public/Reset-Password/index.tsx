@@ -100,7 +100,7 @@ const ResetPasswordComponent = () => {
               name="password"
               value={password}
               setValue={setPassword}
-              errorMessage="Make sure to use at least 1 letter, 1 number, 6 characters"
+              errorMessage="Make sure to use at least 1 letter uppercase,1 lettre lowercase, 1 number, 1 special characters, total 12  characters"
               validateField={Validator.password}
             />
             <ManagedInput
