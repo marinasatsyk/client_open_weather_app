@@ -192,9 +192,10 @@ const HistoryWeatherComponent = () => {
                 );
               } else {
                 return (
-                  <div
+                  <form
                     key={bookmark.city._id}
                     className="wrap-change-track history"
+                    tabIndex={0}
                   >
                     <Helmet>
                       <title>Historical weather data</title>
@@ -222,10 +223,16 @@ const HistoryWeatherComponent = () => {
                       onClick={(e) =>
                         onHandleSubmit(e, bookmark.city._id, isChecked)
                       }
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          onHandleSubmit(e, bookmark.city._id, isChecked);
+                        }
+                      }}
                     >
                       Save
                     </button>
-                  </div>
+                  </form>
                 );
               }
             }
