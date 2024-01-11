@@ -17,7 +17,7 @@ export const LayoutPublicComponent = () => {
     isModalOpened: isModalSettingsOpened,
     toggle: setModalSettingsOpened,
   } = useModal();
-  const [isShowSideMenu, setShowSideMenu] = useState(false);
+  const [isShowSideMenu, setShowSideMenu] = useState(true);
 
   const toggleSideMenu = () => {
     setShowSideMenu(!isShowSideMenu);

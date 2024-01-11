@@ -51,7 +51,7 @@ const ForgotPasswordComponent = () => {
   return (
     <section className="forgot-container">
       <div className="auth-container">
-        <div className="wrap-form-auth">
+        <form className="wrap-form-auth">
           <div className="title-wrap">
             <h2>{"Forgot password"}</h2>
             <div
@@ -96,7 +96,7 @@ const ForgotPasswordComponent = () => {
               )}
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </section>
   );

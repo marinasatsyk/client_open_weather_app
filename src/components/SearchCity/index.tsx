@@ -212,6 +212,17 @@ export const SearchCityComponent = (): JSX.Element => {
                         bookmark.city.lon
                       )
                     }
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleClickActive(
+                          index,
+                          bookmark.city._id,
+                          bookmark.city.lat,
+                          bookmark.city.lon
+                        );
+                      }
+                    }}
                   >
                     <div>
                       <span>
@@ -236,6 +247,12 @@ export const SearchCityComponent = (): JSX.Element => {
                     aria-description="history data is available"
                     icon={icon({ name: "circle-xmark", style: "regular" })}
                     onClick={() => handleDeleteCityBookmark(bookmark.city._id)}
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleDeleteCityBookmark(bookmark.city._id);
+                      }
+                    }}
                   />
                 </div>
               );

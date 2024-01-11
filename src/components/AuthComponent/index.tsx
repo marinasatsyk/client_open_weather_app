@@ -132,7 +132,7 @@ const AuthComponent: FC = () => {
         />
       </Helmet>
       <div className="auth-container">
-        <div className="wrap-form-auth">
+        <form className="wrap-form-auth">
           <div className="title-wrap">
             <h2>{!isLogin ? "Register" : "Login"}</h2>
             <div
@@ -151,7 +151,7 @@ const AuthComponent: FC = () => {
             </div>
           </div>
 
-          <div className="form">
+          <div className="form" role="form">
             {!isLogin && (
               <>
                 <ManagedInput
@@ -247,7 +247,7 @@ const AuthComponent: FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </form>
         <button className="change-status" onClick={() => handleChangeForm()}>
           {isLogin ? "Register" : "Login"}
         </button>

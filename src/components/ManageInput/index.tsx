@@ -46,6 +46,7 @@ export const ManagedInput = (props: IManageInputProps) => {
         name={name}
         onChange={(e) => f(e)}
         className="text-control"
+        autoComplete="off"
         onFocus={() => onHandleFocus()}
       />
       {!isValid ? <div id="error-manage">{errorMessage}</div> : ""}

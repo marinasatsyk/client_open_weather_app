@@ -326,7 +326,6 @@ export function ChartComponentHouryly(props: {
         label: titleChart,
         data: chartData.data,
         borderColor: chartColor,
-        // backgroundColor: "rgba(255, 99, 132, 0.5)",
         backgroundColor: chartColor,
         yAxisID: "y",
       },
@@ -340,7 +339,7 @@ export function ChartComponentHouryly(props: {
         onClick={() => handlePrev()}
         tabIndex={0}
         onKeyDown={(event) => {
-          if (event.key === "ArrowLeft") {
+          if (event.key === "ArrowLeft" || event.key === "Enter") {
             handlePrev();
           }
         }}
@@ -400,7 +399,7 @@ export function ChartComponentHouryly(props: {
         onClick={() => handleNext()}
         tabIndex={0}
         onKeyDown={(event) => {
-          if (event.key === "ArrowRight") {
+          if (event.key === "ArrowRight" || event.key === "Enter") {
             handleNext();
           }
         }}

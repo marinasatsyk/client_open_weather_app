@@ -42,12 +42,9 @@ const LayoutAdminComponent = () => {
   };
 
   useEffect(() => {
-    //getUserInformation
     try {
       getUserDashboard();
-    } catch (err) {
-      // console.error(err);
-    }
+    } catch (err) {}
   }, []);
 
   return (
@@ -65,33 +62,6 @@ const LayoutAdminComponent = () => {
       </div>
     </div>
   );
-  // } else {
-  //   return (
-  //     <div className="main-wrapper-current">
-  //       <HeaderMobile
-  //         showSearchModal={setModalOpened}
-  //         showSettingsModal={setModalSettingsOpened}
-  //       />
-  //       <main>
-  //         <Outlet />
-  //       </main>
-
-  //       <CommonModalComponent
-  //         isModalOpened={isModalSearchOpened}
-  //         hide={setModalOpened}
-  //       >
-  //         <SearchCityComponent />
-  //       </CommonModalComponent>
-
-  //       <CommonModalComponent
-  //         isModalOpened={isModalSettingsOpened}
-  //         hide={setModalSettingsOpened}
-  //       >
-  //         <SettingsComponent />
-  //       </CommonModalComponent>
-  //     </div>
-  //   );
-  // }
 };
 
 export default LayoutAdminComponent;

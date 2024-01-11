@@ -79,6 +79,12 @@ export default function SideBarComponent({ isShowSideMenu }: iSideMenu) {
             className="back-btn"
             onClick={() => toggleSubMenu()}
             title="back"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                toggleSubMenu();
+              }
+            }}
           >
             <span className="title-back">Locations</span>
             <FontAwesomeIcon

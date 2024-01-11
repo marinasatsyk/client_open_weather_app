@@ -143,7 +143,7 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
     );
 
   return (
-    <div className="datapicker-wrap">
+    <form className="datapicker-wrap">
       <div className="title-data-picker">{bookmark.city.name}</div>
       <div className="error-message hide"></div>
       <div>
@@ -185,7 +185,7 @@ const DateRangePickerComponent: React.FC<DateRangePickerProps> = ({
         database, otherwise it should not exceed year N - 1 + 1 day
       </div>
       <button onClick={handleSubmit}> {isLoading ? "Loading" : "Save"}</button>
-    </div>
+    </form>
   );
 };
 
