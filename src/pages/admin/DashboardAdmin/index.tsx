@@ -13,9 +13,10 @@ import DialogForm from "./dialogForm";
 import { CommonModalComponent } from "components/CommonModal";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
+import { Helmet } from "react-helmet";
 
 const DashboardAdmin = () => {
-  const { auth, admin } = UseAppSelector((state) => state);
+  const { admin } = UseAppSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [gridApi, setGridApi] = useState(null);
@@ -76,7 +77,7 @@ const DashboardAdmin = () => {
     if (!admin.isLoading && !admin.error.length && admin.users.length) {
       setTableData(admin.users);
     }
-  }, [dispatch]);
+  }, []);
 
   const onGridReady = (params: GridReadyEvent) => {
     //@ts-ignore
@@ -102,27 +103,36 @@ const DashboardAdmin = () => {
   }
 
   return (
-    <div className="wrap-dashboard-admin">
-      <section className="user-admin-section">
-        <h1 className="title-grid">All Users</h1>
-        <div id="ag-grid-container" className="ag-theme-quartz">
-          <AgGridReact
-            rowData={admin.users}
-            //@ts-ignore
-            columnDefs={colDefs}
-            defaultColDef={defeaultColDef}
-            onGridReady={onGridReady}
-            rowSelection={rowSelectionType}
-            onSelectionChanged={onSelectChanged}
-            pagination={true}
-            paginationAutoPageSize={true}
-          />
-        </div>
-      </section>
-      <CommonModalComponent isModalOpened={isModalOpened} hide={setModalOpened}>
-        <DialogForm />
-      </CommonModalComponent>
-    </div>
+    <>
+      <Helmet>
+        <title>Admin dashboard</title>
+        <meta name="description" content={`Dashboard Open Weather App`} />
+      </Helmet>
+      <div className="wrap-dashboard-admin">
+        <section className="user-admin-section">
+          <h1 className="title-grid">All Users</h1>
+          <div id="ag-grid-container" className="ag-theme-quartz">
+            <AgGridReact
+              rowData={admin.users}
+              //@ts-ignore
+              columnDefs={colDefs}
+              defaultColDef={defeaultColDef}
+              onGridReady={onGridReady}
+              rowSelection={rowSelectionType}
+              onSelectionChanged={onSelectChanged}
+              pagination={true}
+              paginationAutoPageSize={true}
+            />
+          </div>
+        </section>
+        <CommonModalComponent
+          isModalOpened={isModalOpened}
+          hide={setModalOpened}
+        >
+          <DialogForm />
+        </CommonModalComponent>
+      </div>
+    </>
   );
 };
 

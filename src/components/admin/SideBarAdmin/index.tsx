@@ -29,12 +29,12 @@ const SideBarAdmin = ({ isShowSideMenu }: iSideMenu) => {
         >
           <nav>
             <ul className="side-bar-menu">
-              <Link to={"dashboard"}>
-                <li>Dashboard Admin</li>
-              </Link>
-              <Link to={"user/new"}>
-                <li>Create new User</li>
-              </Link>
+              <li>
+                <Link to={"dashboard"}>Dashboard Admin</Link>
+              </li>
+              <li>
+                <Link to={"user/new"}>Create new User</Link>
+              </li>
             </ul>
           </nav>
         </div>
